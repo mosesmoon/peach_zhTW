@@ -25,6 +25,25 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+/* 繁体中文界面（`<html lang="zh-TW">`）：Inter 之后先用苹果设备自带的苹方 TC，
+ * 没有它的平台用内嵌的台湾圆体（`/vendor/taiwan-pearl/`，字族名 Peach Round TC，只有 Regular，
+ * 按 `unicode-range` 分段下载），再落到 Windows 正黑体与思源黑体 TC。只覆写变量，`:lang(ja)` 的日文字体栈不受影响。
+ * `--font-cjk-*` 是各处等宽、数字与徽标字体栈里排在拉丁字体之后的汉字补字段，三档对应
+ * 简体栈里三种既有写法；与遗留壳 `web/css/01-base.css` 的 `:root` 同名同值。 */
+:root {
+  --font-cjk-short: "Microsoft YaHei UI", "PingFang SC";
+  --font-cjk-long: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC";
+  --font-cjk-ui: "Microsoft YaHei UI";
+}
+:root:lang(zh-TW) {
+  --font-sans: var(--font-inter), "PingFang TC", "Peach Round TC", "Microsoft JhengHei UI", "Microsoft JhengHei",
+    "Noto Sans CJK TC", "Noto Sans TC", "Source Han Sans TC", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-cjk-short: "PingFang TC", "Peach Round TC", "Microsoft JhengHei UI";
+  --font-cjk-long: "PingFang TC", "Peach Round TC", "Microsoft JhengHei UI", "Microsoft JhengHei";
+  --font-cjk-ui: "PingFang TC", "Peach Round TC", "Microsoft JhengHei UI";
+}
+
 /* 日文片名、简介与别名（`core/text-lang.ts` 按假名标 `lang="ja"`）换日文字体，汉字按日文字形显示。
  * Windows 用 Yu Gothic UI 与 Meiryo UI：不带 UI 的 Yu Gothic 在 Chrome 里常规字重画成细体。 */
 :lang(ja) {

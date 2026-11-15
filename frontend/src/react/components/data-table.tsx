@@ -16,7 +16,7 @@ import { useTableSelection } from './use-table-selection';
 import { useTablePreferences } from './table-column-preferences';
 import { TableColumnControls, TableColumnResizer } from './table-column-controls';
 import { TableSelectionHeader } from './table-selection-header';
-import { t } from '../../i18n';
+import { collationLocale, t } from '../../i18n';
 
 const features = tableFeatures({
   rowSortingFeature, rowSelectionFeature, rowPaginationFeature, columnVisibilityFeature,
@@ -81,7 +81,7 @@ export function DataTable<T extends RowData>({ label, items, columns, rowId, row
         sortFn: (a, b) => {
           const first = column.value!(a.original), second = column.value!(b.original);
           return typeof first === 'number' && typeof second === 'number'
-            ? first - second : String(first).localeCompare(String(second), 'zh-CN', { numeric: true });
+            ? first - second : String(first).localeCompare(String(second), collationLocale, { numeric: true });
         },
         cell: ({ row }) => column.render(row.original),
       })),

@@ -18,7 +18,7 @@ import {
   type OnlineAuthor, type OnlineTag,
 } from '../follow/online-vocab';
 import { queryClient } from '../query';
-import { t } from '../../i18n';
+import { collationLocale, t } from '../../i18n';
 
 export type IndexKind = 'performers' | 'creators' | 'studios' | 'agencies' | 'series' | 'tags';
 export type IndexScope = 'local' | 'online';
@@ -242,6 +242,7 @@ export const tagColorKey = (online: boolean, cat: string | undefined) =>
 export const personReadout = (kind: IndexKind, item: IndexPerson) =>
   kind === 'agencies' ? t('catalog:peopleIndex.memberCount', { count: item.members || 0 }) : t('catalog:peopleIndex.videoCount', { count: item.n || 0 });
 
+/** 键排序固定按 zh-CN：键是数据而不是显示名，换界面语言不该改变它们的先后。 */
 const COLLATOR = { numeric: true, sensitivity: 'base' } as const;
 
 /** 字母表的分组：按显示名的首字归到 A–Z、`#`（数字）、`中文` 或 `其他`，组内按名字排。 */
@@ -253,5 +254,5 @@ export function tagGroups<T extends { k: string }>(items: T[], label: (tag: stri
     const group = groups.get(key);
     if (group) group.push(item); else groups.set(key, [item]);
   }
-  return [...groups].sort(([a], [b]) => a.localeCompare(b, 'zh-CN'));
+  return [...groups].sort(([a], [b]) => a.localeCompare(b, collationLocale));
 }

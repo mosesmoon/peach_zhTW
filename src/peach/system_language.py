@@ -1,7 +1,7 @@
 """运行 Peach 的电脑的系统界面语言（ADR-0156）。
 
 界面语言选「自动」时，前端先看浏览器的语言偏好；浏览器里没有可用的语言，才用这里报的系统语言兜底。
-只认有译文的语言：中文的各种写法都算简体中文，英文算英文，其余报 None，由前端落到英文。
+只认有译文的语言：中文按文字子标签与地区分成简体和繁体（规则见 `interface_language`），英文算英文，其余报 None，由前端落到英文。
 """
 from __future__ import annotations
 
@@ -13,9 +13,25 @@ import sys
 
 
 def interface_language(tag: object) -> str | None:
-    """一个语言标签（zh_TW、en-US、zh-Hant…）对应哪种界面语言。"""
-    primary = tag.strip().lower().replace("_", "-").split("-")[0] if isinstance(tag, str) else ""
-    return {"zh": "zh-CN", "en": "en"}.get(primary)
+    """一个语言标签（zh_TW.UTF-8、en-US、zh-Hant…）对应哪种界面语言（ADR-0201）。
+
+    先去掉 `.编码`、`@修饰`，`_` 当 `-`，不分大小写。主语言不是 zh 的只认 en。
+    中文里文字子标签优先于地区：含 Hant 给 zh-TW、含 Hans 给 zh-CN；都没有时 TW、HK、MO 给 zh-TW，其余（含只写 zh）给 zh-CN。
+    与前端 `matchInterfaceLanguage` 逐项一致，两边的测试用同一组案例。
+    """
+    if not isinstance(tag, str):
+        return None
+    parts = tag.strip().lower().split(".")[0].split("@")[0].replace("_", "-").split("-")
+    if parts[0] == "en":
+        return "en"
+    if parts[0] != "zh":
+        return None
+    subtags = parts[1:]
+    if "hant" in subtags:
+        return "zh-TW"
+    if "hans" in subtags:
+        return "zh-CN"
+    return "zh-TW" if {"tw", "hk", "mo"} & set(subtags) else "zh-CN"
 
 
 def _candidates() -> Iterator[str]:

@@ -1,0 +1,302 @@
+{
+  "accessToken.rotateEffectLegacy": {
+    "text": "用這串權杖登入的其他瀏覽器會被登出，需用新權杖重新登入；本機保持登入。{{scripts}}",
+    "source": "用这串口令登录的其他浏览器会退出，需用新口令重新登录；本机保持登录。{{scripts}}"
+  },
+  "accessUrls.restartNotice": {
+    "text": "儲存後 Peach 會重新啟動，並轉到新網址。",
+    "source": "保存后 Peach 会重启，并跳转到新地址。"
+  },
+  "certificateTrust.androidSteps": {
+    "text": "掃描 QR 碼下載後，到「設定 → 安全性 → 加密與憑證 → 安裝憑證 → CA 憑證」選擇下載的檔案。選單名稱因廠商而異。",
+    "source": "扫码下载后，到「设置 → 安全 → 加密与凭据 → 安装证书 → CA 证书」选择下载的文件。菜单名称因厂商而异。"
+  },
+  "certificateTrust.computerSteps": {
+    "text": "按一下「下載憑證」。Windows 按兩下檔案，安裝到「受信任的根憑證授權單位」；macOS 在「鑰匙圈存取」裡把它設為「永遠信任」。",
+    "source": "点「下载证书」。Windows 双击文件，安装到「受信任的根证书颁发机构」；macOS 在「钥匙串访问」里把它设为「始终信任」。"
+  },
+  "certificateTrust.iosSteps": {
+    "text": "用相機掃描 QR 碼，在 Safari 中允許下載描述檔；到「設定 → 一般 → VPN 與裝置管理」安裝它，再到「設定 → 一般 → 關於本機 → 憑證信任設定」開啟這張憑證的完全信任。",
+    "source": "用相机扫码，在 Safari 中允许下载描述文件；到「设置 → 通用 → VPN 与设备管理」安装它，再到「设置 → 通用 → 关于本机 → 证书信任设置」打开这张证书的完全信任。"
+  },
+  "certificateTrust.qrHelp": {
+    "text": "QR 碼在頁面開著時每 10 分鐘更新。Android 打不開 .local 網址時，改用區域網路 IP 開啟本頁，再掃描 QR 碼。",
+    "source": "二维码在页面开着时每 10 分钟更新。Android 打不开 .local 地址时，改用局域网 IP 打开本页再扫码。"
+  },
+  "cloudDriveGuide.cacheSettingsTip": {
+    "text": "快取上限和清理方式填在 CloudDrive「設定」裡，清理方式選 LRU。上限不要填 0，系統磁碟至少留 40 GiB；填完重開設定頁確認已儲存。",
+    "source": "缓存上限和清理方式填在 CloudDrive「设置」里，清理方式选 LRU。上限不要填 0，系统盘至少留 40 GiB；填完重开设置页确认存住了。"
+  },
+  "cloudDriveGuide.fullGuide": {
+    "text": "完整設定與調校說明",
+    "source": "完整配置与调优说明"
+  },
+  "cloudDriveGuide.tiersLabel": {
+    "text": "按快取所在硬碟分級",
+    "source": "按缓存所在硬盘分档"
+  },
+  "cloudProxy.direct": {
+    "text": "直接連線",
+    "source": "直连"
+  },
+  "cloudProxy.help": {
+    "text": "API 代理用於列出目錄，資料代理用於讀取影片。CloudDrive 中同一雲端硬碟帳號的其他讀取也會用這個設定。",
+    "source": "API 代理用于列目录，数据代理用于读取视频。CloudDrive 中同一网盘账号的其他读取也会用这个设置。"
+  },
+  "cloudProxy.needsWritePermission": {
+    "text": "API 權杖需要「修改雲盤」權限才能儲存。",
+    "source": "API 令牌需要“修改云盘”权限才能保存。"
+  },
+  "cloudflareTunnel.publicUrl": {
+    "text": "公開網址",
+    "source": "公网地址"
+  },
+  "dataSharing.reportErrors": {
+    "text": "傳送版本統計與錯誤診斷（建議）",
+    "source": "发送版本统计与错误诊断（推荐）"
+  },
+  "databaseBackups.restoreBody": {
+    "text": "將用 {{time}} 的備份（{{details}}）替換目前帳本，之後的資料、觀看紀錄與複核結論都會回到當時的狀態。替換前會先備份目前帳本。",
+    "source": "将用 {{time}} 的备份（{{details}}）替换当前账本，之后的资料、观看记录与复核结论都会回退。替换前会先备份当前账本。"
+  },
+  "dockerUpdate.updating": {
+    "text": "Watchtower 正在提取新映像並重建容器，Peach 會短暫中斷連線，新版本啟動後這裡會提示重新整理。",
+    "source": "Watchtower 正在拉取新镜像并重建容器，Peach 会短暂断开，新版本启动后这里会提示刷新。"
+  },
+  "dockerUpdate.watchtowerLog": {
+    "text": "Watchtower 的提取與重建紀錄",
+    "source": "Watchtower 的拉取与重建记录"
+  },
+  "entryLinks.help": {
+    "text": "JavDB 或 MISSAV 打不開時，填一個能開啟的鏡像網站網域名稱。",
+    "source": "JavDB 或 MISSAV 打不开时，填一个能打开的镜像域名。"
+  },
+  "entryLinks.hint": {
+    "text": "只填網域名稱，留空使用預設網址",
+    "source": "只填域名，留空用默认地址"
+  },
+  "favoritesPanel.noMatches": {
+    "text": "沒有符合的收藏",
+    "source": "没有匹配的收藏"
+  },
+  "feedCompilations.clips": {
+    "text": "片段",
+    "source": "切片"
+  },
+  "feedCompilations.hideClips": {
+    "text": "隱藏片段",
+    "source": "隐藏切片"
+  },
+  "glowPicker.resetColors": {
+    "text": "重設",
+    "source": "重置"
+  },
+  "libraryIcons.smoking": {
+    "text": "菸",
+    "source": "烟"
+  },
+  "libraryIcons.wet": {
+    "text": "濕潤",
+    "source": "湿润"
+  },
+  "libraryPolicy.compare": {
+    "text": "三種處理方式比較",
+    "source": "三种处理方式对比"
+  },
+  "libraryPolicy.coverNote": {
+    "text": "本地只有直式海報時：自動補全會連網找完整封套（FC2 商品圖除外），僅使用本地資料則直接用直式海報。",
+    "source": "本地只有竖版海报时：自动补全会联网找完整封套（FC2 商品图除外），仅使用本地资料直接用竖版。"
+  },
+  "librarySharing.previewNotice": {
+    "text": "隨機識別碼用於辨別並去除重複的執行個體。狀態每日一次；關閉後僅補發一次關閉狀態。",
+    "source": "随机标识用于实例去重。状态每日一次；关闭后仅补发一次关闭状态。"
+  },
+  "mediaLibraries.restartingRedirect": {
+    "text": "Peach 正在重新啟動。稍後會自動轉址，或按一下",
+    "source": "Peach 正在重新启动。稍后自动跳转，或点击"
+  },
+  "mediaLibraries.smbShare": {
+    "text": "SMB 共用",
+    "source": "SMB 共享"
+  },
+  "peachProxy.modeConflict": {
+    "text": "已有來源的代理位址不同，請選擇共用的連線方式。",
+    "source": "已有来源的代理地址不同，请选择公共连接方式。"
+  },
+  "peachProxy.modeHelp": {
+    "text": "Peach 存取外部網路和抓取來源時使用。",
+    "source": "Peach 访问外网和采集来源时使用。"
+  },
+  "photoLayout.masonry": {
+    "text": "瀑布式",
+    "source": "瀑布流"
+  },
+  "pikpakAccount.browserMethod": {
+    "text": "瀏覽器登入，由 Peach 自動延長效期",
+    "source": "浏览器登录，由 Peach 续期"
+  },
+  "pikpakAccount.captchaHelp": {
+    "text": "在瀏覽器裡完成驗證後，回到這裡再按一次「登入」。",
+    "source": "在浏览器里完成验证后，回到这里再点一次「登录」。"
+  },
+  "pikpakAccount.usernamePlaceholder": {
+    "text": "電子郵件或手機號碼",
+    "source": "邮箱或手机号"
+  },
+  "preferencesPanel.detailAutoplay": {
+    "text": "開啟詳細頁後自動播放",
+    "source": "打开详情自动播放"
+  },
+  "preferencesPanel.hoverDelay": {
+    "text": "滑鼠停留預覽延遲",
+    "source": "悬停预览延迟"
+  },
+  "preferencesPanel.miniPlayer": {
+    "text": "離開詳細頁後以小視窗播放",
+    "source": "离开详情后小窗播放"
+  },
+  "preferencesPanel.seekStep": {
+    "text": "快轉 / 倒轉間隔",
+    "source": "快进 / 快退步长"
+  },
+  "preferencesPanel.seekStepInput": {
+    "text": "快轉 / 倒轉",
+    "source": "快进 / 快退"
+  },
+  "preferencesPanel.sfwModeHelp": {
+    "text": "隱藏敏感畫面，停止滑鼠停留預覽。",
+    "source": "隐藏敏感画面，停止悬停预览。"
+  },
+  "pushDiscovery.needsLanUrl": {
+    "text": "要先有 CloudDrive2 能存取的區域網路網址才能產生。",
+    "source": "要先有 CloudDrive2 能访问的局域网地址才能生成。"
+  },
+  "pushDiscovery.noSecret": {
+    "text": "還沒有共用金鑰，儲存設定後產生。",
+    "source": "还没有共享密钥，保存配置后生成。"
+  },
+  "pushDiscovery.secretRotated": {
+    "text": "已更換共用金鑰",
+    "source": "已更换共享密钥"
+  },
+  "releaseUpdates.appAndTools": {
+    "text": "應用程式與工具",
+    "source": "应用与工具"
+  },
+  "releaseUpdates.appUpdatePackage": {
+    "text": "應用程式更新包",
+    "source": "应用更新包"
+  },
+  "releaseUpdates.dockerUpdateBody": {
+    "text": "Watchtower 會提取 Peach {{version}} 的映像並重建容器，/data 磁碟區保留，進行中的任務在啟動後會繼續執行。",
+    "source": "Watchtower 会拉取 Peach {{version}} 的镜像并重建容器，/data 数据卷保留，进行中的任务在启动后续跑。"
+  },
+  "releaseUpdates.installerHelp": {
+    "text": "開啟映像檔，把 Peach 拖入「應用程式」取代舊版本，資料與設定保留；提示已損壞時見發布頁說明。",
+    "source": "打开镜像，把 Peach 拖入「应用程序」替换旧版本，数据与设置保留；提示已损坏时见发布页说明。"
+  },
+  "releaseUpdates.macosDiskImage": {
+    "text": "macOS 安裝映像檔",
+    "source": "macOS 安装镜像"
+  },
+  "releaseUpdates.progressSteps": {
+    "text": "下載 → 驗證 → 解壓縮 → 準備安裝 ·",
+    "source": "下载 → 校验 → 解压 → 准备安装 ·"
+  },
+  "releaseUpdates.updatePackageHelp": {
+    "text": "應用程式更新包會重複使用已安裝的工具；工具缺失、損壞或版本變化時會另行下載所需工具包。",
+    "source": "应用更新包复用已安装工具；工具缺失、损坏或版本变化时会另行下载所需工具包。"
+  },
+  "remoteAccess.hostname": {
+    "text": "公開主機名稱",
+    "source": "公开主机名"
+  },
+  "remoteAccess.hostnameHelp": {
+    "text": "Cloudflare Zero Trust 裡指向執行 Peach 的電腦的主機名稱。",
+    "source": "Cloudflare Zero Trust 里指向运行 Peach 的电脑的主机名。"
+  },
+  "shared.apply": {
+    "text": "套用",
+    "source": "应用"
+  },
+  "shared.duration": {
+    "text": "片長",
+    "source": "时长"
+  },
+  "signedInDevices.passwordChangeNotice": {
+    "text": "修改存取密碼會讓全部裝置登出。",
+    "source": "修改访问密码会让全部设备退出。"
+  },
+  "smbShare.help": {
+    "text": "位址填寫 smb://伺服器/共用/目錄。按共用帳號的權限讀寫，資料和預覽儲存在 Peach 資料目錄。",
+    "source": "地址填写 smb://服务器/共享/目录。按共享账号的权限读写，资料和预览保存在 Peach 数据目录。"
+  },
+  "smbShare.readable": {
+    "text": "共用目錄可讀取",
+    "source": "共享目录可读取"
+  },
+  "storageCharts.systemDrive": {
+    "text": "（系統磁碟）",
+    "source": "（系统盘）"
+  },
+  "storageLimits.externalCacheLimitHelp": {
+    "text": "達到上限暫停補修，留空只檢查磁碟剩餘空間",
+    "source": "达到上限暂停补修，留空只检查磁盘余量"
+  },
+  "storageSpace.allocatedOnDisk": {
+    "text": "Peach 資料實際佔用磁碟空間",
+    "source": "Peach 数据实际占盘"
+  },
+  "storageSpace.moveConfirm": {
+    "text": "將 {{size}} 資料從 {{from}} 移到 {{to}}。遷移期間 Peach 會關閉，完成後自動重新開啟；原位置的資料在新位置核對無誤後刪除。",
+    "source": "将 {{size}} 数据从 {{from}} 移到 {{to}}。迁移期间 Peach 会退出，完成后自动重新打开；原位置的数据在新位置核对无误后删除。"
+  },
+  "storageSpace.systemDriveSuffix": {
+    "text": "{{summary}}（系統磁碟）",
+    "source": "{{summary}}（系统盘）"
+  },
+  "timelineThumbnails.generating": {
+    "text": "正在擷取縮圖",
+    "source": "正在采集"
+  },
+  "timelineThumbnails.interval": {
+    "text": "縮圖擷取間隔",
+    "source": "缩略图采集间隔"
+  },
+  "tour.reopenDescription": {
+    "text": "在所有裝置上重新顯示右上角教學入口，保留已讀進度",
+    "source": "在所有设备上恢复右上角教程入口，保留已读进度"
+  },
+  "uninstall.confirmAppOnly": {
+    "text": "將關閉 Peach 並移除程式。設定、本地資料庫、觀看紀錄與快取保留。",
+    "source": "将退出 Peach 并移除程序。设置、本地数据库、观看记录与缓存保留。"
+  },
+  "uninstall.confirmFull": {
+    "text": "將關閉 Peach，移除程式及設定、本地資料庫、觀看紀錄、憑證和快取。原始媒體檔案保留。",
+    "source": "将退出 Peach，移除程序及设置、本地数据库、观看记录、凭据和缓存。原始媒体文件保留。"
+  },
+  "databaseBackups.notPrimary": {
+    "text": "這台電腦不是帳本寫入端，只能在寫入端還原：",
+    "source": "这台电脑不是账本写入端，只能在写入端恢复："
+  },
+  "databaseBackups.restore": {
+    "text": "還原",
+    "source": "恢复"
+  },
+  "databaseBackups.restoreProgress": {
+    "text": "還原進度",
+    "source": "恢复进度"
+  },
+  "databaseBackups.restoreTitle": {
+    "text": "從備份還原帳本",
+    "source": "从备份恢复账本"
+  },
+  "databaseBackups.restored": {
+    "text": "已從備份還原帳本，還原前的帳本另存為 {{name}}。重新整理頁面檢視還原後的資料",
+    "source": "已从备份恢复账本，恢复前的账本另存为 {{name}}。刷新页面查看恢复后的资料"
+  },
+  "databaseBackups.restoring": {
+    "text": "正在還原…",
+    "source": "正在恢复…"
+  }
+}

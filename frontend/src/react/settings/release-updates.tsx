@@ -33,9 +33,10 @@ function InlineText({ text }: { text: string }) {
   return <>{text.split('`').map((part, index) => index % 2 ? <code key={index}>{part}</code> : part)}</>;
 }
 
-/** 新版本的更新说明，取自 GitHub Release 正文：中文界面读折叠的简体中文段，其余语言读英文正文。默认收起。 */
+/** 新版本的更新说明，取自 GitHub Release 正文：中文界面（简体、繁体）读折叠的简体中文段，其余语言读英文正文。
+ *  Release 正文只有这两份，安装包里没有随包分发的简转繁能力（opencc 只在可选依赖里），所以繁体界面直接读简体段，比英文更贴近。默认收起。 */
 export function ReleaseChangelog({ notes }: { notes: ReleaseNotes[] }) {
-  const language = interfaceLanguage === 'zh-CN' ? 'zh-CN' : 'en';
+  const language = interfaceLanguage.startsWith('zh') ? 'zh-CN' : 'en';
   return (
     <Disclosure summary={t('settings:releaseUpdates.changelogTitle', { versions: joinList(notes.map(row => row.version)) })}>
       <div className="flex flex-col gap-5 pt-3">

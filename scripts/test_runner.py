@@ -149,7 +149,7 @@ SCOPES: dict[str, tuple[str, ...]] = {
                 "test_copy_final_state.py", "test_demo_dataset.py",
                 "test_cloudflared_packaging.py", "test_tunnel.py", "test_process_job.py",
                 "test_ffmpeg_build.py", "test_ffmpeg_bundle.py", "test_untrunc_build.py", "test_macos_media.py",
-                "test_media_tool_import.py", "test_seed_corrections.py", "test_face_models_bundle.py", "test_dev_text.py"),
+                "test_media_tool_import.py", "test_seed_corrections.py", "test_face_models_bundle.py", "test_dev_text.py", "test_zh_tw_locales.py"),
     # 前端 island 层（ADR-0022）。产物与源码的断言不需要 Node；vitest 那部分在没有
     # npm 时自己跳过，所以这个域在任何机器上都能跑，`full` 也就自动包含它。
     # `test_web_perf.py` 两个域都登记：压缩与 ETag 是 API 交付（catalog），

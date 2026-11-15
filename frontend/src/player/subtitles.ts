@@ -17,8 +17,8 @@ interface Panels {
 interface SearchResult { id: string; title: string; languages: string[]; format: string }
 interface SubtitleFile { index: number; name: string; playable: boolean; language: string }
 
-/** 在线字幕找界面语言的那一种：中文界面找简繁中文，其余找英文。服务端回语言标签，语言名按界面语言显示。 */
-const SEARCH_LANGUAGE = interfaceLanguage === 'zh-CN' ? 'zh' : 'en';
+/** 在线字幕找界面语言的那一种：中文界面（简体、繁体）都找中文，其余找英文。服务端的 `zh` 同时搜简体与繁体两种字幕，语言名按界面语言显示。 */
+const SEARCH_LANGUAGE = interfaceLanguage.startsWith('zh') ? 'zh' : 'en';
 const languageNames = new Intl.DisplayNames([interfaceLanguage], { type: 'language' });
 /** 语言标签按界面语言说出的语言名；认不出的标签原样返回。 */
 export const languageName = (tag: string): string => { try { return languageNames.of(tag) ?? tag } catch { return tag } };

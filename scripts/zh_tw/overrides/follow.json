@@ -1,0 +1,78 @@
+{
+  "addCreatorSource.searchingByName": {
+    "text": "查詢中（首次依名字查詢要先下載索引，可能要幾十秒）",
+    "source": "查找中（首次按名字查要先下载索引，可能要几十秒）"
+  },
+  "addJavFeed.cardsSplitAcrossPeople": {
+    "text": "所勾選的卡片分屬資料庫裡不同的人：{{names}}，請先合併再訂閱。",
+    "source": "所勾的卡分属数据库里不同的人：{{names}}，先去合并再订"
+  },
+  "addJavFeed.javdbSearchFailed": {
+    "text": "JavDB 這次搜尋失敗",
+    "source": "JavDB 这一次没有搜成"
+  },
+  "creatorAliases.renameHint": {
+    "text": "原名稱保留為別名，個人檔案與署名同步更新。",
+    "source": "原名称保留为别名，档案与署名同步更新。"
+  },
+  "feedSources.failedBody": {
+    "text": "這些訂閱源這一輪沒有取得新項目。",
+    "source": "这些订阅源这一轮没有取到新条目。"
+  },
+  "feedSources.loadFailed": {
+    "text": "無法載入訂閱源",
+    "source": "打不开订阅源"
+  },
+  "feedSources.loading": {
+    "text": "正在載入訂閱源。",
+    "source": "正在读订阅源。"
+  },
+  "feedSources.neverFetched": {
+    "text": "還沒抓取過",
+    "source": "还没拉过"
+  },
+  "feedSources.readFailed": {
+    "text": "無法讀取訂閱源",
+    "source": "没有读到订阅源"
+  },
+  "feedSources.removeManyBody": {
+    "text": "將移除所選訂閱源，之後不再抓取它們的新作；已經抓取的新作保留。",
+    "source": "将移除所选订阅源，之后不再拉取它们的新作；已经拉到的新作保留。"
+  },
+  "feedSources.removeOneBody": {
+    "text": "將移除訂閱源「{{name}}」，之後不再抓取它的新作；已經抓取的新作保留。",
+    "source": "将移除订阅源「{{name}}」，之后不再拉取它的新作；已经拉到的新作保留。"
+  },
+  "followDetail.mediaLoadFailed": {
+    "text": "媒體未能載入，可能是網站限流，請稍後再試。",
+    "source": "媒体未取回，多半是站点限流，过一阵再打开。"
+  },
+  "followFeed.imageLayout": {
+    "text": "圖片版面",
+    "source": "图片布局"
+  },
+  "followFeed.removeFilterChip": {
+    "text": "移除 {{filter}}",
+    "source": "撤掉 {{filter}}"
+  },
+  "followFeed.viewCreatorPage": {
+    "text": "檢視 {{name}} 的創作者頁",
+    "source": "查看 {{name}} 的作者页"
+  },
+  "followManagePage.readOnly": {
+    "text": "此裝置僅供瀏覽",
+    "source": "本机只能浏览"
+  },
+  "sourceCredentials.emptyHint": {
+    "text": "已支援的網站及其憑證狀態會顯示在這裡。",
+    "source": "已接入的站点及其凭据状态会显示在这里。"
+  },
+  "sourceList.checkFailed": {
+    "text": "重試失敗來源",
+    "source": "检查失败项"
+  },
+  "sourceList.layout": {
+    "text": "追蹤清單版面",
+    "source": "关注列表版式"
+  }
+}

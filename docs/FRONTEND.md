@@ -62,7 +62,8 @@ Peach 按 [ADR-0031](adr/0031-frontend-react-boardui-tailwind.md) 接入 React +
 `pages/legacy-ui.ts`，只把来源站标与折叠的源码打进独立包。
 
 样式层：`pages.css` 与主界面的 `styles.css` 共用 `base.css`（暗色变体、Inter、阴影 token 与
-`.peach-react` 容器基线、输入框静止态边线），Preflight 同样限定在 `.peach-react` 里，薄壳把这个类挂在 `<body>` 上，弹出层落进 body 也在范围内。
+`.peach-react` 容器基线、输入框静止态边线），
+繁体中文界面（`<html lang="zh-TW">`）在 `base.css` 的 `:root:lang(zh-TW)` 里把 `--font-sans` 换成 Inter、苹方 TC（苹果设备自带，排在最前）、内嵌台湾圆体（`/vendor/taiwan-pearl/`，字族 Peach Round TC，只有 Regular，600 以上由浏览器合成粗体；没有苹方 TC 的平台用它）、Windows 正黑体、思源黑体 TC；等宽与徽标栈里的汉字补字段走 `--font-cjk-short`、`--font-cjk-long`、`--font-cjk-ui`，遗留壳 `web/css/01-base.css` 同名同值，`web/board.css` 的 `--board-font` 同串。字体样式表（约 132 KB，gzip 约 50 KB）只在繁体界面引入：主界面由 `frontend/src/i18n/index.ts` 在界面语言为 zh-TW 时挂上 `<link>`，入口页由 `page_shell` 只在 zh-TW 时引入；字体分段只在用到汉字时下载。Preflight 同样限定在 `.peach-react` 里，薄壳把这个类挂在 `<body>` 上，弹出层落进 body 也在范围内。
 `styles.css` 以 `@source not "./pages"` 排除页面包，三页的工具类只进 `peach-pages.css`。
 深浅色读 `localStorage` 的 `peach.settings.v1`，同时写 `data-theme` 与 `<html>` 的 `.dark`。
 完成态在独立包上过 `RESTART_REDIRECT_MS`（`frontend/src/react/restart-redirect.ts`，与配置页

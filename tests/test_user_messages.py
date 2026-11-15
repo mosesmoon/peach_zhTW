@@ -249,7 +249,7 @@ class InterfaceTextTests(unittest.TestCase):
 
     def test_server_texts_use_only_what_the_backend_renderer_understands(self):
         # 后端渲染器只认 `{{name}}` 与点号嵌套：复数后缀与 `{{count, number}}` 这类格式选项只给前端用。
-        for language in ("zh-CN", "en"):
+        for language in ("zh-CN", "zh-TW", "en"):
             with self.subTest(language):
                 keys = checker.server_keys(language)
                 self.assertEqual([key for key in keys if key.rsplit("_", 1)[-1] in ("zero", "one", "two", "few", "many", "other")], [])

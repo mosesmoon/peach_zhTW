@@ -187,7 +187,10 @@ class SettingsRoundTripTests(unittest.TestCase):
         self.assertEqual(q_settings(self.contract)['interfaceLanguage'], 'auto')
         w_settings(self.contract, {'interfaceLanguage': 'en'})
         self.assertEqual(q_settings(WebContract(self.db.resolve()))['interfaceLanguage'], 'en')
-        for value in ('fr', 'EN', '', None, 1, ['en']):
+        w_settings(self.contract, {'interfaceLanguage': 'zh-TW'})
+        self.assertEqual(q_settings(WebContract(self.db.resolve()))['interfaceLanguage'], 'zh-TW')
+        w_settings(self.contract, {'interfaceLanguage': 'en'})
+        for value in ('fr', 'EN', 'zh-tw', '', None, 1, ['en']):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 w_settings(self.contract, {'interfaceLanguage': value})
         self.assertEqual(self._stored_json(), {'interfaceLanguage': 'en'})

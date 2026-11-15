@@ -1,0 +1,214 @@
+{
+  "shared.undo": {
+    "text": "復原",
+    "source": "撤销"
+  },
+  "dataTable.recordUnit": {
+    "text": "筆紀錄",
+    "source": "条记录"
+  },
+  "tablePagination.pageUnit": {
+    "text": "筆",
+    "source": "条"
+  },
+  "cardLayout.home": {
+    "text": "首頁卡片版型",
+    "source": "首页卡片版式"
+  },
+  "cardLayout.jav": {
+    "text": "JAV 卡片版型",
+    "source": "JAV 卡片版式"
+  },
+  "chrome.exitSearch": {
+    "text": "離開搜尋",
+    "source": "退出搜索"
+  },
+  "clientUpdate.migratingApply": {
+    "text": "正在更新本地資料庫 · 正在套用遷移",
+    "source": "正在更新本地数据库 · 正在应用迁移"
+  },
+  "confirmModal.selectedItems": {
+    "text": "所選項目",
+    "source": "所选记录"
+  },
+  "connectionStatus.notChecked": {
+    "text": "未檢查",
+    "source": "未检测"
+  },
+  "dataTable.spacerColumn": {
+    "text": "列的空白區域",
+    "source": "行空白区域"
+  },
+  "entityAlias.addedByYou": {
+    "text": "自己新增過的",
+    "source": "自己添过的"
+  },
+  "entityAlias.exists": {
+    "text": "{{alias}} 已經是這份個人檔案中的名字",
+    "source": "{{alias}} 已经是这份档案中的名字"
+  },
+  "entityAlias.removeAction": {
+    "text": "移除別名",
+    "source": "撤销别名"
+  },
+  "entityAlias.removeNamed": {
+    "text": "移除別名 {{alias}}",
+    "source": "撤销别名 {{alias}}"
+  },
+  "entityAlias.removed": {
+    "text": "已移除別名 {{alias}}",
+    "source": "已撤销别名 {{alias}}"
+  },
+  "errorReport.appUnmounted": {
+    "text": "應用程式已卸載",
+    "source": "应用已卸载"
+  },
+  "errorReport.cleanupIncomplete": {
+    "text": "部分應用程式資源未清理完成",
+    "source": "应用资源清理未全部完成"
+  },
+  "errorReport.hostMissing": {
+    "text": "主介面的容器元素缺失",
+    "source": "主界面宿主缺失"
+  },
+  "errorReport.unhandledRejection": {
+    "text": "未處理的 Promise 拒絕",
+    "source": "Promise 未处理的异常"
+  },
+  "receipt.undone": {
+    "text": "已復原",
+    "source": "已撤销"
+  },
+  "region.china": {
+    "text": "中國",
+    "source": "国产"
+  },
+  "releaseNotice.saveFailed": {
+    "text": "未能儲存，請稍後再試",
+    "source": "未能记录，请稍后再试"
+  },
+  "router.chunkNotLoaded": {
+    "text": "頁面程式碼還沒載入",
+    "source": "页面代码还没装载"
+  },
+  "setupDone.installInSettings": {
+    "text": "可在設定頁「應用程式與維護」裡安裝。",
+    "source": "可在配置页「应用与维护」里安装。"
+  },
+  "setupForm.reportingHint": {
+    "text": "館藏與口味明細上傳預設關閉，可在「應用程式與維護」檢視並選擇。",
+    "source": "馆藏与口味明细上传默认关闭，可在「应用与维护」查看并选择。"
+  },
+  "setupDone.restored": {
+    "text": "已連接既有資料目錄。",
+    "source": "已连接已有数据目录。"
+  },
+  "setupForm.mediaLede": {
+    "text": "連接既有資料夾，或先進入介面看看。",
+    "source": "连接已有文件夹，或先进入界面看看。"
+  },
+  "setupForm.welcomeLibraries": {
+    "text": "連接你的媒體庫",
+    "source": "连接你的媒体库"
+  },
+  "setupRestore.connecting": {
+    "text": "正在連接資料目錄…",
+    "source": "正在连接数据目录…"
+  },
+  "setupRestore.eyebrow": {
+    "text": "連接既有資料",
+    "source": "连接已有数据"
+  },
+  "setupRestore.lede": {
+    "text": "連接 Peach 資料目錄，繼續使用原來的設定與館藏。",
+    "source": "连接 Peach 数据目录，继续使用原来的配置与馆藏。"
+  },
+  "setupScene.accessBody": {
+    "text": "電腦與手機，連接同一個 Peach。",
+    "source": "电脑与手机，连接同一套 Peach。"
+  },
+  "setupForm.diagnostics": {
+    "text": "診斷回報",
+    "source": "诊断反馈"
+  },
+  "setupForm.loopbackProxyBody": {
+    "text": "迴路位址指向容器自身；主機上的代理需使用容器可存取的主機位址。",
+    "source": "回环地址指向容器自身；宿主机代理需使用容器可访问的宿主机地址。"
+  },
+  "setupForm.proxySelectionBody": {
+    "text": "已有來源的代理位址不同，請選擇一種共用的連線方式。",
+    "source": "已有来源的代理地址不同，请选择公共连接方式。"
+  },
+  "sourceTools.revealFailed": {
+    "text": "開啟檔案管理員失敗，請重試",
+    "source": "打开文件管理器失败，请重试"
+  },
+  "sourceTools.revealed": {
+    "text": "已在檔案管理員中顯示",
+    "source": "已在文件管理器中显示"
+  },
+  "tableColumns.columns": {
+    "text": "顯示欄位",
+    "source": "显示列"
+  },
+  "tableColumns.reset": {
+    "text": "還原預設顯示",
+    "source": "恢复默认显示"
+  },
+  "tableColumns.resetWidths": {
+    "text": "重設欄寬",
+    "source": "重置列宽"
+  },
+  "tableColumns.resize": {
+    "text": "調整{{column}}欄寬",
+    "source": "调整{{column}}列宽"
+  },
+  "tableColumns.settings": {
+    "text": "{{table}}欄位設定",
+    "source": "{{table}}列设置"
+  },
+  "tableColumns.showAll": {
+    "text": "顯示全部欄位",
+    "source": "显示全部列"
+  },
+  "tableColumns.visibleColumns": {
+    "text": "{{table}}顯示欄位",
+    "source": "{{table}}显示列"
+  },
+  "tagPicker.createNamed": {
+    "text": "新建「{{tag}}」",
+    "source": "新建“{{tag}}”"
+  },
+  "mediaCard.resourceOther": {
+    "text": "其他檔案",
+    "source": "其它文件"
+  },
+  "serverPath.dataContainer": {
+    "text": "容器資料位置由主機的資料磁碟區掛載決定，請在 NAS 容器管理器中設定。",
+    "source": "容器数据位置由宿主机的数据卷挂载决定，请在 NAS 容器管理器中配置。"
+  },
+  "serverPath.pickHelp": {
+    "text": "這裡顯示 NAS 或容器內的路徑，輸入後按 Enter 鍵讀取。新掛載目錄也可以直接填在媒體目錄輸入欄位中。",
+    "source": "这里显示 NAS 或容器内的路径，输入后按回车读取。新挂载目录也可以直接填在媒体目录输入框中。"
+  },
+  "serverPath.locationContainer": {
+    "text": "在 NAS 的檔案管理員中開啟掛載給 Peach 的共用資料夾，再依目錄內位置尋找。容器路徑與 NAS 共用路徑可能不同。",
+    "source": "在 NAS 文件管理器中打开挂载给 Peach 的共享文件夹，再按目录内位置查找。容器路径与 NAS 共享路径可能不同。"
+  },
+  "serverPath.locationServer": {
+    "text": "檔案位於執行 Peach 的伺服器上，可以複製路徑後在伺服器中尋找。",
+    "source": "文件位于运行 Peach 的服务器上，可以复制路径后在服务器中查找。"
+  },
+  "batchCatalog.confirmDelete": {
+    "text": "將處理選取的 {{count, number}} 項。檔案和館藏紀錄會永久刪除，無法復原。",
+    "source": "将处理选中的 {{count, number}} 项。文件和馆藏记录会永久删除，无法恢复。"
+  },
+  "trash.emptyConfirm": {
+    "text": "資源回收筒裡的檔案和館藏紀錄將永久刪除，無法復原。",
+    "source": "回收站里的文件和馆藏记录将永久删除，无法恢复。"
+  },
+  "shared.back": {
+    "text": "返回",
+    "source": "返回"
+  }
+}

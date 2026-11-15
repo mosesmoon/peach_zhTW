@@ -1,0 +1,198 @@
+{
+  "duplicates.crossDrive": {
+    "text": "跨磁碟 {{drives}}",
+    "source": "跨盘 {{drives}}"
+  },
+  "duplicates.undoKeepAll": {
+    "text": "復原都保留",
+    "source": "撤销都保留"
+  },
+  "junk.emptyExcludedBody": {
+    "text": "標為「不是垃圾」的資源會保留在這裡，可隨時重新判斷。",
+    "source": "点“不是垃圾”的资源会保留在这里，可随时重新判断。"
+  },
+  "junk.kindOther": {
+    "text": "其他",
+    "source": "其它"
+  },
+  "junk.kindOtherFiles": {
+    "text": "其他檔案",
+    "source": "其它文件"
+  },
+  "junk.truncated": {
+    "text": "顯示前 {{shown}} 筆，共 {{count, number}} 筆",
+    "source": "显示前 {{shown}} 条，共 {{count, number}} 条"
+  },
+  "links.checkLinks": {
+    "text": "檢查失效連結",
+    "source": "检查死链"
+  },
+  "links.columnUrl": {
+    "text": "網址",
+    "source": "地址"
+  },
+  "links.dead": {
+    "text": "網址已失效",
+    "source": "地址已失效"
+  },
+  "links.goneHint": {
+    "text": "網站回傳 404 或 410，確認這個網址不存在。",
+    "source": "站点返回 404 或 410，确认这个地址不存在。"
+  },
+  "links.deleteDeadBody": {
+    "text": "將刪除 {{count, number}} 個失效連結。刪除前會再次檢查，刪除後無法復原。",
+    "source": "将删除 {{count, number}} 条失效链接。删除前会再次检查，删除后无法恢复。"
+  },
+  "links.deleteDeadCount": {
+    "text": "刪除 {{count, number}} 個失效連結",
+    "source": "删除 {{count, number}} 条失效链接"
+  },
+  "links.entitySpread": {
+    "text": "分布在 {{count, number}} 個女優、廠牌與系列",
+    "source": "分布在 {{count, number}} 个女优、厂牌与系列"
+  },
+  "links.kindSocial": {
+    "text": "社群帳號",
+    "source": "社交账号"
+  },
+  "links.progressChecked": {
+    "text": "已檢查 {{checked}} / {{count, number}} 個連結",
+    "source": "已检查 {{checked}} / {{count, number}} 条链接"
+  },
+  "links.progressRechecked": {
+    "text": "已重新驗證 {{checked}} / {{count, number}} 個連結",
+    "source": "已重验 {{checked}} / {{count, number}} 条链接"
+  },
+  "links.pruneKept": {
+    "text": "保留 {{count, number}} 個未確認失效的連結。",
+    "source": "保留 {{count, number}} 条未确认失效的链接。"
+  },
+  "links.pruneRemoved": {
+    "text": "已刪除 {{count, number}} 個；",
+    "source": "已删除 {{count, number}} 条；"
+  },
+  "links.pruneRetired": {
+    "text": "已引退女優的 {{count, number}} 個連結留作無法點選的紀錄；",
+    "source": "已隐退女优的 {{count, number}} 条留作不可点的记录；"
+  },
+  "links.unclearHint": {
+    "text": "網站拒絕存取或暫時故障。連結保留，可勾選後重試。",
+    "source": "站点拒绝访问或临时故障。链接保留，可勾选后重试。"
+  },
+  "links.unit": {
+    "text": "個連結",
+    "source": "条链接"
+  },
+  "links.unreached": {
+    "text": "本次未能連上",
+    "source": "本次未访问成功"
+  },
+  "mediaRepair.body": {
+    "text": "缺時間戳記表的影片會另存一份修復後的副本，原檔案不動；缺索引的會重建後取代原檔案，原檔案改為隱藏檔保留。",
+    "source": "缺时间戳表的另存一份修好的，原文件不动；缺索引的重建后替换原文件，原件改为隐藏文件保留。"
+  },
+  "mediaRepair.meteredWarning": {
+    "text": "這個媒體庫位於計費來源上，每修復一部都要把影片完整下載一遍。",
+    "source": "这个库在计费来源上，每修一部都要把片子完整拉一遍。"
+  },
+  "mediaRepair.missingToolNotice": {
+    "text": "{{count, number}} 部缺索引的影片需要先安裝 untrunc（設定頁「執行資訊」）。",
+    "source": "{{count, number}} 部缺索引的片子需要先安装 untrunc（配置页「运行信息」）。"
+  },
+  "organize.organizeFailedRows": {
+    "text": "，{{count, number}} 筆未能處理",
+    "source": "，{{count, number}} 行未能处理"
+  },
+  "organize.rowsFailed": {
+    "text": "{{count, number}} 筆未能處理",
+    "source": "{{count, number}} 行未能处理"
+  },
+  "organize.rollbackFailedRows": {
+    "text": "，{{count, number}} 筆未能退回",
+    "source": "，{{count, number}} 行未能退回"
+  },
+  "organize.planTruncated": {
+    "text": "只列出前 8 列，完整計畫在計畫 CSV 裡。",
+    "source": "只列出前 8 行，完整计划在计划 CSV 里。"
+  },
+  "organize.examplePath": {
+    "text": "路徑範例：",
+    "source": "路径示例："
+  },
+  "orphans.deleteSelectedBody": {
+    "text": "將刪除以下 {{count, number}} 筆作品紀錄及其全部個人紀錄。此操作不可復原。",
+    "source": "将删除以下 {{count, number}} 条作品记录及其全部个人记录。此操作不可撤销。"
+  },
+  "orphans.purged": {
+    "text": "已刪除 {{count, number}} 筆作品紀錄及其個人紀錄",
+    "source": "已删除 {{count, number}} 条作品记录及其个人记录"
+  },
+  "orphans.purgedBlocked": {
+    "text": "；{{count, number}} 個檔案已恢復，紀錄未刪除",
+    "source": "；{{count, number}} 条文件已恢复，记录未删除"
+  },
+  "orphans.recordWatchHistory": {
+    "text": "觀看紀錄",
+    "source": "观看历史"
+  },
+  "orphans.unit": {
+    "text": "部作品",
+    "source": "条作品"
+  },
+  "resourceSync.vanishNotice": {
+    "text": "{{count, number}} 筆作品紀錄的檔案已遺失，個人紀錄保留，可在「檔案已遺失的紀錄」中處理。",
+    "source": "{{count, number}} 条作品记录的文件已丢失，个人记录保留，可在「文件已丢失的记录」中处理。"
+  },
+  "resourceSync.vanishedNotice": {
+    "text": "{{count, number}} 筆作品紀錄已標為檔案遺失，可在「檔案已遺失的紀錄」中處理。",
+    "source": "{{count, number}} 条作品记录已标为文件丢失，可在「文件已丢失的记录」中处理。"
+  },
+  "resourceSync.applyConfirm": {
+    "text": "將永久刪除 {{count, number}} 筆檔案已不存在的紀錄（含資源回收筒）和 {{empty}} 個空資料夾，並清理 {{cache}} 個閒置快取。",
+    "source": "将永久删除 {{count, number}} 条文件已不在的记录（含回收站）和 {{empty}} 个空文件夹，并清理 {{cache}} 个闲置缓存。"
+  },
+  "resourceSync.applyDone": {
+    "text": "已永久刪除 {{count, number}} 筆失效紀錄和 {{dirs}} 個空資料夾，清理 {{cache}} 個快取，釋放 {{size}}。",
+    "source": "已永久删除 {{count, number}} 条失效记录和 {{dirs}} 个空文件夹，清理 {{cache}} 个缓存，释放 {{size}}。"
+  },
+  "resourceSync.applyPlan": {
+    "text": "將永久刪除 {{count, number}} 筆檔案已不存在的紀錄和 {{empty}} 個空資料夾，並清理 {{cache}} 個閒置快取。",
+    "source": "将永久删除 {{count, number}} 条文件已不在的记录和 {{empty}} 个空文件夹，并清理 {{cache}} 个闲置缓存。"
+  },
+  "resourceSync.description": {
+    "text": "核對館藏紀錄與磁碟上的檔案，列出檔案已不存在的紀錄、空資料夾和閒置快取。",
+    "source": "核对馆藏记录与盘上的文件，列出文件已不在的记录、空文件夹和闲置缓存。"
+  },
+  "resourceSync.purgeHint": {
+    "text": "檔案已不在磁碟上，含資源回收筒",
+    "source": "文件已不在盘上，含回收站"
+  },
+  "resourceSync.reattachedNotice": {
+    "text": "{{count, number}} 筆的紀錄已接到媒體庫裡的另一個版本。",
+    "source": "{{count, number}} 条的记录已接到库里的另一个版本。"
+  },
+  "resourceSync.recordsNotDeleted": {
+    "text": "{{count, number}} 筆紀錄沒有刪除（{{names}}）",
+    "source": "{{count, number}} 条记录没有删除（{{names}}）"
+  },
+  "performerDelete.bodyWarning": {
+    "text": "範圍包含全部來源和資源回收筒，不受目前篩選影響，刪除後無法復原。女優個人檔案和照片保留。",
+    "source": "范围包含全部来源和回收站，不受当前筛选影响，删除后无法恢复。女优档案和照片保留。"
+  },
+  "performerDelete.description": {
+    "text": "勾選女優，永久刪除她們的全部影片，包括資源回收筒裡的。女優個人檔案和照片保留。",
+    "source": "勾选女优，永久删除她们的全部影片，包括回收站里的。女优档案和照片保留。"
+  },
+  "performerDelete.done": {
+    "text": "所選影片及相關紀錄已刪除，女優個人檔案和照片保留。",
+    "source": "所选影片及关联记录已删除，女优档案和照片保留。"
+  },
+  "overview.reviewPending": {
+    "text": "{{count, number}} 筆待複核",
+    "source": "{{count, number}} 条待复核"
+  },
+  "tools.linksDescription": {
+    "text": "檢查官網、社群帳號和資料站連結，複核並清理失效網址。",
+    "source": "检查官网、社交账号和资料站链接，复核并清理失效地址。"
+  }
+}

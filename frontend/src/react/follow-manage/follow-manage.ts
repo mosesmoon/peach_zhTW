@@ -20,7 +20,7 @@ import {
 import { clampPage, pageCount } from '../../pagination';
 import { queryClient } from '../query';
 import { localTime } from '../time';
-import { t } from '../../i18n';
+import { collationLocale, t } from '../../i18n';
 import { codedText } from '../../core/server-text';
 
 export const FOLLOW_URL = '/api/follow';
@@ -290,7 +290,7 @@ export function errorHeadline(text: string): string {
 }
 
 const byLabel = (a: FollowSource, b: FollowSource) =>
-  String(a.label || '').localeCompare(String(b.label || ''), 'zh-CN', { numeric: true });
+  String(a.label || '').localeCompare(String(b.label || ''), collationLocale, { numeric: true });
 
 /** 按单条来源比的三个维度。 */
 const SOURCE_SORTS: Partial<Record<SortKey, (a: FollowSource, b: FollowSource) => number>> = {
@@ -382,7 +382,7 @@ export function authorGroups(
   const flip = dir === SORT_DEFAULT_DIR[sort] ? 1 : -1;
   const name = (group: FollowSource[]) => authorName(group, aliases);
   const byName = (a: FollowSource[], b: FollowSource[]) =>
-    name(a).localeCompare(name(b), 'zh-CN', { numeric: true });
+    name(a).localeCompare(name(b), collationLocale, { numeric: true });
   const bySource = SOURCE_SORTS[sort];
   if (bySource) {
     // 先排每位创作者名下的来源，创作者之间再按各自排在最前的那条比。

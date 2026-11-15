@@ -24,13 +24,23 @@ import zhOnboarding from '../../../resources/locales/zh-CN/onboarding.json' with
 import zhSettings from '../../../resources/locales/zh-CN/settings.json' with { type: 'json' };
 import zhServer from '../../../resources/locales/zh-CN/server.json' with { type: 'json' };
 import zhShell from '../../../resources/locales/zh-CN/shell.json' with { type: 'json' };
+import twCatalog from '../../../resources/locales/zh-TW/catalog.json' with { type: 'json' };
+import twCleanup from '../../../resources/locales/zh-TW/cleanup.json' with { type: 'json' };
+import twFollow from '../../../resources/locales/zh-TW/follow.json' with { type: 'json' };
+import twManage from '../../../resources/locales/zh-TW/manage.json' with { type: 'json' };
+import twNavigation from '../../../resources/locales/zh-TW/navigation.json' with { type: 'json' };
+import twOnboarding from '../../../resources/locales/zh-TW/onboarding.json' with { type: 'json' };
+import twSettings from '../../../resources/locales/zh-TW/settings.json' with { type: 'json' };
+import twServer from '../../../resources/locales/zh-TW/server.json' with { type: 'json' };
+import twShell from '../../../resources/locales/zh-TW/shell.json' with { type: 'json' };
 
-export const INTERFACE_LANGUAGES = ['zh-CN', 'en'] as const;
+export const INTERFACE_LANGUAGES = ['zh-CN', 'zh-TW', 'en'] as const;
 export type InterfaceLanguage = typeof INTERFACE_LANGUAGES[number];
 export const SOURCE_LANGUAGE: InterfaceLanguage = 'zh-CN';
 
 export const resources = {
   'zh-CN': { navigation: zhNavigation, shell: zhShell, settings: zhSettings, cleanup: zhCleanup, manage: zhManage, follow: zhFollow, catalog: zhCatalog, onboarding: zhOnboarding, server: zhServer },
+  'zh-TW': { navigation: twNavigation, shell: twShell, settings: twSettings, cleanup: twCleanup, manage: twManage, follow: twFollow, catalog: twCatalog, onboarding: twOnboarding, server: twServer },
   en: { navigation: enNavigation, shell: enShell, settings: enSettings, cleanup: enCleanup, manage: enManage, follow: enFollow, catalog: enCatalog, onboarding: enOnboarding, server: enServer },
 } as const;
 
@@ -45,10 +55,18 @@ export const isInterfaceLanguage = (value: unknown): value is InterfaceLanguage 
 export const isInterfaceLanguageChoice = (value: unknown): value is InterfaceLanguageChoice =>
   INTERFACE_LANGUAGE_CHOICES.includes(value as InterfaceLanguageChoice);
 
-/** 一个语言标签对应哪种界面语言：中文的各种写法（zh、zh-TW、zh-Hant…）都给简体中文。 */
+/** 一个语言标签对应哪种界面语言（ADR-0201）。
+ *  先去掉 `.编码`、`@修饰`，`_` 当 `-`，不分大小写。主语言不是 zh 的只认 en。
+ *  中文里文字子标签优先于地区：含 Hant 给繁体、含 Hans 给简体；都没有时 TW、HK、MO 给繁体，其余（含只写 zh）给简体。
+ *  与后端 `system_language.interface_language` 逐项一致，两边的测试用同一组案例。 */
 export function matchInterfaceLanguage(tag: unknown): InterfaceLanguage | null {
-  const primary = typeof tag === 'string' ? tag.trim().toLowerCase().split(/[-_]/)[0] : '';
-  return primary === 'zh' ? 'zh-CN' : primary === 'en' ? 'en' : null;
+  const parts = typeof tag === 'string' ? tag.trim().toLowerCase().split(/[.@]/)[0]!.replace(/_/g, '-').split('-') : [];
+  if (parts[0] === 'en') return 'en';
+  if (parts[0] !== 'zh') return null;
+  const subtags = parts.slice(1);
+  if (subtags.includes('hant')) return 'zh-TW';
+  if (subtags.includes('hans')) return 'zh-CN';
+  return subtags.some((subtag) => ['tw', 'hk', 'mo'].includes(subtag)) ? 'zh-TW' : 'zh-CN';
 }
 
 /** 浏览器给出的语言，按用户的偏好顺序；最后是 Intl 的默认区域，它跟着浏览器界面或系统区域走。 */
@@ -92,7 +110,19 @@ export function createTranslator(language: InterfaceLanguage) {
 
 export const interfaceLanguage = storedInterfaceLanguage();
 const translator = createTranslator(interfaceLanguage);
+/** 中文名字排序用的区域：繁体界面按 zh-TW（笔画序），其余界面沿用 zh-CN（拼音序）。 */
+export const collationLocale = interfaceLanguage === 'zh-TW' ? 'zh-TW' : 'zh-CN';
 if (typeof document !== 'undefined') document.documentElement.lang = interfaceLanguage;
+/** 繁体中文界面的内嵌字体（台湾圆体子集）样式表。只在繁体界面引入，别的语言不下载这份 `@font-face` 清单；
+ *  服务端直接出的页面由 `peach.web_entry.page_shell` 按同一路径引入。 */
+export const TRADITIONAL_FONT_STYLESHEET = '/vendor/taiwan-pearl/2.125/index.css';
+if (typeof document !== 'undefined' && interfaceLanguage === 'zh-TW'
+  && !document.querySelector(`link[href="${TRADITIONAL_FONT_STYLESHEET}"]`)) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = TRADITIONAL_FONT_STYLESHEET;
+  document.head.append(link);
+}
 
 /** 取当前界面语言的译文，键写成 `命名空间:路径`。 */
 export const t = translator.t.bind(translator);

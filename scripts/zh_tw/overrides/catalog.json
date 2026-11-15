@@ -1,0 +1,346 @@
+{
+  "avatarPicker.foundByDetail": {
+    "text": " · 以「{{name}}」找到",
+    "source": " · 按「{{name}}」找到"
+  },
+  "avatarPicker.foundByNames": {
+    "text": "{{name}}：圖庫裡以{{names}}找到的。",
+    "source": "{{name}}：图库里按{{names}}找到的。"
+  },
+  "avatarPicker.foundByNamesMore": {
+    "text": "{{name}}：圖庫裡以{{names}}等 {{total, number}} 個名字找到的。",
+    "source": "{{name}}：图库里按{{names}}等 {{total, number}} 个名字找到的。"
+  },
+  "avatarPicker.imageUrl": {
+    "text": "圖片網址",
+    "source": "图片地址"
+  },
+  "avatarPicker.noChoices": {
+    "text": "{{name}}：還沒有備選圖片，可輸入番號、圖片網址或從本機選擇。",
+    "source": "{{name}}：还没有备选图片，可输入番号、图片地址或从本机选择。"
+  },
+  "avatarPicker.sourceSocial": {
+    "text": "社群頭像",
+    "source": "社媒头像"
+  },
+  "avatarPicker.sourceUrl": {
+    "text": "網址",
+    "source": "地址"
+  },
+  "avatarPicker.useUrl": {
+    "text": "用這個網址",
+    "source": "用这个地址"
+  },
+  "avatarPicker.cropNote": {
+    "text": "{{label}}{{detail}}：拖曳方框選取，滾輪或拖曳角落改大小。",
+    "source": "{{label}}{{detail}}：拖动方框选取，滚轮或拖角改大小。"
+  },
+  "coverCrop.hint": {
+    "text": "：框出正封，原圖不變。拖曳方框移動，滾輪或拖曳角上方塊改大小。",
+    "source": "：框出正封，原图不变。拖动方框移动，滚轮或拖动角上方块改大小。"
+  },
+  "videoWall.viewportLabel": {
+    "text": "播放牆，拖曳或方向鍵瀏覽",
+    "source": "播放墙，拖动或方向键浏览"
+  },
+  "catalogFolders.noMatches": {
+    "text": "沒有符合的資料夾",
+    "source": "没有匹配的文件夹"
+  },
+  "catalogFolders.search": {
+    "text": "搜尋資料夾",
+    "source": "查找文件夹"
+  },
+  "catalogFolders.searching": {
+    "text": "正在搜尋資料夾",
+    "source": "正在查找文件夹"
+  },
+  "detailGate.startStreaming": {
+    "text": "按一下開始串流 · {{size}}",
+    "source": "点此开始拉流 · {{size}}"
+  },
+  "detailQueue.fileGone": {
+    "text": "檔案已不在磁碟上，無法播放",
+    "source": "文件已不在盘上，不能播放"
+  },
+  "detailQueue.gone": {
+    "text": "已消失 · 檔案已不在磁碟上",
+    "source": "已消失 · 文件已不在盘上"
+  },
+  "detailSource.reveal": {
+    "text": "定位來源檔案",
+    "source": "定位源文件"
+  },
+  "detailSource.revealTip": {
+    "text": "在檔案管理員裡開啟來源檔案所在目錄",
+    "source": "在文件管理器里打开源文件所在目录"
+  },
+  "entityFacts.operator": {
+    "text": "營運公司",
+    "source": "运营公司"
+  },
+  "entityFilter.removeChip": {
+    "text": "移除 {{label}}",
+    "source": "撤掉 {{label}}"
+  },
+  "immerse.updateFeedback": {
+    "text": "更新回饋",
+    "source": "更新反馈"
+  },
+  "externalPlayback.streamUrl": {
+    "text": "串流網址",
+    "source": "网络播放地址"
+  },
+  "externalPlayback.streamUrlVr": {
+    "text": "串流網址 / VR",
+    "source": "网络播放地址 / VR"
+  },
+  "folderRule.applyToSubfolders": {
+    "text": "套用到子資料夾",
+    "source": "应用到子文件夹"
+  },
+  "folderRule.conflictNote": {
+    "text": "已有和已確認的歸屬保留，規則只套用到其餘內容。",
+    "source": "已有和已确认的归属保留，规则只应用到其余内容。"
+  },
+  "folderRule.previewSummary": {
+    "text": "{{count, number}} 項 · 可套用 {{applicable, number}} 項",
+    "source": "{{count, number}} 项 · 可应用 {{applicable, number}} 项"
+  },
+  "folderRule.withdrawNote": {
+    "text": "撤回此規則已有的 {{count, number}} 項關聯，再依目前範圍套用。",
+    "source": "撤回此规则已有的 {{count, number}} 项关联，再按当前范围应用。"
+  },
+  "javBatch.close": {
+    "text": "關閉批次資源搜尋",
+    "source": "关闭批量资源查找"
+  },
+  "javBatch.title": {
+    "text": "搜尋所選資源",
+    "source": "查找所选资源"
+  },
+  "javDiscover.externalEmptyHint": {
+    "text": "可以搜尋番號，或更新追蹤來源。",
+    "source": "可以查找番号，或更新关注来源。"
+  },
+  "javDiscover.findVideos": {
+    "text": "搜尋作品",
+    "source": "查找作品"
+  },
+  "javDiscover.noTasteMatches": {
+    "text": "暫無符合口味的作品",
+    "source": "暂无匹配口味的作品"
+  },
+  "javReleases.filterByActress": {
+    "text": "依女優篩選",
+    "source": "按女优筛选"
+  },
+  "javReleases.filterByLabel": {
+    "text": "依廠牌篩選",
+    "source": "按厂牌筛选"
+  },
+  "javSort.byCode": {
+    "text": "依番號排序",
+    "source": "按番号排序"
+  },
+  "javSort.byDuration": {
+    "text": "依時長排序",
+    "source": "按时长排序"
+  },
+  "javSort.byReleaseDate": {
+    "text": "依發行日期排序",
+    "source": "按发行日期排序"
+  },
+  "javSort.bySiteRating": {
+    "text": "依來源評分排序",
+    "source": "按来源评分排序"
+  },
+  "javSort.byTaste": {
+    "text": "依口味符合度排序",
+    "source": "按口味匹配排序"
+  },
+  "miniplayer.close": {
+    "text": "關閉小視窗",
+    "source": "关闭小窗"
+  },
+  "miniplayer.label": {
+    "text": "小視窗播放",
+    "source": "小窗播放"
+  },
+  "peopleIndex.filterTitle": {
+    "text": "篩選{{title}}",
+    "source": "过滤{{title}}"
+  },
+  "tagManager.filterTags": {
+    "text": "篩選標籤",
+    "source": "过滤标签"
+  },
+  "peopleIndex.layoutCompactLogo": {
+    "text": "緊湊 · 圓形標誌",
+    "source": "紧凑 · 圆形标识"
+  },
+  "peopleIndex.layoutLargeLogo": {
+    "text": "大圖 · 完整標誌",
+    "source": "大图 · 完整标识"
+  },
+  "peopleIndex.layoutLargePortrait": {
+    "text": "大圖 · 直式頭像",
+    "source": "大图 · 竖幅头像"
+  },
+  "photoLightbox.fit": {
+    "text": "符合視窗",
+    "source": "适应窗口"
+  },
+  "photoLightbox.goToImage": {
+    "text": "前往第 {{number}} 張圖片",
+    "source": "查看第 {{number}} 张图片"
+  },
+  "photoLightbox.reveal": {
+    "text": "顯示檔案位置",
+    "source": "查看文件位置"
+  },
+  "playerControls.collapseControls": {
+    "text": "收起控制項",
+    "source": "收起控件"
+  },
+  "playerControls.expandControls": {
+    "text": "展開控制項",
+    "source": "展开控件"
+  },
+  "playerControls.exitFullScreen": {
+    "text": "結束全螢幕",
+    "source": "退出全屏"
+  },
+  "playerControls.theaterMode": {
+    "text": "劇院模式",
+    "source": "影院模式"
+  },
+  "playerMenu.copyFailed": {
+    "text": "複製失敗，請手動複製網址列內容",
+    "source": "复制失败，请手动复制地址栏"
+  },
+  "playerMenu.loop": {
+    "text": "循環播放",
+    "source": "循环播放"
+  },
+  "playerPip.exit": {
+    "text": "結束子母畫面",
+    "source": "退出画中画"
+  },
+  "playerQuality.ambientMode": {
+    "text": "環境模式",
+    "source": "氛围模式"
+  },
+  "playerQuality.original": {
+    "text": "原始畫質",
+    "source": "原画"
+  },
+  "playerQuality.quality": {
+    "text": "畫質",
+    "source": "清晰度"
+  },
+  "playerQuality.stream": {
+    "text": "串流 {{number}}",
+    "source": "线路 {{number}}"
+  },
+  "playerStats.viewportFrames": {
+    "text": "視區 / 影格",
+    "source": "视口 / 帧"
+  },
+  "playlistsPage.description": {
+    "text": "儲存 Mix，依自己的順序繼續播放。",
+    "source": "保存 Mix，按自己的顺序继续播放。"
+  },
+  "searchSuggest.tabsLabel": {
+    "text": "依類型檢視建議",
+    "source": "按种类看补全"
+  },
+  "stagePlayer.seekBack": {
+    "text": "倒轉 {{count, number}} 秒",
+    "source": "后退 {{count, number}} 秒"
+  },
+  "stagePlayer.seekForward": {
+    "text": "快轉 {{count, number}} 秒",
+    "source": "前进 {{count, number}} 秒"
+  },
+  "subtitleStyle.fontSize": {
+    "text": "字型大小",
+    "source": "字号"
+  },
+  "subtitleStyle.magenta": {
+    "text": "洋紅",
+    "source": "品红"
+  },
+  "subtitles.providedBy": {
+    "text": "中文字幕由 SubtitleCat 提供，可能包含機器翻譯",
+    "source": "中文字幕由 SubtitleCat 提供，可能包含机翻"
+  },
+  "subtitles.resetStyle": {
+    "text": "重設",
+    "source": "重置"
+  },
+  "tagFilters.jumpToLetter": {
+    "text": "依首字跳轉",
+    "source": "按首字跳转"
+  },
+  "tagFilters.matchAny": {
+    "text": "符合任一",
+    "source": "广泛匹配"
+  },
+  "tagFilters.matchAnyHint": {
+    "text": "開啟時符合任一所選標籤，關閉時須全部包含。",
+    "source": "开启时匹配任一所选标签，关闭时须全部包含。"
+  },
+  "tagManager.unblockContent": {
+    "text": "解除封鎖內容",
+    "source": "恢复内容"
+  },
+  "tagManager.unhide": {
+    "text": "取消隱藏",
+    "source": "恢复"
+  },
+  "tagOperations.blockConfirm": {
+    "text": "封鎖帶有{{names}}任一標籤的內容及其其他版本，涉及 {{count, number}} 個資源。可在「已封鎖內容」中解除封鎖。",
+    "source": "屏蔽带有{{names}}任一标签的内容及其其它版本，涉及 {{count, number}} 个资源。可在「已屏蔽内容」中恢复。"
+  },
+  "tagOperations.doneUnblock": {
+    "text": "已解除封鎖",
+    "source": "已恢复内容"
+  },
+  "tagOperations.doneUnhide": {
+    "text": "已取消隱藏標籤",
+    "source": "已恢复标签"
+  },
+  "tagOperations.hideConfirm": {
+    "text": "隱藏 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源。可在「已隱藏」中取消隱藏。",
+    "source": "隐藏 {{count, number}} 个标签，涉及 {{assets, number}} 个资源。可在“已隐藏”中恢复。"
+  },
+  "tagOperations.unhideConfirm": {
+    "text": "取消隱藏 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源。",
+    "source": "恢复 {{count, number}} 个标签，涉及 {{assets, number}} 个资源。"
+  },
+  "tagOperations.unhideTags": {
+    "text": "取消隱藏標籤",
+    "source": "恢复标签"
+  },
+  "videoWall.exit": {
+    "text": "離開播放牆",
+    "source": "退出播放墙"
+  },
+  "wantMagnets.refresh": {
+    "text": "重新整理",
+    "source": "重新查询"
+  },
+  "wants.addByCode": {
+    "text": "依番號新增",
+    "source": "按番号添加"
+  },
+  "wants.searchAgain": {
+    "text": "重新搜尋",
+    "source": "重新查找"
+  },
+  "shared.back": {
+    "text": "返回",
+    "source": "返回"
+  }
+}

@@ -625,6 +625,9 @@ class SetupJsonContractTests(_SetupHttpCase):
         english = self._get("/", headers={"Accept-Language": "en-US,en;q=0.9"}).text
         self.assertIn('<html lang="en">', english)
         self.assertIn("<title>Peach · Setup</title>", english)
+        traditional = self._get("/", headers={"Accept-Language": "zh-Hant-HK,en;q=0.5"}).text
+        self.assertIn('<html lang="zh-TW">', traditional)
+        self.assertIn("<title>Peach · ", traditional)
         self.assertIn('<link rel="icon" href="/favicon.ico" type="image/x-icon">', body)
         self.assertLess(body.index('localStorage.getItem("peach.settings.v1")'), body.index("/dist/peach-pages.css"))
         for symbol in ("folder-search", "hard-drive", "database"):

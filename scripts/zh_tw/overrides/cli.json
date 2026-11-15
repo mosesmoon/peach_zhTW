@@ -1,0 +1,86 @@
+{
+  "serve.noAuthNotLoopback": {
+    "text": "拒絕啟動：--no-auth 僅允許監聽本機位址時使用，而 --host {{host}} 不是。\n在區域網路位址上關掉登入，等於把整個館藏和寫入 API 交給同網段的任何裝置。",
+    "source": "拒绝启动：--no-auth 仅允许监听本机地址时使用，而 --host {{host}} 不是。\n在局域网地址上关掉登录，等于把整个馆藏和写接口交给同网段的任何设备。"
+  },
+  "serve.noToken": {
+    "text": "拒絕啟動：--host {{host}} 允許其他裝置存取，而這台機器還沒有存取權杖。\n這樣啟動服務，同網段的任何裝置都能讀取整個館藏並呼叫寫入 API。\n先執行 `peach token` 產生並檢視權杖（存在 {{path}}），再重新啟動；只給本機使用就改成 --host 127.0.0.1。",
+    "source": "拒绝启动：--host {{host}} 允许其他设备访问，而这台机器还没有访问口令。\n这样起服务，同网段的任何设备都能读整个馆藏并调用写接口。\n先跑 `peach token` 生成并查看口令（存在 {{path}}），再重新启动；只给本机用就改成 --host 127.0.0.1。"
+  },
+  "status.locationRow": {
+    "text": "  {{location}}{{count}} 項{{size}} TB",
+    "source": "  {{location}}{{count}} 条{{size}} TB"
+  },
+  "status.processing": {
+    "text": "\n  處理進度（本機影片 {{total}} 部）：",
+    "source": "\n  加工进度（本机视频 {{total}} 条）："
+  },
+  "status.measure.activity": {
+    "text": "有觀看紀錄",
+    "source": "有消费记录"
+  },
+  "status.contextLength": {
+    "text": "時長分級",
+    "source": "时长档"
+  },
+  "status.contextOrient": {
+    "text": "螢幕方向",
+    "source": "屏向"
+  },
+  "status.migrations": {
+    "text": "\n  遷移：共 {{total}} 個，待套用 {{pending}} 個",
+    "source": "\n  迁移：共 {{total}} 个，待应用 {{pending}} 个"
+  },
+  "tree.database": {
+    "text": "資料庫：{{path}}（已套用 {{count}} 個遷移）",
+    "source": "数据库：{{path}}（已应用 {{count}} 个迁移）"
+  },
+  "init.interviewIntro": {
+    "text": "首次執行問答：每一題直接按 Enter 就接受方括號裡的預設值。",
+    "source": "首次运行问答：每一题直接回车就接受方括号里的默认值。"
+  },
+  "init.aborted": {
+    "text": "{{reason}}已結束，沒有寫入任何檔案。",
+    "source": "{{reason}}已退出，没有写任何文件。"
+  },
+  "process.followups": {
+    "text": "後續：宣告 {{declared}} 筆，加入佇列 {{queued}} 筆，已在排隊 {{duplicates}} 筆",
+    "source": "后继：声明 {{declared}} 条，入队 {{queued}} 条，已在排队 {{duplicates}} 条"
+  },
+  "tunnel.url": {
+    "text": "網址：{{url}}",
+    "source": "地址：{{url}}"
+  },
+  "tunnel.public": {
+    "text": "公開網址：{{url}}",
+    "source": "公网入口：{{url}}"
+  },
+  "tunnel.stopping": {
+    "text": "正在停止暫時連結…",
+    "source": "正在停止临时链接…"
+  },
+  "blanks.writerOriginFlag": {
+    "text": "--writer-origin https://<writer 的網址>",
+    "source": "--writer-origin https://<writer 的地址>"
+  },
+  "blanks.smbHostFlag": {
+    "text": "--smb-host <writer 的主機名稱>",
+    "source": "--smb-host <writer 的主机名>"
+  },
+  "help.checkSources": {
+    "text": "安裝後有限度檢查外部資料源與圖片 CDN，不讀取影片",
+    "source": "安装后有界检测外部资料源与图片 CDN，不读取影片"
+  },
+  "help.doctorJson": {
+    "text": "輸出已遮蔽敏感資料的 JSON 報告",
+    "source": "输出脱敏 JSON 报告"
+  },
+  "server.description": {
+    "text": "執行透過瀏覽器管理的 Peach 服務",
+    "source": "运行通过浏览器管理的 Peach 服务"
+  },
+  "trayCommand.description": {
+    "text": "啟動 Peach 系統匣（macOS 上是選單列項目）並接管本機服務；通常不帶參數直接執行。",
+    "source": "启动 Peach 托盘（macOS 上是菜单栏项）并接管本机服务；通常不带参数直接运行。"
+  }
+}

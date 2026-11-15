@@ -38,7 +38,7 @@ import { AuthorAvatar } from './source-view';
 import { AliasRenameDialog } from './alias-rename-dialog';
 import { TableSelectionHeader } from '../components/table-selection-header';
 import { serverLabel } from '../../core/server-text';
-import { joinList, quoted, t } from '../../i18n';
+import { collationLocale, joinList, quoted, t } from '../../i18n';
 
 const REMOVE_BODY = (alias: string) => t('follow:creatorAliases.removeBody', { alias });
 const suggestionFeatures = tableFeatures({ rowSelectionFeature, rowSortingFeature, rowPaginationFeature, columnVisibilityFeature,
@@ -223,7 +223,7 @@ export function AliasManager({ groups, suggestions, sources = [], readOnly, toas
       }),
       column.accessor('aliases', {
         header: t('follow:creatorAliases.platformAlias'),
-        sortFn: (a, b) => a.original.aliases.map((item) => item.name).join(' ').localeCompare(b.original.aliases.map((item) => item.name).join(' '), 'zh-CN'),
+        sortFn: (a, b) => a.original.aliases.map((item) => item.name).join(' ').localeCompare(b.original.aliases.map((item) => item.name).join(' '), collationLocale),
         cell: (context) => (
           <span className="flex flex-wrap items-center gap-1.5">
             {context.getValue().map((item) => (

@@ -129,6 +129,16 @@
   /* 与文字同行的图标画框，按所在文字字号缩放。雪碧图字形在 24 画框里笔画约占 75%，
      1.2em 让它和同排汉字的墨迹一样大；React 岛 `frontend/src/react/base.css` 同名同值。 */
   --icon-inline:1.2em;
+  /* 拉丁字体之后的汉字补字段，三档对应本文件与各分区里三种既有写法；繁体中文界面换成内嵌的台湾圆体
+     加繁体字体。React 岛 `frontend/src/react/base.css` 同名同值。 */
+  --font-cjk-short:"Microsoft YaHei UI","PingFang SC";
+  --font-cjk-long:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC";
+  --font-cjk-ui:"Microsoft YaHei UI";
+}
+:root:lang(zh-TW){
+  --font-cjk-short:"PingFang TC","Peach Round TC","Microsoft JhengHei UI";
+  --font-cjk-long:"PingFang TC","Peach Round TC","Microsoft JhengHei UI","Microsoft JhengHei";
+  --font-cjk-ui:"PingFang TC","Peach Round TC","Microsoft JhengHei UI";
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --ground:#080A0D; --surface:#0C0F14; --sunk:#0B0D11; --hover:rgba(255,255,255,.07); --skeleton-sheen:rgba(255,255,255,.12);
@@ -181,7 +191,7 @@ html::-webkit-scrollbar{display:none}
 html[data-theme="dark"]{color-scheme:dark}
 html,body{margin:0;padding:0}
 body{background:var(--page);color:var(--ink);
-  font-family:Roboto,"Segoe UI Variable Text","Segoe UI","Microsoft YaHei UI","PingFang SC",sans-serif;
+  font-family:Roboto,"Segoe UI Variable Text","Segoe UI",var(--font-cjk-short),sans-serif;
   font-size:var(--fs-md);line-height:1.45;-webkit-font-smoothing:antialiased;
   font-variant-numeric:tabular-nums}
 /* 光晕住在侧栏里自己那枚空 div 上，而不是 `body` 的伪元素上，为的是把自定义属性的失效
@@ -259,9 +269,9 @@ body{background:var(--page);color:var(--ink);
 /* 跟着动效偏好走：一屋子的光一直在挪是这块玻璃读成实物的理由，但 prefers-reduced-motion
    的人要的正是「别再动了」。停在当前那一帧，光还在，只是不动——整层关掉等于换了个配色。 */
 @media (prefers-reduced-motion:reduce){.glowlayer::before{animation:ambient-in .8s ease .5s both}}
-.disp{font-family:Bahnschrift,"Segoe UI Variable Display","Microsoft YaHei UI",sans-serif;
+.disp{font-family:Bahnschrift,"Segoe UI Variable Display",var(--font-cjk-ui),sans-serif;
   font-weight:600;letter-spacing:.02em}
-.mono{font-family:"Cascadia Mono",Consolas,ui-monospace,"Microsoft YaHei UI","PingFang SC",monospace;
+.mono{font-family:"Cascadia Mono",Consolas,ui-monospace,var(--font-cjk-short),monospace;
   font-variant-numeric:tabular-nums;font-size:var(--fs-xs)}
 button,input,textarea{font:inherit;color:inherit}
 button,a,input,textarea,select,summary,[role="button"]{touch-action:manipulation}

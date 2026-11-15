@@ -139,13 +139,15 @@ describe('数据库那一份落进本地缓存', () => {
 
   it('服务端报的系统语言缓存在本地，变了也交给壳判断要不要重载', () => {
     const { store, changed, save } = stage({ interfaceLanguage: 'auto' });
-    applySyncedSettings({ interfaceLanguage: 'auto', systemLanguage: 'zh-TW' }, changed, store);
+    applySyncedSettings({ interfaceLanguage: 'auto', systemLanguage: 'zh-SG' }, changed, store);
     expect([store.value.systemLanguage, save.mock.calls.length, changed.mock.calls]).toEqual(['zh-CN', 1, [['interfaceLanguage']]]);
     applySyncedSettings({ interfaceLanguage: 'auto', systemLanguage: 'zh-CN' }, changed, store);
     applySyncedSettings({ interfaceLanguage: 'auto' }, changed, store);
     expect([store.value.systemLanguage, save.mock.calls.length]).toEqual(['zh-CN', 1]);
+    applySyncedSettings({ interfaceLanguage: 'auto', systemLanguage: 'zh-TW' }, changed, store);
+    expect([store.value.systemLanguage, save.mock.calls.length]).toEqual(['zh-TW', 2]);
     applySyncedSettings({ interfaceLanguage: 'auto', systemLanguage: null }, changed, store);
-    expect([store.value.systemLanguage, save.mock.calls.length]).toEqual([null, 2]);
+    expect([store.value.systemLanguage, save.mock.calls.length]).toEqual([null, 3]);
   });
 
   it('侧栏顺序没变就不落盘', () => {

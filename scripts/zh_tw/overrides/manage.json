@@ -1,0 +1,282 @@
+{
+  "shared.undo": {
+    "text": "復原",
+    "source": "撤销"
+  },
+  "autoLandings.description": {
+    "text": "依明確的判斷依據自動寫入的標題、發行日期與標籤。撤回會改回寫入前的值，之後被修改過的作品保留現值。",
+    "source": "按确定判据自动写入的标题、发行日期与标签。撤回会改回写入前的值，之后被修改过的作品保留现值。"
+  },
+  "autoLandings.revertBackupNote": {
+    "text": "撤回前會自動備份帳本。下一輪資料處理仍依同一判斷依據處理，可能再次寫入。",
+    "source": "撤回前会自动备份账本。下一轮资料处理仍按同一判据判断，可能再次写入。"
+  },
+  "cleanupCards.repairText": {
+    "text": "修復因缺少時間戳記表或索引而卡頓、無法開啟的影片檔案。",
+    "source": "修复因缺时间戳表或索引而卡顿、打不开的视频文件。"
+  },
+  "cloudDownloadDialog.adopted": {
+    "text": "這個磁力連結已有任務，沒有重複提交",
+    "source": "这个磁力已有任务，没有重复提交"
+  },
+  "cloudDownloadDialog.adoptedRemote": {
+    "text": "雲端硬碟中已有相同的下載任務，Peach 已開始追蹤進度",
+    "source": "网盘中已有相同的下载任务，Peach 已开始跟踪进度"
+  },
+  "cloudDownloadDialog.quotaHint": {
+    "text": "每提交一次扣一次離線下載額度，重新提交也算。",
+    "source": "每提交一次扣一条离线配额，重新提交也算。"
+  },
+  "customSources.codeFormat": {
+    "text": "API 番號格式",
+    "source": "接口番号格式"
+  },
+  "customSources.codeNoHyphens": {
+    "text": "去掉連字號",
+    "source": "去掉连字符"
+  },
+  "customSources.codeUnderscores": {
+    "text": "連字號轉底線",
+    "source": "连字符转下划线"
+  },
+  "customSources.endpoint": {
+    "text": "JSON API 網址",
+    "source": "JSON 接口地址"
+  },
+  "customSources.help": {
+    "text": "填寫公開的 JSON API 和回應欄位路徑，例如 data.title。番號欄位用於核對作品身分。",
+    "source": "填写公开 JSON 接口和响应字段路径，例如 data.title。番号字段用于核对作品身份。"
+  },
+  "customSources.response": {
+    "text": "中繼資料 API 回應",
+    "source": "元数据接口返回"
+  },
+  "customSources.testCode": {
+    "text": "試查番號（按 Enter 查詢）",
+    "source": "试查番号（回车查询）"
+  },
+  "diagnostics.collectionHealth": {
+    "text": "館藏健康度",
+    "source": "库健康"
+  },
+  "downloadsPanel.copyMagnet": {
+    "text": "複製磁力連結",
+    "source": "复制磁力"
+  },
+  "downloadsPanel.magnetCopied": {
+    "text": "已複製磁力連結",
+    "source": "已复制磁力"
+  },
+  "managePages.maintenance": {
+    "text": "應用程式與維護",
+    "source": "应用与维护"
+  },
+  "processingTraffic.dataUsageKnown": {
+    "text": "已知流量",
+    "source": "已识别流量"
+  },
+  "processingTraffic.diskKnown": {
+    "text": "已知佔用",
+    "source": "已识别占用"
+  },
+  "resourceSearch.maxSize": {
+    "text": "大小上限（GiB）",
+    "source": "最大体积（GiB）"
+  },
+  "resourceSearch.minSize": {
+    "text": "大小下限（GiB）",
+    "source": "最小体积（GiB）"
+  },
+  "resourceSearch.placeholder": {
+    "text": "輸入番號，按 Enter 搜尋",
+    "source": "输入番号，按回车搜索"
+  },
+  "reviewCandidate.tagRequired": {
+    "text": "先給它一個中文標籤",
+    "source": "先给它一个中文标签"
+  },
+  "reviewCard.matchingFiles": {
+    "text": "{{count, number}} 個相符的檔案",
+    "source": "{{count, number}} 个匹配文件"
+  },
+  "reviewCard.noFramesBody": {
+    "text": "{{count, number}} 部作品還沒有可用預覽；批准後仍會按所選資料寫入標籤。",
+    "source": "{{count, number}} 条作品还没有可用预览；批准后仍会按所选资料写入标签。"
+  },
+  "reviewPage.sourceChosen": {
+    "text": "已選擇 {{source}}，按一下「通過所選」即可採用。",
+    "source": "已选择 {{source}}，点击通过所选采用。"
+  },
+  "reviewQueue.mirrorCached": {
+    "text": "寫入端暫時無法連線，顯示 {{time}} 的快取",
+    "source": "写入端暂时不可达，显示 {{time}} 的缓存"
+  },
+  "reviewQueue.videoEndcards": {
+    "text": "片尾／出處證據",
+    "source": "片尾/出处证据"
+  },
+  "scanFetch.archivedBody": {
+    "text": "已封存上一輪的問題提示，完整紀錄仍保留。",
+    "source": "已归档上一趟的问题提示，完整记录仍保留。"
+  },
+  "scanFetch.missNotes": {
+    "text": "外部來源{{parts}}，7 天內不再查詢。",
+    "source": "外部来源{{parts}}，7 天内不再问。"
+  },
+  "scanFetch.restartPaused": {
+    "text": "已暫停的任務會保持暫停，重新啟動後按一下「繼續」即可接著處理。",
+    "source": "已暂停的任务会保持暂停，重启后点继续即可接着处理。"
+  },
+  "scanFetch.runIssues": {
+    "text": "這一輪有 {{count, number}} 項問題。",
+    "source": "这一趟有 {{count, number}} 项问题。"
+  },
+  "sourceSettings.reachable": {
+    "text": "可連線",
+    "source": "可访问"
+  },
+  "stats.durationProbed": {
+    "text": "已偵測時長",
+    "source": "已探测时长"
+  },
+  "stats.noLengthHint": {
+    "text": "偵測時長後，這裡會顯示時長分布。",
+    "source": "探测时长后，这里会显示时长分布。"
+  },
+  "stats.noQualityHint": {
+    "text": "偵測畫質後，這裡會顯示畫質分布。",
+    "source": "探测画质后，这里会显示画质分布。"
+  },
+  "stats.noLibraryHint": {
+    "text": "把媒體目錄歸進媒體庫後，這裡會依媒體庫顯示影片數。",
+    "source": "把媒体目录归进媒体库后，这里会按库显示视频数。"
+  },
+  "stats.tagsCount": {
+    "text": "{{count, number}} 個標籤",
+    "source": "{{count, number}} 条标签"
+  },
+  "stats.volumeCount": {
+    "text": "{{count, number}} 個磁碟區",
+    "source": "{{count, number}} 个卷"
+  },
+  "stats.volumesMeasured": {
+    "text": "個磁碟區已取得容量",
+    "source": "个卷已取得容量"
+  },
+  "stats.watchedReached": {
+    "text": "實際 {{watched}}% · 到達 {{reached}}%",
+    "source": "真实 {{watched}}% · 到达 {{reached}}%"
+  },
+  "stats.watchedShare": {
+    "text": "實際觀看 {{percent}}%",
+    "source": "真实观看 {{percent}}%"
+  },
+  "stats.mediumOther": {
+    "text": "其他檔案",
+    "source": "其它文件"
+  },
+  "syncMenu.maintenanceGroup": {
+    "text": "整個媒體庫維護",
+    "source": "全库维护"
+  },
+  "taskSummary.browserProfilesRead": {
+    "text": "已讀取瀏覽器設定檔",
+    "source": "已读取浏览器资料"
+  },
+  "taskSummary.matched": {
+    "text": "相符項",
+    "source": "匹配项"
+  },
+  "taskSummary.recovered": {
+    "text": "複查後可連線",
+    "source": "复查后可访问"
+  },
+  "taskSummary.unreachableLinks": {
+    "text": "連結無法連線",
+    "source": "链接访问失败"
+  },
+  "taste.browsingProfile": {
+    "text": "瀏覽輪廓",
+    "source": "浏览器画像"
+  },
+  "taste.browsingActivity": {
+    "text": "瀏覽活動時段",
+    "source": "浏览活跃时间"
+  },
+  "taste.dailyActivity": {
+    "text": "每日活動",
+    "source": "每日活跃"
+  },
+  "taste.guideLocal": {
+    "text": "在執行 Peach 的電腦上使用瀏覽器：按一下上方的「讀取瀏覽器紀錄」。",
+    "source": "在运行 Peach 的电脑上使用浏览器：点上面的「读取浏览器记录」。"
+  },
+  "taste.importedBookmarks": {
+    "text": "匯入檔案 · {{host}} · {{count, number}} 個書籤",
+    "source": "导入文件 · {{host}} · {{count, number}} 枚书签"
+  },
+  "taste.notEnoughData": {
+    "text": "資料還不夠",
+    "source": "记录还不够"
+  },
+  "taste.privateExports": {
+    "text": "{{count, number}} 份私人匯出 · {{size}}",
+    "source": "{{count, number}} 份私有导出 · {{size}}"
+  },
+  "taste.sourceCount": {
+    "text": "{{count, number}} 個資料來源",
+    "source": "{{count, number}} 个数据源"
+  },
+  "taste.noDomainHint": {
+    "text": "抓取瀏覽紀錄後，這裡會列出常造訪的網站。",
+    "source": "采集浏览记录后，这里会列出常访问的网站。"
+  },
+  "taste.noVisitsHint": {
+    "text": "還沒有可用於分析的口味網站造訪紀錄。",
+    "source": "还没有可用于分析的口味网站访问记录。"
+  },
+  "taste.siteVisitsUnit": {
+    "text": "口味網站造訪",
+    "source": "口味网站访问"
+  },
+  "taste.topSites": {
+    "text": "常造訪網站",
+    "source": "常访问网站"
+  },
+  "taste.visitsCell": {
+    "text": "{{count, number}} 次造訪",
+    "source": "{{count, number}} 次访问"
+  },
+  "taste.visitsSeries": {
+    "text": "造訪",
+    "source": "访问"
+  },
+  "tasteSkeleton.privateExports": {
+    "text": "私人匯出",
+    "source": "私有导出"
+  },
+  "tasteSources.bookmarkCount": {
+    "text": "{{count, number}} 個書籤",
+    "source": "{{count, number}} 枚书签"
+  },
+  "tasteSources.deleteBrowserBody": {
+    "text": "移除該瀏覽器的讀取設定和已匯入的歷史與書籤，瀏覽器本身的檔案會保留。",
+    "source": "移除该浏览器的读取配置和已导入的历史与书签，浏览器原文件保留。"
+  },
+  "tasteSources.profileCount": {
+    "text": "歷史與書籤 · {{count, number}} 個設定檔",
+    "source": "历史与书签 · {{count, number}} 个资料"
+  },
+  "tasteSources.profilePath": {
+    "text": "設定檔目錄或歷史檔案",
+    "source": "资料目录或历史文件"
+  },
+  "tasteSources.profilePathHint": {
+    "text": "請選擇執行 Peach 的電腦上的瀏覽器設定檔。",
+    "source": "请选择运行 Peach 的电脑上的浏览器资料。"
+  },
+  "tasteSources.profileUnavailable": {
+    "text": "設定檔目錄不可用",
+    "source": "资料目录不可用"
+  }
+}

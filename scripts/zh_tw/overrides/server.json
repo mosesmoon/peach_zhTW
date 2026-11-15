@@ -1,0 +1,1482 @@
+{
+  "http.methodNotAllowed": {
+    "text": "這個網址不接受這種請求。",
+    "source": "这个地址不接受这种请求。"
+  },
+  "http.notFound": {
+    "text": "這個網址下沒有頁面。",
+    "source": "这个地址下没有页面。"
+  },
+  "identity.classification.occupation.model": {
+    "text": "模特兒",
+    "source": "模特"
+  },
+  "javBrowser.paused.storage.hint": {
+    "text": "擴充空間或清理後自動繼續",
+    "source": "扩容或清理后自动继续"
+  },
+  "javBrowser.storageFull": {
+    "text": "雲端硬碟空間不足，擴充空間或清理後重試",
+    "source": "网盘空间不足，扩容或清理后重试"
+  },
+  "nasSetup.invalidBind": {
+    "text": "請填寫 NAS 的區域網路 IP 或回送位址",
+    "source": "请填写 NAS 的局域网 IP 或回环地址"
+  },
+  "nasSetup.invalidHostname": {
+    "text": "主機名稱只接受字母、數字、點和連字號",
+    "source": "主机名只接受字母、数字、点和连字符"
+  },
+  "nasSetup.renderDeviceRequired": {
+    "text": "設定內顯權限時須同時指定渲染節點",
+    "source": "设置核显权限时须同时指定渲染节点"
+  },
+  "nasSetup.renderPermissionChoice": {
+    "text": "內顯請選擇額外群組 GID，或選擇容器內裝置權限準備，不能同時使用",
+    "source": "核显请选择额外组 GID，或选择容器内设备权限准备，不能同时使用"
+  },
+  "release.dockerStep.pull": {
+    "text": "在 compose.yaml 所在目錄拉取新映像檔；.env 裡把 PEACH_VERSION 固定為版本號的，先改成新版本",
+    "source": "在 compose.yaml 所在目录拉取新镜像；.env 里把 PEACH_VERSION 固定成版本号的，先改成新版本"
+  },
+  "release.installation.standalone": {
+    "text": "獨立測試版",
+    "source": "独立测试包"
+  },
+  "releaseNotes.v0-54-0.headline": {
+    "text": "JAV 新作分區與 SMB 掃描加速",
+    "source": "JAV 新作分区与 SMB 扫描提速"
+  },
+  "releaseNotes.v0-54-0.items.smb-faster-scan.title": {
+    "text": "SMB 掃描加速",
+    "source": "SMB 扫描提速"
+  },
+  "releaseNotes.v0-55-0.headline": {
+    "text": "帳本隨時備份與還原",
+    "source": "账本随时备份与恢复"
+  },
+  "releaseNotes.v0-55-0.items.ledger-backup.body": {
+    "text": "隨時備份或還原",
+    "source": "随时备份或恢复"
+  },
+  "releaseNotes.v0-56-0.headline": {
+    "text": "JavDB 主機輪換與頁面加速",
+    "source": "JavDB 主机轮换与页面提速"
+  },
+  "releaseNotes.v0-56-0.items.faster-pages.title": {
+    "text": "頁面加速",
+    "source": "页面提速"
+  },
+  "releaseNotes.v0-57-0.items.garbled-performers.body": {
+    "text": "重新抓取演員",
+    "source": "重新补采演员"
+  },
+  "releaseNotes.v0-57-0.items.library-sync.body": {
+    "text": "掃描和抓取可以只選一個媒體庫",
+    "source": "扫描和采集可以只选一个库"
+  },
+  "releaseNotes.v0-57-0.items.reorder.body": {
+    "text": "側欄和各類選單都能拖曳排序",
+    "source": "侧栏和各类菜单都能拖动排序"
+  },
+  "releaseNotes.v0-57-0.items.reorder.title": {
+    "text": "拖曳排序",
+    "source": "拖动排序"
+  },
+  "repairCenter.items.display-local.summary": {
+    "text": "重新讀取本機與區域網路影片的檔案標頭，修正橫直向判斷",
+    "source": "重新读取本机与局域网视频的文件头，修正横竖屏判断"
+  },
+  "repairCenter.items.follow-evidence.summary": {
+    "text": "每個追蹤來源只留最近 3 份原始快照和條目引用的那幾份，其餘刪除，刪除後無法還原",
+    "source": "每个关注来源只留最近 3 份原始快照和条目引用的那几份，其余删除，删除后不能恢复"
+  },
+  "researchArchive.nonArchiveDatabase": {
+    "text": "目標資料庫包含其他用途的資料表",
+    "source": "目标数据库包含其他用途的表"
+  },
+  "researchArchive.invalidInstance": {
+    "text": "研究執行個體識別碼必須是 32 位小寫十六進位字元",
+    "source": "研究实例标识必须是 32 位小写十六进制"
+  },
+  "storage.category.backups.note": {
+    "text": "每處保留最近一份，更早的無法再還原",
+    "source": "每处保留最近一份，更早的无法再恢复"
+  },
+  "storage.category.logs.description": {
+    "text": "執行日誌與當機紀錄",
+    "source": "运行日志与崩溃记录"
+  },
+  "storage.category.logs.note": {
+    "text": "只清理已歸檔的日誌與當機紀錄，正在寫入的保留",
+    "source": "只清理已归档的日志与崩溃记录，正在写入的保留"
+  },
+  "storage.category.records.description": {
+    "text": "續跑點、自動修復回條、待複核清單與歸檔",
+    "source": "断点续跑、自动修复回执、待复核清单与归档"
+  },
+  "task.amane-bridge": {
+    "text": "amane 橋接重建",
+    "source": "amane 桥重建"
+  },
+  "task.download-postprocess": {
+    "text": "雲端下載後續處理",
+    "source": "云下载后处理"
+  },
+  "task.follow-check": {
+    "text": "追蹤檢查",
+    "source": "追更检查"
+  },
+  "task.ledger-restore": {
+    "text": "從備份還原帳本",
+    "source": "从备份恢复账本"
+  },
+  "task.mp4-header-repair": {
+    "text": "播放檔案標頭修復",
+    "source": "播放文件头修复"
+  },
+  "task.studio-mark": {
+    "text": "廠牌官網與標誌補全",
+    "source": "厂牌官网与标识补全"
+  },
+  "taskRun.error.stoppedEarly": {
+    "text": "提前結束，結束代碼 {{code}}",
+    "source": "提前收工，退出码 {{code}}"
+  },
+  "stage.library.checkNetwork": {
+    "text": "檢查外部網路連線",
+    "source": "检查外网连接"
+  },
+  "stage.backup.prepareRestore": {
+    "text": "準備還原",
+    "source": "准备恢复"
+  },
+  "stage.backup.restoreDone": {
+    "text": "還原完成",
+    "source": "恢复完成"
+  },
+  "outcome.sourceGallerySmall": {
+    "text": "{{label}}（小圖備用）",
+    "source": "{{label}}（小图兜底）"
+  },
+  "api.configuration.fileManaged": {
+    "text": "此部署透過設定檔管理服務",
+    "source": "此部署通过配置文件管理服务"
+  },
+  "api.configuration.restoreConfirmRequired": {
+    "text": "還原會替換目前帳本，請先確認",
+    "source": "恢复会替换当前账本，请先确认"
+  },
+  "api.pages.bodyNotObject": {
+    "text": "請求本文要是 JSON 物件",
+    "source": "请求正文要是 JSON 对象"
+  },
+  "api.pages.openSetupLocally": {
+    "text": "請使用本機網址開啟設定",
+    "source": "请使用本机地址打开设置"
+  },
+  "api.routes.revealFailed": {
+    "text": "開啟檔案管理員失敗，請重試",
+    "source": "打开文件管理器失败，请重试"
+  },
+  "api.routes.revealUnsupported": {
+    "text": "這台電腦上打不開檔案管理員",
+    "source": "这台机器上打不开文件管理器"
+  },
+  "api.tasks.noTaskTable": {
+    "text": "資料庫缺少任務紀錄資料表，請按維運文件檢查備份後執行 peach migrate upgrade --yes",
+    "source": "数据库缺少任务记录表，请按运行文档检查备份后执行 peach migrate upgrade --yes"
+  },
+  "api.review.restoreNotAllowed": {
+    "text": "只有稍後處理或已忽略的資料可以還原，已批准的資料不會撤回",
+    "source": "只有稍后处理或已忽略的资料可以恢复，已批准的资料不会撤回"
+  },
+  "api.review.restoreItemGone": {
+    "text": "所選資料已不在目前候選中，未還原",
+    "source": "所选资料已不在当前候选中，未恢复"
+  },
+  "api.review.creatorOverApproveLimit": {
+    "text": "該創作者有 {{count}} 部作品，超過單次批准上限 {{limit}}，請在頁面上明確勾選後再通過",
+    "source": "该创作者有 {{count}} 条作品，超过单次批准上限 {{limit}}，请在页面上显式勾选后再通过"
+  },
+  "api.libraryProcessing.libraryMustMatch": {
+    "text": "重試或繼續必須沿用原任務的媒體庫",
+    "source": "重试或恢复必须沿用原任务的媒体库"
+  },
+  "api.batch.quarantinePathMismatch": {
+    "text": "隔離還原路徑不符",
+    "source": "隔离恢复路径不符"
+  },
+  "api.batch.quarantineContentMismatch": {
+    "text": "隔離還原內容不符",
+    "source": "隔离恢复内容不符"
+  },
+  "api.follow.aliasGroupSpansProfiles": {
+    "text": "這組別名關聯了多份創作者個人檔案，請先確認檔案歸屬",
+    "source": "这组别名关联了多份创作者档案，请先确认档案归属"
+  },
+  "api.feeds.publicHttpsRequired": {
+    "text": "訂閱網址必須是解析到公網的 HTTPS 網址",
+    "source": "订阅地址必须是解析到公网的 HTTPS 地址"
+  },
+  "api.catalog.tagNotInVocabulary": {
+    "text": "該標籤不在目前詞彙表中",
+    "source": "该标签不在当前词表中"
+  },
+  "api.libraryShortcuts.invalidFilterHref": {
+    "text": "篩選網址過長或格式不正確",
+    "source": "筛选地址过长或格式不正确"
+  },
+  "api.javBrowserPerformer.invalidSourceUrl": {
+    "text": "來源網頁網址無效",
+    "source": "来源网页地址无效"
+  },
+  "api.tags.unknownScope": {
+    "text": "未知的標籤詞彙表",
+    "source": "未知的标签词表"
+  },
+  "api.resourceSearch.invalidSizeRange": {
+    "text": "大小範圍必須以位元組為單位",
+    "source": "体积区间必须是字节数"
+  },
+  "errors.entities.mergeIntoSelf": {
+    "text": "不能合併到同一份個人檔案",
+    "source": "不能合并到同一份档案"
+  },
+  "errors.entities.mergeTargetMissing": {
+    "text": "合併目標個人檔案 {{id}} 不存在",
+    "source": "合并目标档案 {{id}} 不存在"
+  },
+  "errors.feeds.httpsRequired": {
+    "text": "訂閱網址必須以 https:// 開頭",
+    "source": "订阅地址必须以 https:// 开头"
+  },
+  "errors.feeds.duplicateUrl": {
+    "text": "這個訂閱網址已經在清單裡了",
+    "source": "这个订阅地址已经在列表里了"
+  },
+  "errors.storageBudget.scanPaused": {
+    "text": "掃描期間磁碟剩餘空間低於下限，已暫停目前寫入，請清理或重試：{{reasons}}",
+    "source": "扫描期间磁盘余量触线，已暂停当前写入，请清理或重试：{{reasons}}"
+  },
+  "errors.storageBudget.intakeStopped": {
+    "text": "{{reasons}}；已停止取得新項目，請調整容量或清理後重試",
+    "source": "{{reasons}}；已停止领取新项，请调整容量或清理后重试"
+  },
+  "errors.jobs.meteredSourceDenied": {
+    "text": "{{location}} 的目錄已開啟代理流量保護；確認預算後明確加上 --allow-metered",
+    "source": "{{location}} 的目录已开启代理流量保护；确认预算后显式加 --allow-metered"
+  },
+  "errors.jobs.freeSpaceUnreadable": {
+    "text": "無法讀取 {{path}} 的磁碟剩餘空間",
+    "source": "无法读取 {{path}} 的磁盘余量"
+  },
+  "errors.jobs.alreadyRunning": {
+    "text": "已有執行個體在執行（PID {{pid}}）",
+    "source": "已有实例在跑（PID {{pid}}）"
+  },
+  "errors.jobs.serviceStopped": {
+    "text": "服務關閉，這一輪沒有跑完",
+    "source": "服务关停，这一轮没有跑完"
+  },
+  "errors.jobs.superseded": {
+    "text": "這一輪已被新的任務取代",
+    "source": "这一轮已被新的任务顶替"
+  },
+  "errors.desktopUninstall.sourceInstall": {
+    "text": "原始碼安裝請先結束系統匣，再手動移除專案；資料目錄見下方",
+    "source": "源码安装请先退出托盘，再手动移除项目；数据目录见下方"
+  },
+  "errors.desktopUninstall.sourceInstallStartup": {
+    "text": "原始碼安裝請先關閉開機自動啟動並結束系統匣，再手動移除專案與資料目錄",
+    "source": "源码安装请先关闭开机自启并退出托盘，再手动移除项目与数据目录"
+  },
+  "errors.tasteBrowsers.historyLocked": {
+    "text": "歷史檔案正在使用，請關閉該瀏覽器後新增",
+    "source": "历史文件正在使用，请退出该浏览器后添加"
+  },
+  "errors.taskControl.shuttingDown": {
+    "text": "服務正在關閉，已儲存的進度留待繼續",
+    "source": "服务正在关闭，已保存的进度留待恢复"
+  },
+  "errors.tasteHistory.snapshotTimeout": {
+    "text": "瀏覽器歷史快照未取得，請關閉該瀏覽器後重新讀取",
+    "source": "浏览器历史快照未取得，请退出该浏览器后重新读取"
+  },
+  "errors.tasteHistory.historyInUse": {
+    "text": "歷史檔案正在使用，請關閉該瀏覽器後重新讀取",
+    "source": "历史文件正在使用，请退出该浏览器后重新读取"
+  },
+  "errors.tasteHistory.historyNotRead": {
+    "text": "瀏覽器歷史未取得，請檢查資料目錄或關閉瀏覽器後重試",
+    "source": "浏览器历史未取得，请检查资料目录或退出浏览器后重试"
+  },
+  "errors.localPoster.tooLarge": {
+    "text": "附屬圖片大小超出範圍",
+    "source": "配套图片体积超出范围"
+  },
+  "errors.organizeClouddrive.sampleOutsideRoot": {
+    "text": "驗證樣本不屬於已宣告的 PikPak 媒體根",
+    "source": "认证样本不属于已声明的 PikPak 媒体根"
+  },
+  "errors.organizeClouddrive.webdavNoResponse": {
+    "text": "WebDAV 網路回應未取得",
+    "source": "WebDAV 网络应答未取得"
+  },
+  "errors.organizeClouddrive.crossParentRename": {
+    "text": "官方 API 只接受同父改名或保留名稱的移動；跨父改名須先拆成兩步",
+    "source": "官方接口只接受同父改名或保留名称的移动；跨父改名须先拆成两步"
+  },
+  "errors.organizeClouddrive.moveNotExecuted": {
+    "text": "官方 API 拒絕或未執行移動，原件已確認留在原處",
+    "source": "官方接口拒绝或未执行移动，原件已确认留在原处"
+  },
+  "errors.organizeClouddrive.directLinkAuthMissing": {
+    "text": "既有 CloudDrive 直接連結驗證未取得",
+    "source": "既有 CloudDrive 直链认证未取得"
+  },
+  "errors.organizeClouddrive.directLinkMismatch": {
+    "text": "既有直接連結來源或路徑不符",
+    "source": "既有直链来源或路径不符"
+  },
+  "errors.organizeClouddrive.webdavAuthMissing": {
+    "text": "既有 WebDAV 驗證未取得",
+    "source": "既有 WebDAV 认证未取得"
+  },
+  "errors.organizeClouddrive.authSampleMissing": {
+    "text": "既有 CloudDrive 驗證樣本未取得",
+    "source": "既有 CloudDrive 认证样本未取得"
+  },
+  "errors.organizeClouddrive.moveUnconfirmed": {
+    "text": "移動狀態未確認，保留意圖回條並停止；不重複操作、不寫資料庫",
+    "source": "移动状态未确认，保留意图回执并停止；不重复操作、不写数据库"
+  },
+  "errors.downloads.remoteQuota": {
+    "text": "雲端下載配額不夠：{{text}}",
+    "source": "离线配额不够：{{text}}"
+  },
+  "errors.downloads.remoteStorageFull": {
+    "text": "擴充或清理雲端硬碟空間後再提交",
+    "source": "扩容或清理网盘空间后再提交"
+  },
+  "errors.downloads.notAccepted": {
+    "text": "雲端硬碟沒有收下這個任務：提交後雲端下載清單裡始終沒有它，目標目錄裡也沒有檔案",
+    "source": "网盘没有收下这个任务：提交后离线列表里始终没有它，目标目录里也没有文件"
+  },
+  "errors.downloads.remoteRemoved": {
+    "text": "雲端硬碟裡的這個任務不見了：雲端下載清單裡找不到它，目標目錄裡也沒有檔案",
+    "source": "网盘里的这个任务不见了：离线列表里找不到它，目标目录里也没有文件"
+  },
+  "errors.followStore.aliasSameAsName": {
+    "text": "這兩個名字正規化後相同，不需要維護別名",
+    "source": "这两个名字归一化后相同，不需要维护别名"
+  },
+  "errors.followStore.itemMissing": {
+    "text": "追蹤條目不存在：{{id}}",
+    "source": "追更条目不存在：{{id}}"
+  },
+  "errors.followStore.itemNotFound": {
+    "text": "追蹤條目 {{id}} 不存在",
+    "source": "追更条目 {{id}} 不存在"
+  },
+  "errors.reviewMirror.notWriter": {
+    "text": "目標執行個體目前不是主要寫入端",
+    "source": "目标实例当前不是 ledger writer"
+  },
+  "errors.reviewMirror.curlExit": {
+    "text": "curl 結束代碼 {{code}}：{{detail}}",
+    "source": "curl 退出 {{code}}：{{detail}}"
+  },
+  "errors.reviewMirror.curlExitNoDetail": {
+    "text": "curl 結束代碼 {{code}}：未取得錯誤詳情",
+    "source": "curl 退出 {{code}}：未取得错误详情"
+  },
+  "errors.subtitleSearch.urlUnsupported": {
+    "text": "字幕下載網址不受支援",
+    "source": "字幕下载地址不受支持"
+  },
+  "errors.updatePackages.manifestInvalid": {
+    "text": "更新套件工具清單無效",
+    "source": "更新包工具清单无效"
+  },
+  "errors.updatePackages.fileListInvalid": {
+    "text": "更新套件工具檔案清單無效",
+    "source": "更新包工具文件清单无效"
+  },
+  "errors.updatePackages.requiredFileMissing": {
+    "text": "更新套件工具清單缺少必需檔案",
+    "source": "更新包工具清单缺少必需文件"
+  },
+  "errors.updatePackages.downloadInfoInvalid": {
+    "text": "更新套件工具下載資訊無效",
+    "source": "更新包工具下载信息无效"
+  },
+  "errors.westernArtwork.babepediaUrlMismatch": {
+    "text": "Babepedia 未取得：個人檔案網址不一致",
+    "source": "Babepedia 未取得：档案地址不一致"
+  },
+  "errors.westernArtwork.babepediaIdentityMismatch": {
+    "text": "Babepedia 未取得：個人檔案身分不一致",
+    "source": "Babepedia 未取得：档案身份不一致"
+  },
+  "errors.westernArtwork.officialCoverInvalid": {
+    "text": "官方封面未取得：API 沒有回傳有效資料",
+    "source": "官方封面未取得：接口没有返回有效资料"
+  },
+  "errors.server.databaseMissing": {
+    "text": "已有設定但缺少資料庫，請還原資料庫後啟動",
+    "source": "已有配置但缺少数据库，请恢复数据库后启动"
+  },
+  "errors.server.settingsMissing": {
+    "text": "已有資料庫但缺少設定檔，請還原 config.toml 後啟動",
+    "source": "已有数据库但缺少配置文件，请恢复 config.toml 后启动"
+  },
+  "errors.entryLinks.sitesRequired": {
+    "text": "請提交每個網站的網址",
+    "source": "请提交每个站点的地址"
+  },
+  "errors.entryLinks.hostNotText": {
+    "text": "{{site}} 的網址必須是文字",
+    "source": "{{site}} 的地址必须是文字"
+  },
+  "errors.entryLinks.hostTooLong": {
+    "text": "{{site}} 的網址請控制在 {{limit}} 個字元以內",
+    "source": "{{site}} 的地址请控制在 {{limit}} 个字符以内"
+  },
+  "errors.gpuLinux.clientIdMissing": {
+    "text": "GPU 驅動程式未提供可用於去除重複的 DRM 用戶端編號",
+    "source": "GPU 驱动未提供可去重的 DRM 客户端编号"
+  },
+  "errors.smbTransport.hostShareNotComponent": {
+    "text": "SMB 主機和共享名必須各自是單一路徑元件",
+    "source": "SMB 主机和共享名必须是单独的路径分量"
+  },
+  "errors.smbTransport.invalidTimeout": {
+    "text": "SMB 請求逾時時間必須是有限正數",
+    "source": "SMB 请求期限必须是有限正数"
+  },
+  "errors.smbTransport.invalidPathComponent": {
+    "text": "SMB 路徑含無效元件",
+    "source": "SMB 路径含无效分量"
+  },
+  "errors.resourceSearch.invalidEndpoint": {
+    "text": "索引器網址格式不正確",
+    "source": "索引器地址格式不正确"
+  },
+  "errors.resourceSearch.endpointFormat": {
+    "text": "填寫 HTTP 或 HTTPS API 網址；API key 單獨填寫，網址不帶查詢參數",
+    "source": "填写 HTTP 或 HTTPS API 地址；API key 单独填写，地址不带查询参数"
+  },
+  "errors.resourceSearch.invalidGoal": {
+    "text": "品質目標只能是高畫質、中文字幕或無碼",
+    "source": "质量目标只能是高清、中字或无码"
+  },
+  "errors.scrapingAccess.requestBudgetSpent": {
+    "text": "本趟抓取次數已用完，再跑一次接著抓取；已有圖片保留",
+    "source": "本趟采集次数已用完，再跑一次接着采；已有图片保留"
+  },
+  "errors.scrapingAccess.timeBudgetSpent": {
+    "text": "本趟抓取時間已用完，再跑一次接著抓取；已有圖片保留",
+    "source": "本趟采集时间已用完，再跑一次接着采；已有图片保留"
+  },
+  "errors.scrapingAccess.downloadBudgetSpent": {
+    "text": "本趟下載量已用完，再跑一次接著抓取；已有圖片保留",
+    "source": "本趟下载量已用完，再跑一次接着采；已有图片保留"
+  },
+  "errors.avatarProvider.unsupportedFormatUnknown": {
+    "text": "暫不支援這種圖片格式，請換用 JPEG、PNG、WebP 或 AVIF 圖片",
+    "source": "暂不支持 这种 图片格式，请换用 JPEG、PNG、WebP 或 AVIF 图片"
+  },
+  "errors.avatarProvider.imageTooLarge": {
+    "text": "圖片像素尺寸過大，請縮小後重新選擇",
+    "source": "图片像素尺寸过大，请缩小后重新选择"
+  },
+  "errors.avatarWatermark.downloadFailed": {
+    "text": "無法取得文字偵測模型：{{error}}",
+    "source": "取文字检测模型失败：{{error}}"
+  },
+  "errors.avatarWatermark.checksumMismatch": {
+    "text": "文字偵測模型驗證不符：預期 {{expected}}，實際 {{actual}}",
+    "source": "文字检测模型校验不符：期望 {{expected}}，实际 {{actual}}"
+  },
+  "errors.sourcePreflight.unknownSource": {
+    "text": "請選擇已登記的資料來源 ID",
+    "source": "请选择已登记的资料源 ID"
+  },
+  "errors.downloadsPikpak.shapeTaskPhaseEmpty": {
+    "text": "PikPak 介面回應格式不符（任務狀態為空），介面可能已經變了。可以先複製磁力連結手動新增",
+    "source": "PikPak 接口回包形状不对（任务状态 为空），接口可能已经变了。可以先复制磁力手动添加"
+  },
+  "errors.downloadsPikpak.unknownWebClient": {
+    "text": "PikPak 網頁端的用戶端識別碼是 {{client}}，Peach 沒有它的簽章常數，提交不了離線任務。可以先複製磁力連結手動新增",
+    "source": "PikPak 网页端的客户端标识是 {{client}}，Peach 没有它的签名常量，提交不了离线任务。可以先复制磁力手动添加"
+  },
+  "errors.downloadsPikpak.webSignatureRejected": {
+    "text": "PikPak 拒絕了網頁端的請求簽章：{{description}}（{{code}}）。網頁端的簽章常數可能已經更新，可以先複製磁力連結手動新增",
+    "source": "PikPak 拒绝了网页端的请求签名：{{description}}（{{code}}）。网页端的签名常量可能已经更新，可以先复制磁力手动添加"
+  },
+  "errors.downloadsPikpak.noRemoteId": {
+    "text": "這個任務還沒有 PikPak 任務編號，無法取消",
+    "source": "这个任务还没有 PikPak 任务号，无法取消"
+  },
+  "errors.tunnel.accessLocked": {
+    "text": "存取設定損壞，不能啟動外部網路 Tunnel",
+    "source": "访问设置损坏，不能启动公网 Tunnel"
+  },
+  "errors.tunnel.passwordRequired": {
+    "text": "啟動外部網路 Tunnel 前必須先設定存取密碼",
+    "source": "启动公网 Tunnel 前必须先设置访问密码"
+  },
+  "errors.tunnel.internalTokenMissing": {
+    "text": "缺少 Peach 內部存取權杖，不能啟動外部網路 Tunnel",
+    "source": "缺少 Peach 内部访问令牌，不能启动公网 Tunnel"
+  },
+  "errors.tunnel.hostnameRequired": {
+    "text": "命名隧道需要填寫公開主機名稱",
+    "source": "命名隧道需要填写公开主机名"
+  },
+  "errors.tunnel.invalidHostname": {
+    "text": "公開主機名稱不是有效的網域名稱：{{value}}",
+    "source": "公开主机名不是有效的域名：{{value}}"
+  },
+  "errors.clouddriveProxy.hostOnly": {
+    "text": "代理位址只填主機名稱或 IP",
+    "source": "代理地址只填主机名或 IP"
+  },
+  "errors.clouddriveProxy.needsModifyPermission": {
+    "text": "CloudDrive2 API 權杖需要「修改雲盤」權限",
+    "source": "CloudDrive2 API 令牌需要“修改云盘”权限"
+  },
+  "errors.clouddriveProxy.needsViewPermission": {
+    "text": "CloudDrive2 API 權杖需要「檢視雲盤」權限",
+    "source": "CloudDrive2 API 令牌需要“查看云盘”权限"
+  },
+  "errors.customMetadata.endpointNeedsCode": {
+    "text": "介面網址需要包含一個 {code}",
+    "source": "接口地址需要包含一个 {code}"
+  },
+  "errors.customMetadata.endpointNotPublicHttps": {
+    "text": "介面需要使用固定外部網路網域名稱的 HTTPS 網址，連接埠為 443",
+    "source": "接口需要使用固定公网域名的 HTTPS 地址，端口为 443"
+  },
+  "errors.customMetadata.hostNotPublic": {
+    "text": "來源網域名稱必須解析到外部網路位址",
+    "source": "来源域名必须解析到公网地址"
+  },
+  "errors.customMetadata.invalidFieldPath": {
+    "text": "欄位對應只接受物件鍵或陣列索引組成的點路徑",
+    "source": "字段映射只接受对象键或数组下标组成的点路径"
+  },
+  "errors.dataStorage.copyIncomplete": {
+    "text": "複製沒有完成（錯誤代碼 0x{{code}}）",
+    "source": "复制没有完成（代码 0x{{code}}）"
+  },
+  "errors.devCopyRuntime.serviceNotRecovered": {
+    "text": "服務尚未恢復，請檢視系統匣記錄檔",
+    "source": "服务尚未恢复，请查看托盘日志"
+  },
+  "errors.fieldOwners.revisionConflict": {
+    "text": "資產已被改過：預期 revision {{expected}}，資料庫現值 {{current}}",
+    "source": "资产已被改过：期望 revision {{expected}}，数据库现值 {{current}}"
+  },
+  "errors.javBrowser.manualRejectsSource": {
+    "text": "手動新增不接受來源網頁網址",
+    "source": "手动添加不接受来源网页地址"
+  },
+  "errors.localPlayback.deploymentUnsupported": {
+    "text": "此部署請使用網路播放網址或 M3U 播放清單",
+    "source": "此部署请使用网络播放地址或 M3U 播放列表"
+  },
+  "errors.localPlayback.fileUnsupported": {
+    "text": "此檔案請使用網路播放網址或 M3U 播放清單",
+    "source": "此文件请使用网络播放地址或 M3U 播放列表"
+  },
+  "errors.metadataAutoApply.confidenceOutOfRange": {
+    "text": "欄位候選信賴度超出範圍",
+    "source": "字段候选置信度越界"
+  },
+  "errors.metadataAutoApply.noMatchingAsset": {
+    "text": "目前 ledger 已沒有相符的可用資產",
+    "source": "当前 ledger 已没有匹配的可用资产"
+  },
+  "errors.metadataAutoApply.tooManyAssets": {
+    "text": "同番號資產 {{count}} 筆，超過單次批准上限 {{limit}}",
+    "source": "同番号资产 {{count}} 条，超过单次批准上限 {{limit}}"
+  },
+  "errors.metadataAutoApply.unnormalizedName": {
+    "text": "候選仍含重複或未正規化的實體名，拒絕寫入",
+    "source": "候选仍含重复或未规范化的实体名，拒绝写入"
+  },
+  "errors.metadataCreatorAttributions.profileMissing": {
+    "text": "個人檔案已不存在，拒絕回復整批",
+    "source": "档案已不存在，拒绝回滚整批"
+  },
+  "errors.seedCorrections.revisionReused": {
+    "text": "種子 revision 不得回退或重複使用",
+    "source": "种子 revision 不得回退或复用"
+  },
+  "errors.standaloneUpdate.databaseRestoreCheckFailed": {
+    "text": "資料庫還原檢查失敗",
+    "source": "数据库恢复检查失败"
+  },
+  "errors.standaloneUpdate.expandedTooLarge": {
+    "text": "更新包解壓縮後體積超限",
+    "source": "更新包展开体积超限"
+  },
+  "errors.standaloneUpdate.signatureFailed": {
+    "text": "發布簽章驗證未通過，已停止更新；請到發布頁手動下載新版本",
+    "source": "发布签名校验未通过，已停止更新；请到发布页手动下载新版本"
+  },
+  "errors.standaloneUpdate.stateFileMismatch": {
+    "text": "更新狀態檔案不相符",
+    "source": "更新状态文件不匹配"
+  },
+  "errors.standaloneUpdate.toolReuseFailed": {
+    "text": "{{tool}} 工具重複使用驗證失敗",
+    "source": "{{tool}} 工具复用校验失败"
+  },
+  "errors.libraryProcessing.invalidSelection": {
+    "text": "請選擇有效的影片",
+    "source": "请选择有效的视频项目"
+  },
+  "errors.libraryProcessing.selectionWithRetry": {
+    "text": "所選項目與失敗重試不能同時使用",
+    "source": "选择项目与失败重试不能同时使用"
+  },
+  "errors.followStream.gofileUntrustedUrl": {
+    "text": "Gofile 回傳了不受信任的媒體網址",
+    "source": "Gofile 返回了不受信任的媒体地址"
+  },
+  "errors.followStream.fanboxUntrustedUrl": {
+    "text": "FANBOX 回傳了不受信任的圖片網址",
+    "source": "FANBOX 返回了不受信任的图片地址"
+  },
+  "errors.followStream.f95UntrustedUrl": {
+    "text": "F95 回傳了不受信任的圖片網址",
+    "source": "F95 返回了不受信任的图片地址"
+  },
+  "errors.followStream.mediaUrlUnavailable": {
+    "text": "來源媒體網址不可用",
+    "source": "来源媒体地址不可用"
+  },
+  "errors.followStream.rule34videoDetailUrlUnavailable": {
+    "text": "Rule34Video 詳情網址不可用",
+    "source": "Rule34Video 详情地址不可用"
+  },
+  "errors.followStream.iwaraUrlUnavailable": {
+    "text": "Iwara 影片網址不可用",
+    "source": "Iwara 视频地址不可用"
+  },
+  "errors.followStream.rule34videoVideoUrlNotFetched": {
+    "text": "Rule34Video 正片網址未取得",
+    "source": "Rule34Video 正片地址未取得"
+  },
+  "errors.mediaIdentity.relocateOrAdd": {
+    "text": "請選擇重新定位此目錄，或新增另一目錄",
+    "source": "请选择重定位此目录，或添加另一目录"
+  },
+  "errors.ledgerBackups.pageSizeMismatch": {
+    "text": "這份備份的頁面大小與目前帳本不同，不能在服務執行時還原",
+    "source": "这份备份的页面大小与当前账本不同，不能在服务运行时恢复"
+  },
+  "errors.ledgerBackups.savedCopyIntegrityFailed": {
+    "text": "目前帳本另存後沒有通過完整性檢查，沒有還原",
+    "source": "当前账本另存后没有通过完整性检查，没有恢复"
+  },
+  "errors.ledgerBackups.restoredIntegrityFailed": {
+    "text": "還原後的帳本沒有通過完整性檢查：{{check}}",
+    "source": "恢复后的账本没有通过完整性检查：{{check}}"
+  },
+  "errors.ledgerBackups.busy": {
+    "text": "備份或還原正在進行，請等它完成",
+    "source": "备份或恢复正在进行，请等它完成"
+  },
+  "errors.ledgerBackups.writerOnly": {
+    "text": "只有寫入端能還原帳本：{{reason}}",
+    "source": "只有写入端能恢复账本：{{reason}}"
+  },
+  "errors.ledgerBackups.tasksRunning": {
+    "text": "還有背景任務在執行：{{tasks}}。請等它們結束或停止後再還原",
+    "source": "还有后台任务在运行：{{tasks}}。请等它们结束或停止后再恢复"
+  },
+  "errors.ledgerBackups.tasksRunningNotRestored": {
+    "text": "還有背景任務在執行：{{tasks}}。沒有還原",
+    "source": "还有后台任务在运行：{{tasks}}。没有恢复"
+  },
+  "errors.ledgerBackups.restoringBusy": {
+    "text": "正在從備份還原帳本，暫時不能啟動新任務。",
+    "source": "正在从备份恢复账本，暂时不能启动新任务。"
+  },
+  "errors.onboarding.mdnsNameInvalid": {
+    "text": "名字只能用字母、數字和連字號，不能以連字號開頭或結尾",
+    "source": "名字只能用字母、数字和连字符，不能以连字符开头或结尾"
+  },
+  "errors.pushDiscovery.noPrefixes": {
+    "text": "✗ {{path}} 不在任何已設定的前綴下；已知：（一個都沒設定）",
+    "source": "✗ {{path}} 不在任何已配置的前缀下；已知：（一条都没配）"
+  },
+  "errors.organize.unverifiedBatch": {
+    "text": "來源 {{locations}} 的掛載改名無法驗證雲端結果，整批未執行；須經官方驗證通道（如 organize_library_dirs.py --pikpak-webdav）",
+    "source": "来源 {{locations}} 的挂载改名无法核验云端结果，整批未执行；须经官方核验通道（如 organize_library_dirs.py --pikpak-webdav）"
+  },
+  "errors.organize.scopeTraversal": {
+    "text": "整理路徑不能包含上層目錄跳轉或空字元",
+    "source": "整理路径不能包含上级目录跳转或空字符"
+  },
+  "errors.organize.scopeNotAbsolute": {
+    "text": "整理路徑須為所選來源內的絕對目錄路徑，不能包含上層目錄跳轉",
+    "source": "整理路径须为所选来源内的绝对目录路径，不能包含上级目录跳转"
+  },
+  "errors.organize.unverifiedRename": {
+    "text": "來源 {{location}} 的掛載改名無法驗證雲端結果，須經官方驗證通道",
+    "source": "来源 {{location}} 的挂载改名无法核验云端结果，须经官方核验通道"
+  },
+  "errors.desktopStartup.shortcutNotSaved": {
+    "text": "啟動項目未能儲存，請檢查目前使用者的啟動資料夾權限（PowerShell：{{reason}}）",
+    "source": "启动项未能保存，请检查当前用户的启动文件夹权限（PowerShell：{{reason}}）"
+  },
+  "errors.desktopStartup.startupEntryForeign": {
+    "text": "啟動項目屬於另一份 Peach 安裝",
+    "source": "启动项属于另一份 Peach 安装"
+  },
+  "errors.migrations.unsupportedMigrations": {
+    "text": "資料庫包含目前程式不支援的遷移，請使用相符的版本或升級前備份",
+    "source": "数据库包含当前程序不支持的迁移，请使用匹配版本或升级前备份"
+  },
+  "errors.migrations.checksumChanged": {
+    "text": "已套用 migration {{version}} 的 checksum 已變化",
+    "source": "已应用 migration {{version}} 的 checksum 已变化"
+  },
+  "errors.tasteBookmarks.unreadable": {
+    "text": "無法讀取書籤檔案，請檢查檔案格式後重新匯入",
+    "source": "书签文件未取得，请检查文件格式后重新导入"
+  },
+  "errors.tasteBookmarks.browserBookmarksNotRead": {
+    "text": "無法取得瀏覽器書籤，請檢查資料目錄或關閉瀏覽器後重試",
+    "source": "浏览器书签未取得，请检查资料目录或退出浏览器后重试"
+  },
+  "errors.storageExternalCache.tokenNeedsPermission": {
+    "text": "自動讀取需要 CloudDrive API 權杖的「檢視系統設定」權限",
+    "source": "自动读取需要 CloudDrive API 令牌的“查看系统设置”权限"
+  },
+  "errors.followSecrets.invalidProvider": {
+    "text": "provider 名稱無效",
+    "source": "provider 名称非法"
+  },
+  "errors.followGofile.notPremium": {
+    "text": "Gofile 檔案清單 API 需要 Premium 帳戶；token 有效，但目前帳戶方案不支援此介面",
+    "source": "Gofile 文件列表 API 需要 Premium 账户；token 有效，但当前账户套餐不支持此接口"
+  },
+  "errors.followAvatar.unsupportedProfile": {
+    "text": "不支援這個社群個人檔案",
+    "source": "不支持这个社交资料"
+  },
+  "errors.followAvatar.patreonNoTrustedAvatar": {
+    "text": "Patreon 資料沒有可信的頭像網址",
+    "source": "Patreon 资料没有可信的头像地址"
+  },
+  "errors.followAvatar.fanboxProfileNoTrustedAvatar": {
+    "text": "FANBOX 官方資料沒有可信的頭像網址",
+    "source": "FANBOX 官方资料没有可信的头像地址"
+  },
+  "errors.followSources.iwaraFileUrlUnavailable": {
+    "text": "Iwara 正片網址未取得，請開啟來源頁面核對存取權",
+    "source": "Iwara 正片地址未取得，请打开来源页面核对访问权"
+  },
+  "errors.followSources.iwaraUntrustedFileUrl": {
+    "text": "Iwara 回傳了不受信任的檔案介面網址",
+    "source": "Iwara 返回了不受信任的文件接口地址"
+  },
+  "errors.followSources.f95ProfileNeedsCookie": {
+    "text": "讀取 f95zone 第一則貼文裡的作者主頁連結需要登入 cookie；請把它寫進 peach-data/secrets/follow/f95zone.json",
+    "source": "读 f95zone 首楼的作者主页链接需要登录 cookie；请把它写进 peach-data/secrets/follow/f95zone.json"
+  },
+  "errors.followSources.simpcityNeedsCookie": {
+    "text": "simpcity 需要登入 cookie：網站不讓訪客讀取貼文。登入後把瀏覽器裡 simpcity.cr 的整條 Cookie 請求標頭寫進憑證檔案的 cookie 欄位。",
+    "source": "simpcity 需要登录 cookie：站点不让游客读帖。登录后把浏览器里 simpcity.cr 的整条 Cookie 请求头写进凭据文件的 cookie 字段。"
+  },
+  "errors.followSources.simpcityAccessDenied": {
+    "text": "simpcity 拒絕存取（HTTP 403）：網站不讓訪客讀取貼文，cookie 可能已過期或不完整，請重新登入後更新憑證檔案",
+    "source": "simpcity 拒绝访问（HTTP 403）：站点不让游客读帖，cookie 可能已过期或不完整，请重新登录后更新凭据文件"
+  },
+  "errors.followSources.simpcityNoPosts": {
+    "text": "simpcity 討論串頁沒有解析出任何貼文：頁面結構可能已變",
+    "source": "simpcity 线程页没有解析出任何楼层：页面结构可能已变"
+  },
+  "errors.followSources.simpcityCookieNotRecognized": {
+    "text": "simpcity 沒有認出這份 cookie（頁面仍是訪客狀態）：請重新登入後複製整條 Cookie 請求標頭",
+    "source": "simpcity 没有认出这份 cookie（页面仍是游客态）：请重新登录后复制整条 Cookie 请求头"
+  },
+  "errors.mp4repair.offsetNeedsCo64": {
+    "text": "偏移超出 32 位元，這部影片要 co64 才修得了",
+    "source": "偏移超出 32 位，这个片源要 co64 才修得了"
+  },
+  "errors.mp4repair.cttsPresent": {
+    "text": "這部影片已經有 ctts",
+    "source": "这个片源已经有 ctts"
+  },
+  "errors.mp4repair.rebuiltHeaderLengthMismatch": {
+    "text": "重建後的標頭長度對不上",
+    "source": "重建后的头长度对不上"
+  },
+  "errors.mp4repair.legacyHeaderLength": {
+    "text": "舊附屬檔的重建標頭長度不符",
+    "source": "旧边车的重建头长度不符"
+  },
+  "errors.mp4repair.headerNotRepaired": {
+    "text": "播放檔案標頭未能修復",
+    "source": "播放文件头未能修复"
+  },
+  "errors.avatarPicker.coverChanged": {
+    "text": "這張封面剛換過，請回到備選圖片重新框選一次",
+    "source": "这张封面刚换过，返回备选图片重新框一次"
+  },
+  "errors.avatarPicker.addressUnusable": {
+    "text": "這個網址未取得可用圖片：{{reason}}",
+    "source": "这个地址未取得可用图片：{{reason}}"
+  },
+  "errors.avatarPicker.assetCoverNotLocal": {
+    "text": "這部作品的封面還沒有存到本機",
+    "source": "这部作品的封面还没有落在本机"
+  },
+  "errors.avatarPicker.assetCellNotLocal": {
+    "text": "這部作品的第 {{cell}} 格還沒有存到本機",
+    "source": "这部作品的第 {{cell}} 格还没有落在本机"
+  },
+  "errors.avatarPicker.addressNotFetched": {
+    "text": "這個網址的圖還沒有取過",
+    "source": "这个地址的图还没有取过"
+  },
+  "errors.avatarPicker.offlineNotDownloaded": {
+    "text": "這張圖還沒下載過，而這一次不允許連線網路",
+    "source": "这张图还没下载过，而这一次不允许联网"
+  },
+  "errors.browserTransport.debugPortNotConnected": {
+    "text": "瀏覽器的除錯連接埠沒有接上：{{error}}",
+    "source": "浏览器的调试口没有接上：{{error}}"
+  },
+  "errors.browserTransport.debugPortMissing": {
+    "text": "瀏覽器沒有回報除錯連接埠",
+    "source": "浏览器没有写出调试口"
+  },
+  "errors.routesMedia.coverAddressUnusable": {
+    "text": "封面網址不可用",
+    "source": "封面地址不可用"
+  },
+  "errors.routesMedia.codeCoverNotFound": {
+    "text": "官方來源沒有這個番號的封面",
+    "source": "官方渠道没有这个番号的封面"
+  },
+  "errors.javCoverFetch.officialNoImage": {
+    "text": "官方封面網址都沒有取到圖片",
+    "source": "官方封面地址都没有取到图片"
+  },
+  "errors.javCoverFetch.officialPlaceholderOnly": {
+    "text": "官方封面網址只回「準備中」佔位圖：未發售的新作是官方還沒出圖，舊作多半已從官方下架",
+    "source": "官方封面地址只回「准备中」占位图：未发售的新作是官方还没出图，旧作多半已从官方下架"
+  },
+  "errors.javCoverFetch.noCandidates": {
+    "text": "所有來源都沒有候選",
+    "source": "所有渠道都没有候选"
+  },
+  "errors.javCoverFetch.sizeChanged": {
+    "text": "尺寸變化：記錄檔 {{expectedWidth}}x{{expectedHeight}}，目前 {{width}}x{{height}}",
+    "source": "尺寸变化：日志 {{expectedWidth}}x{{expectedHeight}}，当前 {{width}}x{{height}}"
+  },
+  "errors.javCoverFetch.stoppedEarly": {
+    "text": "提前結束，結束代碼 {{exitCode}}",
+    "source": "提前收工，退出码 {{exitCode}}"
+  },
+  "errors.fc2ppvdb.ageGate": {
+    "text": "{{label}} 送到了年齡確認頁，瀏覽器沒有點過去",
+    "source": "{{label}} 送到了年齢確認页，浏览器没有点过去"
+  },
+  "errors.metadataAmane.packagedRuntimeProblem": {
+    "text": "安裝檔中的抓取工具缺失或版本不相符，請重新安裝 Peach",
+    "source": "安装包中的采集工具缺失或版本不匹配，请重新安装 Peach"
+  },
+  "errors.metadataAmane.installIncomplete": {
+    "text": "amane 安裝未完成：執行環境中沒有可用的套件中繼資料",
+    "source": "amane 安装未完成：运行环境中没有可用的包元数据"
+  },
+  "errors.metadataAmane.selfCheckFailed": {
+    "text": "amane 執行環境自我檢查失敗，請在來源與憑證中重新安裝",
+    "source": "amane 运行环境自检失败，请在来源和凭证中重新安装"
+  },
+  "errors.metadataAmane.selfCheckUnfinished": {
+    "text": "amane 執行環境自我檢查未完成，請在來源與憑證中重試",
+    "source": "amane 运行环境自检未完成，请在来源和凭证中重试"
+  },
+  "errors.settingsFile.locatorInvalid": {
+    "text": "資料目錄位置無效或形成循環：{{locator}}",
+    "source": "数据目录位置无效或循环：{{locator}}"
+  },
+  "errors.settingsFile.locatorTooDeep": {
+    "text": "資料目錄位置的重新導向次數超過八次",
+    "source": "数据目录位置的跳转次数超过八次"
+  },
+  "errors.settingsFile.notTable": {
+    "text": "設定檔讀不出來：{{path}}：`{{key}}` 必須是一個表格（[{{key}}]）",
+    "source": "设置文件读不出来：{{path}}：`{{key}}` 必须是一个表（[{{key}}]）"
+  },
+  "errors.settingsFile.emptyArrayItem": {
+    "text": "設定檔讀不出來：{{path}}：`{{key}}` 的陣列裡不能有空字串",
+    "source": "设置文件读不出来：{{path}}：`{{key}}` 的数组里不能有空串"
+  },
+  "errors.scan.pathConflict": {
+    "text": "同一正規化路徑有多筆檔案紀錄（紀錄 {{ids}}）：{{path}}；已保留全部紀錄，請複核；其他檔案繼續處理",
+    "source": "同一规范路径有多条文件记录（记录 {{ids}}）：{{path}}；已保留全部记录，请复核；其他文件继续处理"
+  },
+  "errors.faceDetect.faceModelFetchFailed": {
+    "text": "無法下載人臉模型：{{error}}",
+    "source": "取人脸模型失败：{{error}}"
+  },
+  "errors.faceDetect.faceModelChecksum": {
+    "text": "人臉模型驗證不符：預期 {{expected}}，實際 {{actual}}",
+    "source": "人脸模型校验不符：期望 {{expected}}，实际 {{actual}}"
+  },
+  "errors.faceDetect.matchModelFetchFailed": {
+    "text": "無法下載人臉比對模型：{{error}}",
+    "source": "取人脸比对模型失败：{{error}}"
+  },
+  "errors.faceDetect.matchModelChecksum": {
+    "text": "人臉比對模型驗證不符：預期 {{expected}}，實際 {{actual}}",
+    "source": "人脸比对模型校验不符：期望 {{expected}}，实际 {{actual}}"
+  },
+  "jobMessage.tasteHistory.readingProfile": {
+    "text": "讀取瀏覽紀錄：第 {{index}} / {{total}} 個瀏覽器設定檔，已讀取 {{count}} 筆",
+    "source": "读取浏览记录：第 {{index}} / {{total}} 个浏览器资料，已读取 {{count}} 条"
+  },
+  "jobMessage.tasteHistory.preparingSnapshot": {
+    "text": "準備瀏覽器快照：第 {{index}} / {{total}} 個設定檔",
+    "source": "准备浏览器快照：第 {{index}} / {{total}} 个资料"
+  },
+  "jobMessage.tasteHistory.analyzing": {
+    "text": "分析瀏覽紀錄：已處理 {{checked}} / {{total}} 筆",
+    "source": "分析浏览记录：已处理 {{checked}} / {{total}} 条"
+  },
+  "jobMessage.webStats.findingProfiles": {
+    "text": "正在查詢 Peach 主機上的瀏覽器設定檔",
+    "source": "正在查找 Peach 主机上的浏览器资料"
+  },
+  "jobMessage.webStats.summarizing": {
+    "text": "正在彙總口味分布、標籤與創作者排名",
+    "source": "正在汇总口味分布、标签与创作者排名"
+  },
+  "jobMessage.standaloneUpdate.extracting": {
+    "text": "正在解壓縮",
+    "source": "正在解压"
+  },
+  "jobMessage.standaloneUpdate.reusingTools": {
+    "text": "正在重複使用和驗證已安裝工具",
+    "source": "正在复用和校验已安装工具"
+  },
+  "jobMessage.standaloneUpdate.packageUnusable": {
+    "text": "更新包無法使用（{{error}}），改為下載完整包",
+    "source": "应用更新包无法使用（{{error}}），改为下载完整包"
+  },
+  "jobMessage.standaloneUpdate.connecting": {
+    "text": "正在連線到發布來源",
+    "source": "正在连接发布源"
+  },
+  "jobMessage.standaloneUpdate.failedRestored": {
+    "text": "更新失敗，已還原舊版本：{{error}}",
+    "source": "更新失败，已恢复旧版本：{{error}}"
+  },
+  "jobMessage.standaloneUpdate.databaseRestoreIncomplete": {
+    "text": "更新失敗，資料庫還原未完成：{{error}}",
+    "source": "更新失败，数据库恢复未完成：{{error}}"
+  },
+  "labels.onboarding.prompt.moreMediaDir": {
+    "text": "再加一個媒體目錄（不加就直接按 Enter）",
+    "source": "再加一个媒体目录（不加就直接回车）"
+  },
+  "labels.runtimeFacts.logs": {
+    "text": "記錄檔目錄",
+    "source": "日志目录"
+  },
+  "labels.webBatch.stillOnDisk": {
+    "text": "檔案仍在磁碟上",
+    "source": "文件仍在盘上"
+  },
+  "labels.webFeeds.cooling": {
+    "text": "來源正在冷卻，這一輪沒有抓取",
+    "source": "来源 正在冷却，这一轮没有拉"
+  },
+  "labels.webFeeds.deferredRest": {
+    "text": "其餘 {{count}} 個來源順延到冷卻結束後再抓取",
+    "source": "其余 {{count}} 个源顺延到冷却结束后再拉"
+  },
+  "labels.webFeeds.sourceCooling": {
+    "text": "{{source}} 正在冷卻，這一輪沒有抓取",
+    "source": "{{source}} 正在冷却，这一轮没有拉"
+  },
+  "labels.webFollow.nameContainsEvidence": {
+    "text": "正規化名稱存在包含關係，僅供人工確認",
+    "source": "规范化名称存在包含关系，仅供人工确认"
+  },
+  "labels.webFollow.profileLinkEvidence": {
+    "text": "{{provider}} 第一則貼文裡的創作者主頁連結指向 {{service}}/{{handle}}",
+    "source": "{{provider}} 首楼的创作者主页链接指向 {{service}}/{{handle}}"
+  },
+  "labels.webFollow.sharedOfflineNote": {
+    "text": "共享磁碟機不在，只移除了本機這份。等磁碟機回來要再移除一次，否則會被同步回來。",
+    "source": "共享盘不在，只撤掉了本机这份。等盘回来要再撤一次，否则会被同步回来。"
+  },
+  "labels.webReview.coverNoCandidates": {
+    "text": "未取得：所有來源都沒有候選",
+    "source": "未取得：所有渠道都没有候选"
+  },
+  "labels.webReview.fc2Collection": {
+    "text": "合集，{{count}} 個分片各自獨立；不套用封面，分片改用各自的縮圖",
+    "source": "合集，{{count}} 个分片各自独立；封面不下发，分片回落到自己的缩略图"
+  },
+  "labels.webReview.sizeDelta": {
+    "text": "檔案大小差 {{percent}}%",
+    "source": "体积差 {{percent}}%"
+  },
+  "labels.webReview.westernVerdict.matched": {
+    "text": "符合",
+    "source": "命中"
+  },
+  "labels.webReview.westernVerdict.no-profile": {
+    "text": "確認無個人檔案",
+    "source": "确认无档案"
+  },
+  "labels.webScraping.diagnosticProbeFailed": {
+    "text": "圖片標頭請求失敗 {{count}} 張",
+    "source": "图片头请求失败 {{count}} 张"
+  },
+  "labels.webScraping.reusedCover": {
+    "text": "重複使用 24 小時內經核心驗證過的本機封面（{{width}} × {{height}}），沒有再向來源請求。",
+    "source": "复用 24 小时内核验过的本机封面（{{width}} × {{height}}），没有再向来源请求。"
+  },
+  "labels.downloadsClouddrive.noPikpakRootPrefix": {
+    "text": "還沒有選 PikPak 根目錄對應的媒體目錄，「推送發現」裡也沒有 PikPak 雲端硬碟根那條前綴可以推。在下拉選單裡直接選，或在「推送發現」卡裡登記 PikPak 的掛載根",
+    "source": "还没有选 PikPak 根目录对应的媒体目录，「推送发现」里也没有 PikPak 云盘根那条前缀可以推。在下拉框里直接选，或在「推送发现」卡里登记 PikPak 的挂载根"
+  },
+  "labels.downloadsPikpakBrowser.timeout": {
+    "text": "{{minutes}} 分鐘內沒有完成登入，視窗已關閉。可以再按一下「用瀏覽器登入」",
+    "source": "{{minutes}} 分钟内没有完成登录，窗口已关闭。可以再点一次「用浏览器登录」"
+  },
+  "labels.avatarPicker.source.socialProfile": {
+    "text": "社群個人頁面",
+    "source": "社交主页"
+  },
+  "labels.avatarPicker.source.address": {
+    "text": "網址",
+    "source": "地址"
+  },
+  "labels.avatarPicker.imageAddress": {
+    "text": "圖片網址 · {{host}}",
+    "source": "图片地址 · {{host}}"
+  },
+  "labels.desktopStartup.noDesktop": {
+    "text": "此系統未提供桌面快捷方式",
+    "source": "此系统未提供桌面快捷方式"
+  },
+  "labels.metadataAmane.rebuilt": {
+    "text": "amane 橋已依 {{revision}} 重建",
+    "source": "amane 桥已按 {{revision}} 重建"
+  },
+  "labels.metadataAmane.auth.geoRestricted": {
+    "text": "站方依地區拒絕了這個出口",
+    "source": "站方按地区拒绝了这个出口"
+  },
+  "labels.regions.cn": {
+    "text": "中國",
+    "source": "国产"
+  },
+  "labels.performerHeader.former": {
+    "text": "舊名",
+    "source": "旧名义"
+  },
+  "labels.performerHeader.other": {
+    "text": "其他",
+    "source": "其它"
+  },
+  "labels.organize.preset.byStudio": {
+    "text": "依廠牌建資料夾",
+    "source": "按厂牌建文件夹"
+  },
+  "labels.organize.preset.bySeries": {
+    "text": "依系列建資料夾",
+    "source": "按系列建文件夹"
+  },
+  "labels.organize.preset.byActors": {
+    "text": "依出演者建資料夾",
+    "source": "按出演者建文件夹"
+  },
+  "labels.organize.preset.byYear": {
+    "text": "依發行年建資料夾",
+    "source": "按发行年建文件夹"
+  },
+  "labels.organize.preset.studioThenCode": {
+    "text": "廠牌下依番號建資料夾",
+    "source": "厂牌下按番号建文件夹"
+  },
+  "labels.organize.skip.crossVolume": {
+    "text": "跨磁碟",
+    "source": "跨盘"
+  },
+  "labels.studioIcons.faceFound": {
+    "text": "{{size}} 裡偵測到一張臉（{{score}}）",
+    "source": "{{size}} 里检出一张脸（{{score}}）"
+  },
+  "labels.studioIcons.originLedgerAvatar": {
+    "text": "資料庫裡登記的社群頭像",
+    "source": "数据库里登记的社媒头像"
+  },
+  "labels.studioIcons.originNamedAvatar": {
+    "text": "人指定的社群頭像",
+    "source": "人指定的社媒头像"
+  },
+  "labels.studioIcons.faceDetected": {
+    "text": "{{evidence}}；偵測到人臉",
+    "source": "{{evidence}}；检出人脸"
+  },
+  "labels.studioSites.parkingHost.finalUrl": {
+    "text": "{{parked}}（最終網址指向 {{host}}）",
+    "source": "{{parked}}（最终地址指向 {{host}}）"
+  },
+  "labels.libraryProcessing.budgetSkipped": {
+    "text": "{{head}}，還有 {{count}} 部沒問外部來源，再執行一次接著抓取。",
+    "source": "{{head}}，还有 {{count}} 部没问外部来源，再跑一次接着采。"
+  },
+  "labels.feedFollowup.sourceAddress": {
+    "text": "來源網址",
+    "source": "来源地址"
+  },
+  "labels.avatarOnline.cached": {
+    "text": "已快取的社群頭像",
+    "source": "已缓存的社交头像"
+  },
+  "labels.avatarOnline.cachedOn": {
+    "text": "已快取的社群頭像 · {{date}}",
+    "source": "已缓存的社交头像 · {{date}}"
+  },
+  "labels.seedCorrections.profileDiffers": {
+    "text": "現有資料與精確撤回值不一致，保留斷言",
+    "source": "现有资料与精确撤销值不一致，保留断言"
+  },
+  "labels.seedCorrections.pointerDiffers": {
+    "text": "現有歸屬與精確撤回值不一致，保留斷言",
+    "source": "现有归属与精确撤销值不一致，保留断言"
+  },
+  "labels.entityIdentityResearch.unresolved": {
+    "text": "公開身分來源未取得；已依頁名直取 {{queried}}。同名命中不構成唯一身分依據。",
+    "source": "公开身份来源未取得；已按页名直取 {{queried}}。同名命中不构成唯一身份依据。"
+  },
+  "labels.performerProfileFollowup.detail.backfilled": {
+    "text": "資料表裡沒有別的來源，依這頁補寫",
+    "source": "资料表里没有别的来源，按这页补写"
+  },
+  "labels.devCopyRuntime.reloaded": {
+    "text": "服務已重新載入，正在重新整理…",
+    "source": "服务已重载，正在刷新…"
+  },
+  "labels.supportBundle.cliDescription": {
+    "text": "儲存本機已遮蔽敏感資訊的診斷包，無需啟動 Peach 服務",
+    "source": "保存本机脱敏诊断包，无需启动 Peach 服务"
+  },
+  "labels.upgradeRepairs.mediaPaused": {
+    "text": "{{error}}；影片自動補全已暫停，請檢查快取後手動重試",
+    "source": "{{error}}；影片自动补全已暂停，请检查缓存后显式重试"
+  },
+  "labels.upgradeRepairs.displayProbeRetired": {
+    "text": "已停用自動顯示尺寸重新偵測，保留已有測量和預覽",
+    "source": "已停用自动显示尺寸重探，保留已有测量和预览"
+  },
+  "labels.taskResources.network.cloudMount": {
+    "text": "雲端硬碟掛載的快取與預讀無法依任務取得實際網路速度",
+    "source": "网盘挂载的缓存与预读无法按任务取得实际网速"
+  },
+  "labels.taskResources.network.smb": {
+    "text": "SMB 的快取與預讀無法依任務取得實際網路速度",
+    "source": "SMB 的缓存与预读无法按任务取得实际网速"
+  },
+  "labels.gpuUsage.macos": {
+    "text": "目前版本尚未支援 macOS 的逐處理程序 GPU 計數；不能使用整機佔用代替任務佔用",
+    "source": "当前版本尚未接入 macOS 的逐进程 GPU 计数；不能使用整机占用代替任务占用"
+  },
+  "labels.gpuUsage.noDrmDevice": {
+    "text": "未發現可讀取的 DRM GPU 裝置；容器需對應裝置，驅動程式需支援逐處理程序計數",
+    "source": "未发现可读取的 DRM GPU 设备；容器需映射设备，驱动需支持逐进程计数"
+  },
+  "labels.processingTraffic.temporary": {
+    "text": "暫存檔案",
+    "source": "临时文件"
+  },
+  "labels.librarySharing.field.works": {
+    "text": "去除重複後的作品編號，以及評分、喜歡、不喜歡、已看、稍後看、播放次數、觀看比例與手動新增的受控內容標籤；自訂備註標籤不上傳",
+    "source": "去重后的作品编号，以及评分、喜欢、不喜欢、已看、稍后看、播放次数、观看比例与手动添加的受控内容标签；自定义备注标签不上传"
+  },
+  "labels.librarySharing.field.preferences": {
+    "text": "出演者、創作者、廠牌、系列、手動標籤、年代與時長分組的收藏、喜歡、不喜歡、觀看數量和評分分布（有編號作品與無編號條目分開），以及主動收藏的實體名稱",
+    "source": "出演者、创作者、厂牌、系列、手动标签、年代与时长分组的收藏、喜欢、不喜欢、观看数量和评分分布（有编号作品与无编号条目分开），以及主动收藏的实体名称"
+  },
+  "labels.librarySharing.field.version": {
+    "text": "Peach 版本、欄位版本與 UTC 自然週",
+    "source": "Peach 版本、字段版本与 UTC 自然周"
+  },
+  "labels.librarySharing.notice": {
+    "text": "上傳移除直接身分資訊的館藏、偏好和容量彙總，並使用隨機研究執行個體識別碼關聯參與狀態。啟用後每日最多聯絡一次；關閉時背景僅嘗試一次最小關閉狀態，之後停發。播放活躍天數不代表全部日常使用；容量和參與狀態不含新增路徑、作品或帳號資訊。",
+    "source": "上传移除直接身份信息的馆藏、偏好和容量聚合，并使用随机研究实例标识关联参与状态。启用后每日最多联系一次；关闭时后台仅尝试一次最小关闭状态，之后停发。播放活跃天数不代表全部日常使用；容量和参与状态不含新增路径、作品或账号信息。"
+  },
+  "labels.remoteReporting.field.usage": {
+    "text": "Peach 版本、發行方式（Windows／macOS 應用、Docker、wheel 或原始碼）、作業系統類型與版本、CPU 架構與核數、記憶體級距、Python 版本、執行環境與公開建置編號；每天最多一條活躍日誌和一條日聯絡工作階段彙總。開啟後自動產生隨機技術執行個體識別碼，用於統計受影響執行個體和升級路徑，與研究識別碼獨立；關閉後移除本機識別碼，再開啟產生新值。連續執行時按 UTC 日統計，代表執行中的執行個體，不代表人數、真實工作階段或當天有人操作。",
+    "source": "Peach 版本、分发方式（Windows／macOS 应用、Docker、wheel 或源码）、操作系统类型与版本、CPU 架构与核数、内存档位、Python 版本、运行环境与公开构建编号；每天最多一条活跃日志和一条日联系会话汇总。开启后自动生成随机技术实例标识，用于统计受影响实例和升级路径，与研究标识独立；关闭后移除本机标识，再开启生成新值。连续运行时按 UTC 日统计，代表运行中的实例，不代表人数、真实会话或当天有人操作。"
+  },
+  "labels.remoteReporting.field.errors": {
+    "text": "診斷補充：故障環節、異常鏈、Peach 與白名單框架的程式碼檔名/函式名/行號、結構化錯誤碼、媒體工具故障類別、瀏覽器白名單異常類型與正式腳本建置對應、用戶端瀏覽器品牌及主要版本與系統大類、HTTP 方法/路由範本/關聯錯誤編號、同類故障次數與統計日期；同一版本的同類故障只上傳一次完整診斷，每天最多 5 條，全部發生次數每 6 小時或結束時合併為計數日誌。磁碟離線、媒體缺失或損壞、磁碟滿、逾時與資料庫忙等環境條件只統計類別、程式碼位置與次數，不上傳完整診斷。",
+    "source": "诊断补充：故障环节、异常链、Peach 与白名单框架的代码文件名/函数名/行号、结构化错误码、媒体工具故障类别、浏览器白名单异常类型与正式脚本构建映射、客户端浏览器品牌及主要版本与系统大类、HTTP 方法/路由模板/关联错误编号、同类故障次数与统计日期；同一版本的同类故障只上传一次完整诊断，每天最多 5 条，全部发生次数每 6 小时或退出时合并为计数日志。盘掉线、媒体缺失或损坏、磁盘满、超时与数据库忙等环境条件只统计类别、代码位置与次数，不上传完整诊断。"
+  },
+  "labels.remoteReporting.notice": {
+    "text": "傳送至 Sentry。不回報錯誤原文、完整日誌、診斷 ZIP、媒體名稱、路徑、網址、觀看記錄或憑證。接收服務會接觸連線 IP；關閉後停止新傳送，已傳送的資訊無法撤回。",
+    "source": "发送至 Sentry。不上报错误原文、完整日志、诊断 ZIP、媒体名称、路径、网址、观看记录或凭据。接收服务会接触连接 IP；关闭后停止新发送，已发送的信息无法撤回。"
+  },
+  "labels.sync.sharedOffline": {
+    "text": "共享副本所在的磁碟無法連線，本地照常讀寫",
+    "source": "共享副本所在的盘不可达，本地照常读写"
+  },
+  "labels.sync.readOnlyConflict": {
+    "text": "資料庫處於衝突狀態（{{detail}}），本機暫時唯讀。請在系統匣執行「同步資料庫」；若提示仍衝突，需依日誌人工處理。",
+    "source": "数据库处于冲突状态（{{detail}}），本机暂时只读。请在托盘执行「同步数据库」；若提示仍冲突，需按日志人工处理。"
+  },
+  "labels.dataStorage.relocation.docker": {
+    "text": "容器的資料目錄是主機上的磁碟區，位置由 compose.yaml 的掛載決定，容器裡改不了；在容器裡搬走會離開磁碟區，重建容器就丟失。請在主機上依下面幾步遷移",
+    "source": "容器的数据目录是宿主机上的数据卷，位置由 compose.yaml 的挂载决定，容器里改不了；在容器里搬走会离开数据卷，重建容器就丢失。请在宿主机上按下面几步迁移"
+  },
+  "labels.dataStorage.relocation.unmanaged": {
+    "text": "遷移要由系統匣或無桌面服務（python -m peach.server）停止並重新啟動 Peach，目前服務是直接啟動的。請改用其中一種方式啟動後再遷移；也可以結束 Peach，手動移動資料目錄，再將 PEACH_DATA_ROOT 設為新位置",
+    "source": "迁移要由托盘或无桌面服务（python -m peach.server）停止并重新启动 Peach，当前服务是直接启动的。请改用其中一种方式启动后再迁移；也可以退出 Peach，手动移动数据目录，再将 PEACH_DATA_ROOT 设为新位置"
+  },
+  "labels.ledgerBackups.integrity.foreignKeys": {
+    "text": "外部索引鍵檢查發現 {{count}} 條無效參照",
+    "source": "外键检查发现 {{count}} 条失效引用"
+  },
+  "labels.ledgerBackups.refused.ledgerMissing": {
+    "text": "目前資料庫不存在，不清除任何備份",
+    "source": "当前数据库不存在，不清退任何备份"
+  },
+  "labels.ledgerBackups.settle.interrupted": {
+    "text": "上次從備份還原被中斷",
+    "source": "上次从备份恢复被中断"
+  },
+  "labels.ledgerBackups.settle.restoreIncomplete": {
+    "text": "還原沒有完成（{{error}}）",
+    "source": "恢复没有完成（{{error}}）"
+  },
+  "labels.ledgerBackups.settle.completed": {
+    "text": "{{reason}}；已用遷好的備份完成還原",
+    "source": "{{reason}}；已用迁好的备份完成恢复"
+  },
+  "labels.ledgerBackups.settle.rolledBack": {
+    "text": "{{reason}}；已退回還原前的帳本",
+    "source": "{{reason}}；已退回恢复前的账本"
+  },
+  "labels.ledgerBackups.settle.unresolved": {
+    "text": "{{reason}}；目前帳本和還原前的另存都沒有通過完整性檢查，請從備份清單另選一份還原",
+    "source": "{{reason}}；当前账本和恢复前的另存都没有通过完整性检查，请从备份列表另选一份恢复"
+  },
+  "labels.ledgerBackups.settle.savedAs": {
+    "text": "{{message}}，還原前的帳本另存在 {{name}}",
+    "source": "{{message}}，恢复前的账本另存在 {{name}}"
+  },
+  "labels.diagnostics.reason.mountsChecking": {
+    "text": "掛載檢查尚未完成",
+    "source": "挂载检测尚未完成"
+  },
+  "labels.diagnostics.reason.dataRootWritable": {
+    "text": "測試寫入與清理通過",
+    "source": "临时写入与清理通过"
+  },
+  "labels.settingsFile.comment.locations": {
+    "text": "通常在網頁的媒體目錄中填寫實際目錄即可；Peach 儲存時自動維護本表和 [media.mounts]。\n以下說明供手動編輯設定參考；已有影片依本表查詢檔案，改成不比對的值會使影片無法讀取。\nlocal、115、pikpak 等鍵表示媒體來源；值是資料庫中影片路徑的目錄前綴。\nPeach 資料庫在所有系統上都儲存 Windows 格式的路徑，例如 R:\\media\\a.mp4。\n因此 Docker / Linux / macOS 也使用本表；R:\\media 無需在這些系統上實際存在。\n例：本表 local = 'R:\\media'，[media.mounts] local = '/media'。\nPeach 會把資料庫中的 R:\\media\\a.mp4 轉換為 /media/a.mp4，再讀取檔案。\n本表必須比對資料庫中的路徑；Docker / Linux / macOS 搬動實際目錄時保留本表，修改 [media.mounts]。\nWindows 範例：local = ['D:\\Videos', 'E:\\Movies']，直接使用本機媒體目錄。",
+    "source": "通常在网页的媒体目录中填写实际目录即可；Peach 保存时自动维护本表和 [media.mounts]。\n以下说明供手动编辑配置参考；已有影片按本表查找文件，改成不匹配的值会使影片无法读取。\nlocal、115、pikpak 等键表示媒体来源；值是数据库中影片路径的目录前缀。\nPeach 数据库在所有系统上都保存 Windows 格式的路径，例如 R:\\media\\a.mp4。\n因此 Docker / Linux / macOS 也使用本表；R:\\media 无需在这些系统上实际存在。\n例：本表 local = 'R:\\media'，[media.mounts] local = '/media'。\nPeach 会把数据库中的 R:\\media\\a.mp4 转换为 /media/a.mp4，再读取文件。\n本表必须匹配数据库中的路径；Docker / Linux / macOS 搬动实际目录时保留本表，修改 [media.mounts]。\nWindows 示例：local = ['D:\\Videos', 'E:\\Movies']，直接使用本机媒体目录。"
+  },
+  "labels.settingsFile.comment.libraryIcons": {
+    "text": "[media.locations] 中的目錄前綴 -> 媒體庫圖示。取值是 peach.media_libraries.LIBRARY_ICONS 裡的圖示名，\n不認識的值忽略：只含一個來源的館藏改用該來源的圖示，跨來源的用 database。",
+    "source": "[media.locations] 中的目录前缀 -> 媒体库图标。取值是 peach.media_libraries.LIBRARY_ICONS 里的图标名，\n不认识的值忽略：只含一个来源的馆藏回落到该来源的图标，跨来源的用 database。"
+  },
+  "labels.settingsFile.comment.server": {
+    "text": "Docker 服務固定監聽 0.0.0.0:8900；主機存取網址與連接埠由 Compose 設定。\n此處 host、port 用於直接執行 peach serve；Docker 入口參數優先。\nmdns_name 在區域網路裡必須唯一：兩台機器同名會互相搶佔。\nreview_writer_origin 是允許修改資料庫的裝置的位址；唯讀裝置透過它取得待確認資料。\n留空表示本機不顯示另一台裝置的待確認資料。",
+    "source": "Docker 服务固定监听 0.0.0.0:8900；宿主机访问地址与端口由 Compose 配置。\n此处 host、port 用于直接运行 peach serve；Docker 入口参数优先。\nmdns_name 在局域网里必须唯一：两台机器同名会互相抢占。\nreview_writer_origin 是允许修改数据库的设备的地址；只读设备通过它获取待确认资料。\n留空表示本机不显示另一台设备的待确认资料。"
+  },
+  "labels.settingsFile.comment.tunnel": {
+    "text": "Cloudflare Tunnel 預設關閉；開啟前必須先設定存取密碼。\nbinary 留空時依內建包、PEACH_CLOUDFLARED 和 PATH 的順序尋找 cloudflared。\nmode = \"quick\" 是隨機位址的暫時連結；\"named\" 用自建命名隧道，只在原始碼開發\n環境可用，需要 hostname（Cloudflare 背景繫結的公開主機名）和 token（隧道權杖）。\ntoken 是憑證：這個檔案是它唯一的存放處，不要複製到別處，也不要提交進 Git。",
+    "source": "Cloudflare Tunnel 默认关闭；打开前必须先设置访问密码。\nbinary 留空时按内置包、PEACH_CLOUDFLARED 和 PATH 的顺序寻找 cloudflared。\nmode = \"quick\" 是随机地址的临时链接；\"named\" 用自建命名隧道，只在源码开发\n环境可用，需要 hostname（Cloudflare 后台绑定的公开主机名）和 token（隧道令牌）。\ntoken 是凭据：这个文件是它唯一的存放处，不要复制到别处，也不要提交进 Git。"
+  },
+  "labels.mountReachability.checking": {
+    "text": "正在檢查",
+    "source": "正在检测"
+  },
+  "labels.mountReachability.timeout": {
+    "text": "偵測未回應",
+    "source": "探测未返回"
+  },
+  "labels.followDiscovery.searchTitle": {
+    "text": "站內搜尋依標題命中「{{query}}」",
+    "source": "站内搜索按标题命中「{{query}}」"
+  },
+  "labels.followDiscovery.searchTitlePrefix": {
+    "text": "站內搜尋依標題開頭命中「{{query}}」",
+    "source": "站内搜索按标题开头命中「{{query}}」"
+  },
+  "labels.followDiscovery.withForumLabels": {
+    "text": "{{evidence}}，版面標籤 {{labels}}",
+    "source": "{{evidence}}，版块标签 {{labels}}"
+  },
+  "labels.followDiscovery.profileHandle": {
+    "text": "F95 首樓名片上的帳號名稱 {{handle}}：{{evidence}}",
+    "source": "F95 首楼名片上的手柄 {{handle}}：{{evidence}}"
+  },
+  "labels.followSecrets.why.simpcity": {
+    "text": "網站不讓訪客讀取貼文，檢查更新必須帶登入工作階段；前面的 DDoS-Guard 不會對標準桌面瀏覽器識別發出挑戰，Peach 也不解任何挑戰，cookie 失效就原樣報錯。",
+    "source": "站点不让游客读帖，检查更新必须带登录会话；前面的 DDoS-Guard 对标准桌面浏览器标识不出质询，Peach 也不解任何质询，cookie 失效就原样报错。"
+  },
+  "labels.metadata.warning.performerRepeated": {
+    "text": "來源演員名含重複片段，已正規化：{{original}} → {{name}}",
+    "source": "来源演员名含重复片段，已规范化：{{original}} → {{name}}"
+  },
+  "labels.metadata.warning.releaseDateNormalized": {
+    "text": "來源發行時間已正規化為日期：{{value}} → {{normalized}}",
+    "source": "来源发行时间已规范化为日期：{{value}} → {{normalized}}"
+  },
+  "labels.metadata.warning.valueRepeated": {
+    "text": "來源值含重複片段，已正規化：{{original}} → {{name}}",
+    "source": "来源值含重复片段，已规范化：{{original}} → {{name}}"
+  },
+  "labels.sourceChecks.notFound": {
+    "text": "來源檢查網址不存在，請核對網站網址。",
+    "source": "来源检查地址不存在，请核对站点地址。"
+  },
+  "labels.timelineSheets.stoppedByUser": {
+    "text": "已停止",
+    "source": "已按停"
+  },
+  "labels.fc2Sellers.rejectedName": {
+    "text": "匯入判定不收這個賣家名",
+    "source": "摄取判定不收这个卖家名"
+  },
+  "labels.resourceSearch.reject.size": {
+    "text": "檔案大小不在範圍內",
+    "source": "体积不在区间"
+  },
+  "taste.evidence.collection": {
+    "text": "館藏累積",
+    "source": "馆藏积累"
+  },
+  "taste.reason.nearDistribution": {
+    "text": "與你的館藏和觀看分布接近",
+    "source": "与你的馆藏和观看分布接近"
+  },
+  "taste.volume.system.name": {
+    "text": "系統磁碟",
+    "source": "系统盘"
+  },
+  "taste.volume.system.numbered": {
+    "text": "系統磁碟 {{index}}",
+    "source": "系统盘 {{index}}"
+  },
+  "taste.volume.local.name": {
+    "text": "資源磁碟",
+    "source": "资源盘"
+  },
+  "taste.volume.local.numbered": {
+    "text": "資源磁碟 {{index}}",
+    "source": "资源盘 {{index}}"
+  },
+  "taste.report.nothingExtracted": {
+    "text": "未找到",
+    "source": "未提取到"
+  },
+  "tray.menu.address": {
+    "text": "網址：{{url}}",
+    "source": "地址：{{url}}"
+  },
+  "tray.health.notChecked": {
+    "text": "未檢查",
+    "source": "未检测"
+  },
+  "tray.ledger.notTakenOver": {
+    "text": "未接管：{{reason}}；先掛載共享副本所在的磁碟。",
+    "source": "未接管：{{reason}}；先挂上共享副本所在的盘。"
+  },
+  "tray.prepare.stale": {
+    "text": "專案 venv 與 uv.lock 不一致，要安裝 {{count}} 個套件",
+    "source": "项目 venv 与 uv.lock 不一致，要装 {{count}} 个包"
+  },
+  "tray.prepare.staleListed": {
+    "text": "專案 venv 與 uv.lock 不一致，要安裝 {{count}} 個套件：{{packages}}",
+    "source": "项目 venv 与 uv.lock 不一致，要装 {{count}} 个包：{{packages}}"
+  },
+  "tray.prepare.staleMore": {
+    "text": "專案 venv 與 uv.lock 不一致，要安裝 {{count}} 個套件：{{packages}}等",
+    "source": "项目 venv 与 uv.lock 不一致，要装 {{count}} 个包：{{packages}}等"
+  },
+  "tray.prepare.synced": {
+    "text": "已依 uv.lock 同步依賴（{{check}}，用時 {{seconds}} 秒）",
+    "source": "已按 uv.lock 同步依赖（{{check}}，用时 {{seconds}} 秒）"
+  },
+  "tray.prepare.staleHint": {
+    "text": "{{message}}；按一下系統匣「重新啟動服務」會整體重新啟動系統匣並同步依賴",
+    "source": "{{message}}；点托盘「重启服务」会整体重启托盘并同步依赖"
+  },
+  "tray.restart.newTrayExited": {
+    "text": "新系統匣已結束，結束代碼 {{code}}",
+    "source": "新托盘退出，代码 {{code}}"
+  },
+  "tray.restart.rollbackFailed": {
+    "text": "{{reason}}；回復失敗，生產入口停在新二進位檔：{{error}}",
+    "source": "{{reason}}；回滚失败，生产入口停在新二进制：{{error}}"
+  },
+  "tray.restart.swapFailed": {
+    "text": "換二進位檔失敗，已按原樣重開舊系統匣：{{error}}",
+    "source": "换二进制失败，已按原样重开旧托盘：{{error}}"
+  },
+  "tray.restart.swapFailedNotStarted": {
+    "text": "換二進位檔失敗，且舊系統匣未能重開：{{error}}",
+    "source": "换二进制失败，且旧托盘未能重开：{{error}}"
+  },
+  "tray.sourceSync.standalone": {
+    "text": "獨立測試包不自建系統匣；請下載新版並完整解壓縮並替換程式目錄。",
+    "source": "独立测试包不自建托盘；请下载新版并完整解压替换程序目录。"
+  },
+  "tray.sparkle.available": {
+    "text": "Peach {{version}} 可以安裝，在選單列「版本與更新」中按一下「檢查更新」",
+    "source": "Peach {{version}} 可以安装，在菜单栏「版本与更新」中点「检查更新」"
+  },
+  "tray.versions.channelUntracked": {
+    "text": "已設定更新源 · 未追蹤分支",
+    "source": "已配置更新源 · 未跟踪分支"
+  },
+  "tray.versions.untracked": {
+    "text": "更新源已連線，但目前分支沒有對應的追蹤分支。",
+    "source": "更新源已连接，但当前分支没有对应的跟踪分支。"
+  },
+  "pages.setup.question.dataRoot.help": {
+    "text": "Peach 資料庫、封面、預覽圖和快取都放在這裡，館藏較大時會佔用數十 GB。系統磁碟空間緊張時，請選擇其他磁碟上的資料夾；之後也可在設定頁遷移。",
+    "source": "Peach 数据库、封面、预览图和缓存都放在这里，馆藏较大时会占用数十 GB。系统盘空间紧张时，请选择其他磁盘上的文件夹；之后也可在设置页迁移。"
+  },
+  "pages.setup.question.port.help": {
+    "text": "瀏覽器網址列裡冒號後面的數字，一般不用改。",
+    "source": "浏览器地址里冒号后面的数字，一般不用改。"
+  },
+  "pages.setup.question.mdnsName.help": {
+    "text": "選了「同一區域網路的裝置」之後，其他裝置在瀏覽器裡輸入這個網址就能開啟 Peach。",
+    "source": "选了「同一局域网的设备」之后，其他设备在浏览器里输入这个地址就能打开 Peach。"
+  },
+  "pages.setup.question.mdnsName.standaloneHelp": {
+    "text": "其他裝置開啟這個網址時要加上上面的連接埠，例如 http://peach.local:8900。首次連線請允許 Windows 專用網路存取。",
+    "source": "其他设备打开这个地址时要加上上面的端口，例如 http://peach.local:8900。首次连接请允许 Windows 专用网络访问。"
+  },
+  "pages.setup.cloudHelp": {
+    "text": "請先將 CloudDrive2 或 OpenList 中的雲端硬碟掛載為本機資料夾；Windows 讀取 NAS 共享時，請先對應為磁碟機代號，再選擇對應資料夾。本機安裝提示僅適用於在本機執行 CloudDrive。檔案操作需要掛載工具和雲端硬碟帳號授予寫入權限；光鴨雲盤的上傳、建立資料夾、改名和移動需要 CloudDrive2 v1.1.0 或更高版本，刪除和複製暫不支援。",
+    "source": "请先将 CloudDrive2 或 OpenList 中的网盘挂载为本机文件夹；Windows 读取 NAS 共享时，请先映射为盘符，再选择对应文件夹。本机安装提示仅适用于在本机运行 CloudDrive。文件操作需要挂载工具和网盘账号授予写入权限；光鸭云盘的上传、建文件夹、改名和移动需要 CloudDrive2 v1.1.0 或更高版本，删除和复制暂不支持。"
+  },
+  "ledgerBackup.purpose.restore": {
+    "text": "還原前另存",
+    "source": "恢复前另存"
+  }
+}

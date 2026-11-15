@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { createTranslator, resolveInterfaceLanguage, resources, storedInterfaceLanguage, INTERFACE_LANGUAGES, SOURCE_LANGUAGE } from '../src/i18n';
+import { createTranslator, matchInterfaceLanguage, resolveInterfaceLanguage, resources, storedInterfaceLanguage, INTERFACE_LANGUAGES, SOURCE_LANGUAGE, type InterfaceLanguage } from '../src/i18n';
 import { countLiterals, scan } from '../scripts/i18n-literals.ts';
 
 const frontend = resolve(__dirname, '..');
@@ -118,12 +118,27 @@ describe('界面语言', () => {
     const storage = (value: unknown) => ({ getItem: () => JSON.stringify(value) });
     expect(storedInterfaceLanguage(storage({ interfaceLanguage: 'en' }), ['zh-CN'])).toBe('en');
     expect(storedInterfaceLanguage(storage({ interfaceLanguage: 'zh-CN' }), ['en-US'])).toBe('zh-CN');
+    expect(storedInterfaceLanguage(storage({ interfaceLanguage: 'zh-TW' }), ['en-US'])).toBe('zh-TW');
   });
 
-  it('自动：按浏览器语言的顺序取第一个有译文的，中文各种写法都给简体中文', () => {
-    expect(resolveInterfaceLanguage('auto', null, ['ja-JP', 'zh-TW', 'en-US'])).toBe('zh-CN');
+  it('自动：按浏览器语言的顺序取第一个有译文的', () => {
+    expect(resolveInterfaceLanguage('auto', null, ['ja-JP', 'zh-TW', 'en-US'])).toBe('zh-TW');
     expect(resolveInterfaceLanguage('auto', 'zh-CN', ['en-GB', 'zh-CN'])).toBe('en');
-    expect(resolveInterfaceLanguage('auto', null, ['zh-Hant-HK'])).toBe('zh-CN');
+    expect(resolveInterfaceLanguage('auto', null, ['zh-Hant-HK'])).toBe('zh-TW');
+  });
+
+  it('中文标签按文字子标签优先、地区其次分流', () => {
+    // 与 tests/test_system_language.py 的同名分流测试用同一组案例。
+    const cases: [string, InterfaceLanguage | null][] = [
+      ['zh-TW', 'zh-TW'], ['zh_TW.UTF-8', 'zh-TW'], ['zh-Hant', 'zh-TW'], ['zh-Hant-CN', 'zh-TW'],
+      ['zh-HK', 'zh-TW'], ['zh-MO', 'zh-TW'], ['zh_HK@euro', 'zh-TW'], ['ZH-tw', 'zh-TW'],
+      ['zh', 'zh-CN'], ['zh-CN', 'zh-CN'], ['zh_CN.UTF-8', 'zh-CN'], ['zh-Hans', 'zh-CN'],
+      ['zh-Hans-TW', 'zh-CN'], ['zh-SG', 'zh-CN'], ['zh-MY', 'zh-CN'],
+      ['zhx', null], ['ja-TW', null], ['de_DE.UTF-8', null],
+    ];
+    for (const [tag, expected] of cases) expect(matchInterfaceLanguage(tag), tag).toBe(expected);
+    expect(matchInterfaceLanguage(null)).toBeNull();
+    expect(matchInterfaceLanguage('en_US.UTF-8')).toBe('en');
   });
 
   it('自动：浏览器语言都没有译文时看系统语言，再没有就用英文', () => {

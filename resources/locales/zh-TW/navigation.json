@@ -1,0 +1,111 @@
+{
+  "configurationSections": {
+    "diagnostics": "系統診斷",
+    "downloads": "下載管道",
+    "feeds": "來源與訂閱",
+    "library": "媒體庫與入庫",
+    "maintenance": "應用程式與維護",
+    "network": "網路與存取"
+  },
+  "durationFilter": {
+    "maximum": "最長時長（分鐘）",
+    "minimum": "最短時長（分鐘）",
+    "minutes": "{{count, number}} 分鐘",
+    "noLimit": "不限"
+  },
+  "favoritesTabs": {
+    "agencies": "事務所",
+    "creators": "創作者",
+    "savedFilters": "儲存的篩選",
+    "series": "系列",
+    "studios": "片商與廠牌"
+  },
+  "followTabs": {
+    "follows": "追蹤清單",
+    "manageTags": "標籤管理",
+    "newFollow": "新增追蹤"
+  },
+  "javTabs": {
+    "collection": "館藏",
+    "discover": "發現",
+    "newReleases": "新作",
+    "wanted": "想要"
+  },
+  "manage": {
+    "activity": "任務中心",
+    "cleanup": "資料管理",
+    "configuration": "Peach 組態",
+    "quality": "高畫質版",
+    "review": "人工複核",
+    "stats": "統計",
+    "subscriptions": "追蹤管理",
+    "taste": "口味",
+    "trash": "資源回收筒"
+  },
+  "navigationGroups": {
+    "favorites": "我的收藏",
+    "jav": "JAV 分區",
+    "preferences": "個人設定",
+    "review": "複核分類",
+    "sidebar": "左側導覽",
+    "tagVocabulary": "標籤詞表"
+  },
+  "pageTitle": {
+    "portrait": "直向",
+    "search": "搜尋 {{term}}"
+  },
+  "preferenceSections": {
+    "appearance": "外觀與導覽",
+    "content": "內容顯示",
+    "jav": "JAV 與新作",
+    "playback": "瀏覽與播放",
+    "search": "搜尋與推薦"
+  },
+  "reviewCategories": {
+    "actressAvatars": "女優頭像",
+    "codeDirectories": "番號目錄存疑",
+    "creatorTags": "創作者標籤",
+    "endCardEvidence": "片尾/出處證據",
+    "fc2CommentFlags": "FC2 評論標記",
+    "fc2SimilarCodes": "FC2 跨號相似",
+    "labelLogos": "廠牌 Logo",
+    "metadataFields": "中繼資料欄位",
+    "westernIdentities": "西方身分回配"
+  },
+  "shared": {
+    "all": "全部"
+  },
+  "sidebar": {
+    "flagged": "已標記",
+    "following": "追蹤",
+    "home": "首頁",
+    "immerse": "沉浸模式",
+    "jav": "JAV",
+    "manage": "管理",
+    "performers": "藝人",
+    "playlists": "播放清單",
+    "studios": "廠牌",
+    "tags": "標籤"
+  },
+  "sidebarFilters": {
+    "collapseGroup": "收起{{title}}",
+    "contentTags": "內容標籤",
+    "duration": "時長",
+    "expandGroup": "展開全部{{title}}",
+    "followingTags": "追蹤標籤",
+    "orientation": "畫面方向",
+    "region": "產地",
+    "releaseYear": "發行年份",
+    "storage": "來源",
+    "videoProperties": "影片屬性"
+  },
+  "sidebarReorder": {
+    "canceled": "已取消排序",
+    "moved": "{{label}}，已移動到第 {{position}} 項",
+    "unchanged": "順序未變"
+  },
+  "tagTabs": {
+    "online": "線上",
+    "localLabel": "本機"
+  }
+}

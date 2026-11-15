@@ -36,7 +36,7 @@ _DATA_KEY = re.compile(r"[a-z][a-z0-9-]*")
 
 def page_shell(title: str, page: str, data: Mapping[str, str] | None = None, *, symbols: str = "",
                language: str = interface_text.SOURCE_LANGUAGE) -> str:
-    """入口页的薄壳：主题预读、Inter、页面包的样式与脚本，以及挂载点 `#peach-page`。
+    """入口页的薄壳：主题预读、Inter（繁体中文页面再加台湾圆体）、页面包的样式与脚本，以及挂载点 `#peach-page`。
 
     `page` 写进 `data-page`，页面包按它挑哪一页；`data` 的每一项写成挂载点上的 `data-<键>`，
     值一律经 HTML 转义。骨架文案归页面包，这里只放服务端才知道的变量。`symbols` 是页面要借的
@@ -49,9 +49,12 @@ def page_shell(title: str, page: str, data: Mapping[str, str] | None = None, *, 
             raise UserValueError("api.entry.invalidDataKey", {"key": repr(key)})
         attributes += f' data-{key}="{escape(value, quote=True)}"'
     sprite = f'<svg width="0" height="0" aria-hidden="true" style="position:absolute">{symbols}</svg>' if symbols else ""
+    # 繁体中文页面才引内嵌的台湾圆体样式表；其他语言不为它多一个阻塞请求。
+    round_font = '<link rel="stylesheet" href="/vendor/taiwan-pearl/2.125/index.css">' if language == "zh-TW" else ""
     return (f'<!doctype html>\n<html lang="{escape(language, quote=True)}">{_PAGE_HEAD}'
             f'<title>{escape(title)}</title>{_THEME_SCRIPT}'
             '<link rel="stylesheet" href="/vendor/inter/5.3.0/index.css">'
+            f'{round_font}'
             '<link rel="stylesheet" href="/dist/peach-pages.css">'
             '<script type="module" src="/dist/peach-pages.js"></script></head>'
             f'<body class="peach-react">{sprite}'

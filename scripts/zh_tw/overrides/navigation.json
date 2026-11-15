@@ -1,0 +1,10 @@
+{
+  "configurationSections.maintenance": {
+    "text": "應用程式與維護",
+    "source": "应用与维护"
+  },
+  "sidebarFilters.orientation": {
+    "text": "畫面方向",
+    "source": "画幅"
+  }
+}

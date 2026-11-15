@@ -1,0 +1,158 @@
+{
+  "gettingStarted.moreWays": {
+    "text": "更多連線方式",
+    "source": "更多接入方式"
+  },
+  "gettingStarted.viewSettings": {
+    "text": "開啟設定",
+    "source": "查看配置"
+  },
+  "guideAppMaintenance.backupsBody": {
+    "text": "立即備份目前帳本，或從清單裡的一份備份還原。還原會取代目前帳本，取代前會先另存一份；只有寫入端能還原。",
+    "source": "立即备份当前账本，或从列表里的一份备份恢复。恢复会替换当前账本，替换前先另存一份；只有写入端能恢复。"
+  },
+  "guideAppMaintenance.cleanupBody": {
+    "text": "移除確認範圍內產生的檔案或舊備份，執行前請核對清單。",
+    "source": "移除确认范围内的生成文件或旧备份，执行前核对清单。"
+  },
+  "guideAppMaintenance.launchAtStartupBody": {
+    "text": "登入系統後啟動應用程式；可用性取決於目前平台。",
+    "source": "系统登录后启动应用；可用性取决于当前平台。"
+  },
+  "guideAppearance.glowPresetsBody": {
+    "text": "一次套用一組配色和參數，適合先挑選整體外觀。",
+    "source": "一次应用一组配色和参数，适合先挑选整体外观。"
+  },
+  "guideAppearance.soundsBody": {
+    "text": "控制介面操作的回饋音效，依使用環境選擇。",
+    "source": "控制界面操作反馈音，按自己的使用环境选择。"
+  },
+  "guideDiagnostics.attentionBody": {
+    "text": "從需要留意的項目進入原因與復原入口；沒有異常時檢視館藏健康狀態。",
+    "source": "从需要关注的项目进入原因与恢复入口；没有异常时查看库健康。"
+  },
+  "guideDiagnostics.attentionTitle": {
+    "text": "需要留意的檢查項目",
+    "source": "需要关注的检查项"
+  },
+  "guideDiagnostics.reportBody": {
+    "text": "處理原因後可以重新檢查。需要提供疑難排解資料時，請自行按一下下載診斷報告。",
+    "source": "处理原因后可以重新检查。需要提供排查资料时，由你点击下载诊断报告。"
+  },
+  "guideDiagnostics.systemChecksBody": {
+    "text": "展開其他檢查，依系統、設定等分組檢視目前狀態。需要留意的檢查項目會單獨列在頁面上方。",
+    "source": "展开其他检查，按系统、配置等分组查看当前状态。需要关注的检查项会单独列在页面上方。"
+  },
+  "guideDirectory.byTopic": {
+    "text": "依主題探索",
+    "source": "按需了解"
+  },
+  "guideDirectory.noMatches": {
+    "text": "沒有符合的教學",
+    "source": "没有匹配的教程"
+  },
+  "guideDirectory.stepCountExitAnytime": {
+    "text": "{{count, number}} 步 · 隨時可以離開",
+    "source": "{{count, number}} 步 · 随时可以退出"
+  },
+  "guideDownloads.browserBody": {
+    "text": "安裝使用者腳本並配對 Peach。預設管道決定提交到哪裡；啟用開關控制功能，專用權杖可更新或關閉，腳本偵測幫助確認配對。",
+    "source": "安装用户脚本并配对 Peach。默认渠道决定提交到哪里；启用开关控制功能，专用令牌可更新或关闭，脚本检测帮助确认配对。"
+  },
+  "guideEntry.playerControlBar": {
+    "text": "播放器底部控制列",
+    "source": "播放器底部控制条"
+  },
+  "guideEntry.searchHint": {
+    "text": "手機上先按一下放大鏡，再輸入關鍵字。",
+    "source": "手机上先点放大镜，再输入关键词。"
+  },
+  "guideFindPlay.externalBody": {
+    "text": "在這裡選擇本機播放器、M3U 播放清單或網路播放位址，再按一下「開啟」。另一台裝置需要能存取目前 Peach 位址。",
+    "source": "在这里选择本地播放器、M3U 播放列表或网络播放地址，再点打开。另一台设备需要能访问当前 Peach 地址。"
+  },
+  "guideFindPlay.playerBody": {
+    "text": "底部控制列提供播放、進度、音量和全螢幕。右側齒輪開啟播放速度、字幕、畫面旋轉和畫質等選項。",
+    "source": "底部控制条提供播放、进度、音量和全屏。右侧齿轮打开播放速度、字幕、画面旋转和清晰度等选项。"
+  },
+  "guideFindPlay.playerTitle": {
+    "text": "播放器控制項",
+    "source": "播放器控件"
+  },
+  "guideFindPlay.searchTitle": {
+    "text": "依關鍵字找內容",
+    "source": "按关键词找内容"
+  },
+  "guideFindPlay.subtitlesBody": {
+    "text": "從播放器齒輪選單進入字幕，可以選擇已有字幕、載入本機字幕檔案或搜尋字幕；播放速度和畫質也在這個選單中。",
+    "source": "从播放器齿轮菜单进入字幕，可以选择已有字幕、加载本地字幕文件或搜索字幕；播放速度和清晰度也在这个菜单中。"
+  },
+  "guideFollow.credentialsTitle": {
+    "text": "依需求設定憑證",
+    "source": "按需配置凭据"
+  },
+  "guideFollow.feedBody": {
+    "text": "來自不同來源的創作者更新彙集在這裡，選擇一項更新即可檢視內容；尚未追蹤來源時，請從空白畫面中的入口新增。",
+    "source": "来自不同来源的创作者更新汇集在这里，选择一项更新查看内容；尚未关注来源时，按空状态中的入口添加。"
+  },
+  "guideInsights.statsBody": {
+    "text": "選擇統計檢視，查看館藏、儲存空間和觀看情況；各檢視中的入口可繼續查看相關作品。",
+    "source": "选择统计视图查看馆藏、存储和观看情况，各视图中的入口可继续查看相关作品。"
+  },
+  "guideJav.qualityBody": {
+    "text": "待升級卡片列出目前版本資訊和判定原因，可以檢視版本或搜尋資源；沒有目標時這裡顯示空白狀態。",
+    "source": "待升级卡片列出当前版本信息和判定原因，可以查看版本或查找资源；没有目标时这里显示空状态。"
+  },
+  "guideLibrary.cloudDriveNotifyBody": {
+    "text": "透過 CloudDrive2 推送目錄變化。",
+    "source": "通过 CloudDrive2 推送目录变化。"
+  },
+  "guideLibrary.cloudProxyBody": {
+    "text": "資料代理控制檔案內容請求，API 代理控制介面請求。分別選擇模式、位址與連接埠，需要驗證時再填寫使用者名稱和密碼；它們與 Peach 代理分別設定。",
+    "source": "数据代理控制文件内容请求，API 代理控制接口请求。分别选择模式、地址与端口，认证需要时填写用户名和密码；它们与 Peach 代理分别配置。"
+  },
+  "guideLibrary.codeRulesBody": {
+    "text": "依輸入欄位中的格式填寫，用來從檔名取出番號；儲存前核對規則與目標檔名。",
+    "source": "按输入框中的格式填写，用来从文件名提取番号；保存前核对规则与目标文件名。"
+  },
+  "guideLibrary.proxyAuthBody": {
+    "text": "僅在代理要求驗證時填寫。",
+    "source": "仅在代理要求认证时填写。"
+  },
+  "guideLibrary.previewBody": {
+    "text": "產生影片預覽會讀取影片並產生快取，也受媒體庫處理方式與讀取策略約束。時間軸預覽的開關與抓取間隔控制本機磁碟影片的縮圖；擷取影格解碼方式決定產生預覽用的解碼器。",
+    "source": "生成视频预览会读取视频并产生缓存，也受媒体库处理方式与读取策略约束。时间轴预览的开关与采集间隔控制本机磁盘视频的缩略图；抽帧解码方式决定生成预览用的解码器。"
+  },
+  "guideMaintenance.reviewBody": {
+    "text": "先依分類找到待複核資料，再檢視各項目的來源和證據後做決定。",
+    "source": "先按分类找到待复核资料，再查看项目的来源和证据后作决定。"
+  },
+  "guideMaintenance.trashBody": {
+    "text": "檢視已移至資源回收筒的作品，依需要還原或處理。永久刪除前請仔細核對確認對話方塊中的範圍。",
+    "source": "查看已移入回收站的作品，按需要恢复或处理。永久删除前认真核对确认框中的范围。"
+  },
+  "guideNetwork.quickTunnelBody": {
+    "text": "適合臨時使用、可從網際網路存取的入口。",
+    "source": "适合临时使用的公网访问入口。"
+  },
+  "guidePopover.noDemoVideo": {
+    "text": "還沒有可示範的影片或控制項。先新增影片，或跳過稍後再看。",
+    "source": "还没有可演示的视频或控件。先添加视频，或跳过稍后再看。"
+  },
+  "guideTopics.manageSummary": {
+    "text": "下載連線、掃描維護、人工複核",
+    "source": "下载接入、扫描维护、人工复核"
+  },
+  "guideTopics.systemSummary": {
+    "text": "網路存取、應用程式維護、系統診斷",
+    "source": "网络访问、应用维护、系统诊断"
+  },
+  "guideViewing.miniBody": {
+    "text": "開啟小窗播放後，離開詳情可以繼續觀看。自動播放、小窗和快進間隔都在瀏覽與播放設定中。",
+    "source": "开启小窗播放后，离开详情可以继续观看。自动播放、小窗和快进步长都在浏览与播放设置中。"
+  },
+  "tutorialCenter.pathLabel": {
+    "text": "教學類型",
+    "source": "教程路径"
+  }
+}

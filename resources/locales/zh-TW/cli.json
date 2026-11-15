@@ -1,0 +1,198 @@
+{
+  "listSeparator": "、",
+  "settingsUnreadable": "{{error}}\n修好這個檔案，或者用 `peach init --force` 重新產生。",
+  "notInitialized": "這台機器還沒初始化過，先跑 `peach init`。",
+  "serve": {
+    "mdnsLoopback": "mDNS 未發布：--host {{host}} 只允許本機存取，發布 peach.local 會指向一個連不上的位址。需要區域網路存取就用 --host 0.0.0.0。",
+    "noAuthNotLoopback": "拒絕啟動：--no-auth 僅允許監聽本機位址時使用，而 --host {{host}} 不是。\n在區域網路位址上關掉登入，等於把整個館藏和寫入 API 交給同網段的任何裝置。",
+    "noToken": "拒絕啟動：--host {{host}} 允許其他裝置存取，而這台機器還沒有存取權杖。\n這樣啟動服務，同網段的任何裝置都能讀取整個館藏並呼叫寫入 API。\n先執行 `peach token` 產生並檢視權杖（存在 {{path}}），再重新啟動；只給本機使用就改成 --host 127.0.0.1。"
+  },
+  "sync": {
+    "disabled": "資料庫角色：disabled · replication.enabled = false，允許本機獨立修改資料庫",
+    "role": "資料庫角色：{{status}} · {{detail}}",
+    "conflict": "  服務轉唯讀。請人工選定一份資料庫：本機 {{local}}，共享 {{shared}}。",
+    "result": "資料庫同步：{{action}} · {{result}}",
+    "pull": "已從共享副本抓取",
+    "push": "已推送到共享副本",
+    "inSync": "兩側已經一致",
+    "takeOwnership": "本機已成為唯一寫入端"
+  },
+  "migrate": {
+    "notWriter": "本機不能遷移帳本：{{reason}}；請先在寫入端遷移並同步"
+  },
+  "status": {
+    "missingDb": "資料庫不存在：{{path}}",
+    "database": "資料庫 {{path}}",
+    "locationRow": "  {{location}}{{count}} 項{{size}} TB",
+    "total": "合計",
+    "media": "\n  媒介構成：",
+    "processing": "\n  處理進度（本機影片 {{total}} 部）：",
+    "measure": {
+      "duration": "有時長 (ffprobe)",
+      "snapshot": "有九宮格",
+      "hash": "有雜湊",
+      "creator": "有創作者歸屬",
+      "activity": "有觀看紀錄"
+    },
+    "context": "\n  情境層：",
+    "contextLength": "時長分級",
+    "contextOrient": "螢幕方向",
+    "contextQuality": "畫質",
+    "contextValue": {
+      "landscape": "橫向",
+      "long": "長",
+      "low": "低畫質",
+      "medium": "中",
+      "portrait": "直向",
+      "quick": "速食",
+      "short": "短"
+    },
+    "migrations": "\n  遷移：共 {{total}} 個，待套用 {{pending}} 個",
+    "sync": "  同步：{{action}} · {{reason}}；寫入端 {{writer}}",
+    "writerLocal": "本機",
+    "writerUnknown": "未確定"
+  },
+  "mount": {
+    "badFormat": "--mount 要寫成 來源ID=路徑，收到：{{value}}",
+    "unknownSource": "--mount 的來源 ID 未在 [media.locations] 宣告：{{key}}（已知：{{known}}）",
+    "noneDeclared": "尚未宣告媒體來源"
+  },
+  "init": {
+    "exists": "設定檔已存在：{{path}}",
+    "forceHint": "要重新產生就加 --force；它會覆蓋這個檔案，不動資料。",
+    "forceHintInteractive": "要重新產生就跑 `peach init --force`；它會覆蓋這個檔案，不動資料。",
+    "brokenNote": "注意：{{error}}",
+    "brokenRebuilt": "下面這份是按內建預設加環境變數重建的，**沒有**繼承舊檔案裡的值。",
+    "brokenRepeat": "舊檔案裡自訂過的座標要在這次命令裡用對應參數重新給一遍。",
+    "settingsFile": "設定檔：{{path}}",
+    "interviewIntro": "首次執行問答：每一題直接按 Enter 就接受方括號裡的預設值。",
+    "aborted": "{{reason}}已結束，沒有寫入任何檔案。",
+    "dataRoot": "Peach 資料目錄：{{path}}",
+    "scanSkipped": "{{reason}}跳過掃描，之後可以跑 `peach scan local`。",
+    "scanResult": "  掃描結果：{{summary}}"
+  },
+  "scan": {
+    "offline": "{{location}}：掛載點離線，未掃描",
+    "unknownSource": "✗ 未宣告的來源 {{location}}；[media.locations] 裡已知：{{known}}",
+    "noneDeclared": "（設定檔裡一個都沒有）"
+  },
+  "process": {
+    "progress": "{{stage}}：{{checked}}/{{total}}",
+    "discovered": "{{stage}}：已發現 {{count}} 個檔案",
+    "cancelled": "任務已取消，已儲存結果保留。",
+    "followups": "後續：宣告 {{declared}} 筆，加入佇列 {{queued}} 筆，已在排隊 {{duplicates}} 筆"
+  },
+  "tree": {
+    "dbExists": "資料庫已存在，跳過建庫：{{path}}",
+    "fromExistingHint": "要為現有部署產生設定檔，用 `peach init --from-existing`。",
+    "database": "資料庫：{{path}}（已套用 {{count}} 個遷移）",
+    "ca": "本機 CA：{{path}}",
+    "noCa": "未產生本機 CA（{{error}}）。裝好 openssl 後重跑 `peach init --force` 補上。"
+  },
+  "token": {
+    "path": "存取權杖：{{path}}",
+    "reused": "（沿用已有的那份）",
+    "lanHint": "綁區域網路位址的服務必須讀得到它，`peach token` 看內容。",
+    "file": "權杖檔案：{{path}}",
+    "value": "權杖：{{token}}",
+    "relogin": "已經登入過的瀏覽器要再登入一次；正在跑的服務要重新啟動才會讀到這份權杖。",
+    "shared": "兩台機器互取複核結果時發的是自己的權杖，reader 要用和 writer 相同的這份檔案。"
+  },
+  "tunnel": {
+    "state": "狀態：{{state}}",
+    "url": "網址：{{url}}",
+    "reason": "原因：{{reason}}",
+    "public": "公開網址：{{url}}",
+    "stopping": "正在停止暫時連結…"
+  },
+  "blanks": {
+    "header": "以下座標是空的（這不是錯誤，單機部署本來就該空）：",
+    "row": "  {{field}} 留空 → {{effect}}；要填就重跑並加 {{flag}}",
+    "writerOriginFlag": "--writer-origin https://<writer 的網址>",
+    "writerOriginEffect": "reader 不做複核鏡像",
+    "smbHostFlag": "--smb-host <writer 的主機名稱>",
+    "smbUserFlag": "--smb-user <鑰匙圈裡的帳號>",
+    "noSharedMount": "不掛載共享傳輸點",
+    "mounts": "  [media.mounts] 為空 → 無法讀取媒體來源的目錄；可用 --mount <媒體來源ID>=<媒體目錄> 指定目錄（已知來源：{{known}}）"
+  },
+  "next": {
+    "header": "\n下一步：",
+    "existing1": "  1. 開啟上面那個檔案核對一遍，尤其是 [media.mounts] 和 [replication]。",
+    "existing2": "  2. 重新啟動服務讓它生效。這一步之前，執行行為和現在完全一樣。",
+    "existing3": "  3. `peach token` 取權杖：綁區域網路位址的服務讀不到它就起不來，已經在用的裝置也要重新登入一次。",
+    "open": "  2. 瀏覽器開啟 http://127.0.0.1:{{port}}/ 確認頁面可用。",
+    "lanLoopback": "  3. 要在區域網路存取就改 --host 0.0.0.0，並把本機 CA 裝進各裝置的信任清單。存取密碼為可選項，在設定頁設定。",
+    "lan": "  3. 區域網路裝置要裝本機 CA。存取密碼為可選項，在設定頁設定。"
+  },
+  "sources": {
+    "intro": "檢查來源頁面與圖片 CDN；連通不代表作品資料或登入工作階段已驗證。"
+  },
+  "help": {
+    "localImage": "讀取單張隨附圖片",
+    "mediaRead": "限時讀取媒體目錄與隨附檔案",
+    "init": "首次執行：不帶參數在終端機裡問答；帶任何參數或 --no-input 走非互動",
+    "noInput": "不進入問答，按參數與內建預設直接產生",
+    "dataRoot": "Peach 資料目錄；預設沿用目前發現結果",
+    "fromExisting": "只為已在執行的部署產生設定檔，不建目錄、不建庫",
+    "force": "覆蓋已存在的設定檔",
+    "host": "服務監聽位址",
+    "port": "服務連接埠",
+    "mdnsName": "本機在區域網路發布的名字（<name>.local）",
+    "writerOrigin": "reader 複核鏡像要讀的 writer 源",
+    "writerProxy": "只對 writer 源生效的 HTTP 代理",
+    "sharedRoot": "ledger 複製的共享傳輸點",
+    "smbHost": "共享傳輸點所在主機",
+    "smbShare": "共享名",
+    "smbUser": "掛載共享用的帳號",
+    "mountMetavar": "來源ID=路徑",
+    "mount": "媒體來源 ID 與本機媒體目錄的對應關係，例如 local=/mnt/media；可重複指定",
+    "setup": "只提供首次執行表單：忽略發現到的 Peach 資料目錄，也不要權杖",
+    "noAuth": "跳過登入頁；僅允許本機存取時可用，不讀取或修改權杖檔案",
+    "scan": "掃描一個媒體來源的目錄，將檔案資訊儲存到資料庫",
+    "scanLocation": "來源 ID（asset.location），要在 [media.locations] 裡宣告過",
+    "scanRoot": "要掃描的媒體目錄；省略時讀取該來源的設定（非 Windows 系統使用 [media.mounts]）",
+    "process": "掃描檔案並補齊館藏資料",
+    "token": "檢視區域網路存取權杖，沒有就產生一份",
+    "rotate": "換一個新權杖，已簽發的 cookie 立即失效",
+    "tunnel": "執行或檢視 Cloudflare Tunnel（預設要求已設定存取密碼）",
+    "httpsPort": "原始碼服務的實際 HTTPS 連接埠（macOS 預設 8443，其他平台預設 443）",
+    "checkSources": "安裝後有限度檢查外部資料源與圖片 CDN，不讀取影片",
+    "source": "只檢查指定來源 ID；可重複指定，預設檢查全部資料源",
+    "sourcesJson": "輸出不含憑證的 JSON 結果",
+    "doctor": "逐項診斷本機設定、資料庫、工具與掛載，不執行修復",
+    "doctorJson": "輸出已遮蔽敏感資料的 JSON 報告",
+    "doctorHost": "診斷指定的服務監聽位址",
+    "doctorPort": "診斷指定的服務連接埠"
+  },
+  "server": {
+    "description": "執行透過瀏覽器管理的 Peach 服務",
+    "accessIgnored": "已有存取設定，忽略 {{env}}；要改存取密碼請到設定頁「網路與存取」。",
+    "accessRejected": "{{env}} 未採用：{{error}}。瀏覽器開啟 Peach 後會進入存取設定。",
+    "accessWriteFailed": "{{env}} 未能寫入：{{error}}",
+    "accessSet": "已按 {{env}} 設定存取密碼。",
+    "processFailed": "資料處理失敗，結束代碼 {{code}}",
+    "updateTokenFailed": "一鍵更新權杖未能產生：{{error}}",
+    "listening": "Peach 服務監聽：{{host}}:{{port}}。容器外部存取網址以主機連接埠對應為準。",
+    "firstSetup": "首次設定：從部署機器或區域網路的瀏覽器開啟 Peach，按頁面完成設定。",
+    "firstOpen": "首次開啟：從部署機器或區域網路的瀏覽器開啟 Peach，設定存取密碼或選擇免登入。",
+    "firstSignIn": "首次登入：在執行 Peach 的環境中執行 peach token 檢視權杖，登入後設定存取密碼。",
+    "lanAccess": "NAS / 區域網路存取：Compose 的 PEACH_BIND 應為主機區域網路 IP；127.0.0.1 只允許主機存取。"
+  },
+  "trayCommand": {
+    "description": "啟動 Peach 系統匣（macOS 上是選單列項目）並接管本機服務；通常不帶參數直接執行。",
+    "silent": "啟動後僅顯示系統匣",
+    "show": "啟動後開啟瀏覽器"
+  },
+  "nasSetup": {
+    "description": "產生可匯入 NAS 容器管理器的 Compose；不連線 Docker，不啟動或覆蓋已有部署。",
+    "help": {
+      "bind": "NAS 的區域網路 IP",
+      "media": "主機上已有的媒體目錄，容器裡是唯讀的 /media",
+      "hostname": "重建容器後保持這個名稱，任務仍歸同一執行端",
+      "uid": "執行 Peach 的數字 UID，預設 1000，用於沿用 NAS 共享目錄的權限",
+      "gid": "執行 Peach 的數字 GID，預設 1000",
+      "prepareRender": "渲染節點權限為 0600 時由容器入口把它交給服務的組；不修改主機節點",
+      "output": "儲存為新檔案，檔案已存在時拒絕覆蓋；預設寫到標準輸出"
+    }
+  }
+}

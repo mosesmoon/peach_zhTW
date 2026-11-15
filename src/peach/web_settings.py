@@ -47,7 +47,7 @@ DEFAULT_FOLLOW_INITIAL_DAYS = 30
 SEARCH_HISTORY_LIMIT_MAX = 50
 #: 已登记上线的界面语言，与前端 `frontend/src/i18n/index.ts` 的 `INTERFACE_LANGUAGES` 逐项一致。
 #: Weblate 新开的语言只有 `resources/locales/` 目录，翻到能用后两处一起登记。
-INTERFACE_LANGUAGES = ("zh-CN", "en")
+INTERFACE_LANGUAGES = ("zh-CN", "zh-TW", "en")
 #: 设置里能存的值：`auto` 由每个浏览器按自己的语言偏好、再按运行 Peach 的电脑的系统语言选（默认）。
 INTERFACE_LANGUAGE_CHOICES = ("auto", *INTERFACE_LANGUAGES)
 
