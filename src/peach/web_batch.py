@@ -781,6 +781,14 @@ def _add_large_short_copy_cluster(items: list[dict], clusters: list[list[dict]])
     return cluster
 
 
+def _overall_bitrate(item: dict) -> int | None:
+    """整体位元率（bit/s）：size × 8 ÷ duration；任一缺值、未量测（NULL）或量测失败（-1）时为 None。"""
+    size, duration = item.get("size"), item.get("duration")
+    if not size or not duration or size <= 0 or duration <= 0:
+        return None
+    return round(size * 8 / duration)
+
+
 def _duplicate_groups(grouped: dict[str, list[dict]]):
     """把已按番号归组的资产整理成重复项 API 结果。"""
     groups = []
@@ -792,11 +800,17 @@ def _duplicate_groups(grouped: dict[str, list[dict]]):
         for cluster in clusters:
             largest = max(cluster, key=lambda x: x.get("size") or 0)
             longest = max(cluster, key=lambda x: x.get("duration") or 0)
+            for item in cluster:
+                item["bitrate"] = _overall_bitrate(item)
+            rates = [x["bitrate"] for x in cluster if x["bitrate"]]
+            # 至少两个有值且不全相同才标「位元率最高」，否则没有可比的意义。
+            top_rate = max(rates) if len(rates) > 1 and len(set(rates)) > 1 else None
             hashes_present = [x["hash"] for x in cluster if x["hash"]]
             hashes = set(hashes_present)
             for item in cluster:
                 item["is_largest"] = item["id"] == largest["id"]
                 item["is_longest"] = item["id"] == longest["id"]
+                item["is_highest_bitrate"] = top_rate is not None and item["bitrate"] == top_rate
                 item.pop("hash", None)
                 item.pop("disposal", None)
             groups.append({
@@ -843,7 +857,7 @@ def _duplicate_listing(contract: WebContract) -> tuple[list[dict], int]:
     """没标过「都保留」的重复组（按可腾出空间从大到小）与找到的组数，各页共用这一份。"""
     with contract.read_connection() as connection:
         rows = connection.execute(
-            "SELECT id,code,location,path,name,size,duration,hash,disposal "
+            "SELECT id,code,location,path,name,size,duration,fps,width,height,hash,disposal "
             "FROM asset WHERE medium='video' AND code IS NOT NULL AND code<>'' "
             "AND disposal IS NULL"
         ).fetchall()

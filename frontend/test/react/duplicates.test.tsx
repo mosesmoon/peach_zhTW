@@ -7,8 +7,8 @@ import * as legacyUi from '@peach/legacy/ui';
 
 import { DuplicatesPage } from '../../src/react/duplicates/duplicates-page';
 import {
-  cloudPreferenceLocations, distinctName, DUPLICATES_KEY, duplicateVictims, mixedCloudPreferences, prefetchDuplicates,
-  sharedNamePrefix,
+  cloudPreferenceLocations, distinctName, DUPLICATES_KEY, duplicateVictims, formatBitrate, formatFps, formatResolution,
+  fullySelectedGroups, mixedCloudPreferences, prefetchDuplicates, pruneSelection, selectedBytes, sharedNamePrefix, toggleSelected,
   type DuplicateFile, type DuplicateGroup, type DuplicatesData,
 } from '../../src/react/duplicates/duplicates';
 import { cloudLocations, MEDIA_SOURCES_KEY, type MediaSourcesData } from '../../src/react/media-sources';
@@ -220,4 +220,102 @@ it('同组副本只在中段不同时，名字去掉共有开头、退到断词�
   expect(sharedNamePrefix(['ABC-123 一份.mp4'])).toBe('');
   expect(sharedNamePrefix(['ABC-123 part.mp4', 'ABC-123 part.mp4'])).toBe('ABC-123 part.');
   expect(distinctName('ABC-123 part.mp4', 'ABC-123 part.mp4')).toBe('ABC-123 part.mp4');
+});
+
+describe('位元率、影格率与解析度', () => {
+  it('位元率不到 1 Mbps 写 kbps，其余写 Mbps，缺值与非正数写破折号', () => {
+    expect(formatBitrate(800_000)).toBe('800 kbps');
+    expect(formatBitrate(5_240_000)).toBe('5.2 Mbps');
+    expect(formatBitrate(1_000_000)).toBe('1 Mbps');
+    expect(formatBitrate(null)).toBe('—');
+    expect(formatBitrate(0)).toBe('—');
+  });
+
+  it('影格率整数不带小数，否则最多两位；缺值写破折号', () => {
+    expect(formatFps(30)).toBe('30 fps');
+    expect(formatFps(29.97)).toBe('29.97 fps');
+    expect(formatFps(23.976023)).toBe('23.98 fps');
+    expect(formatFps(undefined)).toBe('—');
+    expect(formatResolution({ width: 1920, height: 1080 })).toBe('1920 × 1080');
+    expect(formatResolution({ width: 1920, height: null })).toBe('—');
+  });
+
+  it('每个文件行写出解析度、位元率与影格率，组内位元率最高的带标记', async () => {
+    vi.stubGlobal('fetch', fetchMock(200, {}));
+    const rich = group('ABC-009', [
+      file(11, { width: 1920, height: 1080, fps: 29.97, bitrate: 8_000_000, is_highest_bitrate: true }),
+      file(12, { bitrate: 2_000_000 }),
+    ]);
+    const { host } = await open({ total: 1, files: 2, reclaimable: GB, groups: [rich] });
+    const text = card(host, 'ABC-009').textContent!;
+    expect(text).toContain('1920 × 1080');
+    expect(text).toContain('8 Mbps');
+    expect(text).toContain('29.97 fps');
+    expect(text).toContain('2 Mbps');
+    expect(text.match(/码率最高/g)).toHaveLength(1);
+  });
+});
+
+describe('手动勾选', () => {
+  it('勾选集合可增减，数据重新载入后消失的文件被清掉，没变化时原样返回', () => {
+    const first = toggleSelected(new Set(), 1, true);
+    const both = toggleSelected(first, 3, true);
+    expect([...both]).toEqual([1, 3]);
+    expect([...toggleSelected(both, 1, false)]).toEqual([3]);
+    expect(pruneSelection(both, groups)).toBe(both);
+    expect([...pruneSelection(new Set([1, 99]), groups)]).toEqual([1]);
+  });
+
+  it('所选字节跨组合计，大小缺值按 0 算；整组都被选中才算一个都不留', () => {
+    expect(selectedBytes(groups, new Set([1, 4]))).toBe(3 * GB);
+    expect(selectedBytes([group('X-1', [file(7, { size: null })])], new Set([7]))).toBe(0);
+    expect(fullySelectedGroups(groups, new Set([1, 2]))).toBe(1);
+    expect(fullySelectedGroups(groups, new Set([1, 3]))).toBe(0);
+    expect(fullySelectedGroups(groups, new Set([1, 2, 3, 4]))).toBe(2);
+  });
+
+  const check = (host: ParentNode, name: string) => host.querySelector<HTMLInputElement>(`input[aria-label="选择 ${name}"]`);
+
+  it('跨组勾选后出现带数量与大小的浮条，确认弹层点名文件数与总大小，确认后走 dispose', async () => {
+    const seen = confirmEverything();
+    const fetcher = fetchMock(200, { ok: true });
+    vi.stubGlobal('fetch', fetcher);
+    const { host, toast } = await open();
+    expect(buttonNamed('清除选择', document.body)).toBeNull();
+    await click(check(host, 'ABC-2.mp4'));
+    await click(check(host, 'ABC-4.mp4'));
+    expect(document.body.textContent).toContain('已选 2 个 · 2.0 GB');
+    await click(buttonNamed('移入回收站', document.body));
+    await settle();
+    expect(seen[0]!.body).toContain('将所选 2 个重复文件的记录移入回收站（共 2.0 GB）');
+    expect(seen[0]!.body).not.toContain('一个都不留');
+    const batch = fetcher.mock.calls.findIndex((call) => call[0] === '/api/batch');
+    expect(sentBody(fetcher, batch)).toEqual({ ids: [2, 4], operation: 'dispose', disposal_reason: 'duplicate' });
+    expect(toast).toHaveBeenCalledWith('已把 2 项移入回收站', expect.objectContaining({ undo: expect.any(Function) }));
+  });
+
+  it('某组被全部勾选时，确认弹层明确提醒这组一个都不留', async () => {
+    const seen = confirmEverything();
+    vi.stubGlobal('fetch', fetchMock(200, { ok: true }));
+    const { host } = await open();
+    await click(check(host, 'ABC-1.mp4'));
+    await click(check(host, 'ABC-2.mp4'));
+    await click(buttonNamed('移入回收站', document.body));
+    await settle();
+    expect(seen[0]!.body).toContain('其中 1 组的文件全部被选中，这些组将一个都不留');
+  });
+
+  it('清除选择后浮条消失，取消确认什么都不发', async () => {
+    vi.spyOn(legacyUi, 'confirmModal').mockImplementation((async () => ({ confirmed: false })) as typeof legacyUi.confirmModal);
+    const fetcher = fetchMock(200, { ok: true });
+    vi.stubGlobal('fetch', fetcher);
+    const { host } = await open();
+    await click(check(host, 'ABC-3.mp4'));
+    await click(buttonNamed('移入回收站', document.body));
+    await settle();
+    expect(fetcher.mock.calls.some((call) => call[0] === '/api/batch')).toBe(false);
+    await click(buttonNamed('清除选择', document.body));
+    await settle();
+    expect(check(host, 'ABC-3.mp4')!.checked).toBe(false);
+  });
 });

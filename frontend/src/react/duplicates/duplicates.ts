@@ -29,8 +29,16 @@ export interface DuplicateFile {
   drive: string;
   size: number | null;
   duration: number | null;
+  width?: number | null;
+  height?: number | null;
+  /** 影格率，ffprobe 没量到时为空。 */
+  fps?: number | null;
+  /** 整体位元率（bit/s）：服务端按 size × 8 ÷ duration 折算，缺值时为空。 */
+  bitrate?: number | null;
   is_largest: boolean;
   is_longest: boolean;
+  /** 组内至少两个有位元率且不全相同时，最高的那些。 */
+  is_highest_bitrate?: boolean;
 }
 
 export interface DuplicateGroup {
@@ -155,6 +163,45 @@ export async function batchOperate(ids: readonly number[], operation: 'dispose' 
       ...(operation === 'dispose' ? { disposal_reason: 'duplicate' } : {}) });
   }
 }
+
+/** 位元率那一格的文字：不到 1 Mbps 写 kbps，其余写 Mbps，数字按界面语言格式化；缺值为「—」。 */
+export function formatBitrate(bitsPerSecond: number | null | undefined): string {
+  if (!bitsPerSecond || !(bitsPerSecond > 0)) return '—';
+  return bitsPerSecond >= 1e6
+    ? t('cleanup:duplicates.bitrateMbps', { value: bitsPerSecond / 1e6 })
+    : t('cleanup:duplicates.bitrateKbps', { value: bitsPerSecond / 1e3 });
+}
+
+/** 影格率那一格的文字：整数不带小数（30 fps），否则最多两位（29.97 fps）；缺值为「—」。 */
+export const formatFps = (fps: number | null | undefined): string =>
+  fps && fps > 0 ? t('cleanup:duplicates.fps', { value: fps }) : '—';
+
+/** 解析度那一格的文字：宽高缺一就是「—」。 */
+export const formatResolution = (file: Pick<DuplicateFile, 'width' | 'height'>): string =>
+  file.width && file.height ? `${file.width} × ${file.height}` : '—';
+
+/** 勾选集合里翻转一个文件，返回新集合。 */
+export function toggleSelected(selected: ReadonlySet<number>, id: number, on: boolean): Set<number> {
+  const next = new Set(selected);
+  if (on) next.add(id); else next.delete(id);
+  return next;
+}
+
+/** 数据重新载入后，已经不在页面上的文件从勾选里去掉；没有变化时原样返回。 */
+export function pruneSelection(selected: ReadonlySet<number>, groups: readonly DuplicateGroup[]): ReadonlySet<number> {
+  if (!selected.size) return selected;
+  const present = new Set(groups.flatMap((group) => group.files.map((file) => file.id)));
+  const kept = [...selected].filter((id) => present.has(id));
+  return kept.length === selected.size ? selected : new Set(kept);
+}
+
+/** 所选文件的字节合计，大小缺值按 0 算。 */
+export const selectedBytes = (groups: readonly DuplicateGroup[], selected: ReadonlySet<number>): number =>
+  victimBytes(groups, [...selected]);
+
+/** 文件全部被勾选、一个都不留的组数。 */
+export const fullySelectedGroups = (groups: readonly DuplicateGroup[], selected: ReadonlySet<number>): number =>
+  groups.filter((group) => group.files.length > 0 && group.files.every((file) => selected.has(file.id))).length;
 
 /** 页头说明行与汇总块那一句。 */
 export const duplicatesLede = (data: DuplicatesData, formatSize: (bytes: number) => string) =>

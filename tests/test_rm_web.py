@@ -3770,21 +3770,67 @@ class DuplicateDetectionTests(unittest.TestCase):
         self.next_id = 1
         self.contract = rm_web.WebContract(Path(self.db_path))
 
-    def add(self, code, duration, size, drive="B", name=None, hash_=None):
+    def add(self, code, duration, size, drive="B", name=None, hash_=None,
+            fps=None, width=None, height=None):
         asset_id = self.next_id
         self.next_id += 1
         self.con.execute(
             "INSERT INTO asset(id,location,path,name,medium,code,size,duration,"
-            "hash,first_seen) VALUES(?,'local',?,?,'video',?,?,?,?,'2026-08-19')",
+            "hash,fps,width,height,first_seen) "
+            "VALUES(?,'local',?,?,'video',?,?,?,?,?,?,?,'2026-08-19')",
             # 默认名不能以数字结尾：`ABW-232-1.mp4` 会被正确识别成分卷标记，
             # 于是每个夹具文件都成了「不同部分」。用 ripN 避开这个约定。
             (asset_id, rf"{drive}:\{asset_id}.mp4", name or f"{code} rip{asset_id}.mp4",
-             code, size, duration, hash_))
+             code, size, duration, hash_, fps, width, height))
         self.con.commit()
         return asset_id
 
     def groups(self):
         return rm_web.q_duplicates(self.contract, {"limit": "50"})
+
+    def files_by_id(self):
+        return {item["id"]: item for item in self.groups()["groups"][0]["files"]}
+
+    def test_files_carry_fps_resolution_and_overall_bitrate(self):
+        high = self.add("ABW-240", 100, 1_250_000_000, fps=29.97, width=1920, height=1080)
+        low = self.add("ABW-240", 100, 500_000_000)
+        files = self.files_by_id()
+        self.assertEqual(files[high]["bitrate"], 100_000_000)
+        self.assertEqual(files[high]["fps"], 29.97)
+        self.assertEqual((files[high]["width"], files[high]["height"]), (1920, 1080))
+        self.assertEqual(files[low]["bitrate"], 40_000_000)
+        self.assertIsNone(files[low]["fps"])
+        self.assertIsNone(files[low]["width"])
+
+    def test_bitrate_is_unknown_without_a_positive_size_and_duration(self):
+        """duration 为 -1（量测失败）或 NULL（未量测）、size 缺失或为 0 时没有位元率。"""
+        full = self.add("ABW-241", 100, 1_000_000_000, name="ABW-241.mp4")
+        failed = self.add("ABW-241", -1, 900_000_000, name="ABW-241.mp4")
+        unprobed = self.add("ABW-241", None, 800_000_000, name="ABW-241.mp4")
+        no_size = self.add("ABW-241", 100, None, name="ABW-241.mp4")
+        zero_size = self.add("ABW-241", 100, 0, name="ABW-241.mp4")
+        files = self.files_by_id()
+        self.assertEqual(files[full]["bitrate"], 80_000_000)
+        for asset_id in (failed, unprobed, no_size, zero_size):
+            self.assertIsNone(files[asset_id]["bitrate"], asset_id)
+            self.assertFalse(files[asset_id]["is_highest_bitrate"])
+
+    def test_the_highest_bitrate_file_is_flagged(self):
+        small = self.add("ABW-242", 7200, 3_000_000_000)
+        big = self.add("ABW-242", 7200, 5_000_000_000)
+        files = self.files_by_id()
+        self.assertTrue(files[big]["is_highest_bitrate"])
+        self.assertFalse(files[small]["is_highest_bitrate"])
+
+    def test_no_highest_bitrate_when_only_one_or_all_equal(self):
+        self.add("ABW-243", 7200, 3_000_000_000, name="ABW-243.mp4")
+        self.add("ABW-243", 7200, None, name="ABW-243.mp4")
+        self.assertFalse(any(f["is_highest_bitrate"] for f in self.groups()["groups"][0]["files"]))
+        self.add("ABW-244", 7200, 3_000_000_000)
+        self.add("ABW-244", 7200, 3_000_000_000)
+        flags = [f["is_highest_bitrate"] for g in self.groups()["groups"]
+                 if g["code"] == "ABW-244" for f in g["files"]]
+        self.assertEqual(flags, [False, False])
 
     def test_same_duration_rips_are_a_duplicate_cluster(self):
         self.add("ABW-232", 7200, 5_000_000_000)
