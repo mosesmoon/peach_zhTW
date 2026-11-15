@@ -1,4 +1,4 @@
-"""公开测试版查询；传输复用共享 HTTPX，发行包支持 R2 与 GitHub。"""
+"""公开测试版查询；传输复用共享 HTTPX，版本清单与发行包只取这份 fork 的 GitHub Release（ADR-0202）。"""
 from __future__ import annotations
 
 import json
@@ -14,10 +14,11 @@ from .update_packages import TOOL_PATHS
 from . import interface_text, release_words
 from .user_messages import UserValueError, message_fields
 
-RELEASES_URL = "https://github.com/peach-mitao/peach/releases"
-API_URL = "https://api.github.com/repos/peach-mitao/peach/releases?per_page=100"
-DOWNLOADS_BASE = "https://downloads.peach.video"
-DOWNLOADS_API = DOWNLOADS_BASE + "/releases.json"
+#: 更新来源：这份 fork 的 GitHub 仓库。版本清单、Release 页与下载地址都由它组出，
+#: 同步上游时这是唯一要处理冲突的地方；不再使用上游的下载站。
+REPOSITORY = "mosesmoon/peach_zhTW"
+RELEASES_URL = f"https://github.com/{REPOSITORY}/releases"
+API_URL = f"https://api.github.com/repos/{REPOSITORY}/releases?per_page=100"
 #: 检查结果的形状；改了就让缓存的旧结果作废、后台按新规则重查一次。v2 起带更新说明 `notes`。
 LISTING_RULE = 'source-aware-v2'
 #: 有新版本时最多列出几版的更新说明，更早的看 Release 页。
@@ -45,12 +46,11 @@ def _message(key: str, **params) -> dict:
 
 
 def download_sources(url: str) -> tuple[str, ...]:
-    """发行包保留同版本、同文件名的另一公开源；校验沿用原发布摘要。"""
-    github = RELEASES_URL + "/download/"
-    mirror = DOWNLOADS_BASE + "/"
-    for primary, backup in ((github, mirror), (mirror, github)):
-        if url.startswith(primary):
-            return url, backup + url.removeprefix(primary)
+    """发行包的下载来源：只有 fork 的 GitHub Release 这一个，没有备用源。
+
+    保留成函数是为了让下载与签名核对按「来源列表」逐个尝试的写法不变；以后若 fork 增加镜像，
+    只改这里。
+    """
     return (url,)
 
 
@@ -80,8 +80,8 @@ def _version(value: object) -> tuple[int, ...] | None:
     return tuple(map(int, value.removeprefix("v").split(".")))
 
 
-def _release_candidates(rows: list, endpoint: str, system: str = "win32", machine: str = "") -> list[tuple]:
-    """从一个公开发行源选择本机平台的完整包，并构造受信任的下载地址。
+def _release_candidates(rows: list, system: str = "win32", machine: str = "") -> list[tuple]:
+    """从 GitHub Release 列表选择本机平台的完整包，并构造受信任的下载地址（只指向本 fork 的 Release）。
 
     macOS 选与本机架构同名的 DMG（`build_macos_standalone.py` 按 `platform.machine()` 命名），
     没有分包与工具包；其余平台沿用 Windows 包判断有无新版本。
@@ -107,12 +107,7 @@ def _release_candidates(rows: list, endpoint: str, system: str = "win32", machin
                 continue
             complete_tools = all(prefix + f"-tools-{tool}.zip" in uploaded for tool in TOOL_PATHS)
             asset = uploaded.get(prefix + "-update.zip", full) if complete_tools else full
-        if endpoint == DOWNLOADS_API:
-            if not all(re.fullmatch(r"sha256:[0-9a-f]{64}", item.get("digest") or "") for item in (asset, full)):
-                continue
-            directory = f"{DOWNLOADS_BASE}/{tag}"
-        else:
-            directory = f"{RELEASES_URL}/download/{tag}"
+        directory = f"{RELEASES_URL}/download/{tag}"
         release_url = f"{RELEASES_URL}/tag/{tag}"
         releases.append((version, tag, asset, full, directory, release_url))
     return releases
@@ -175,33 +170,36 @@ def _release_notes(rows: list, current: tuple[int, ...], latest: tuple[int, ...]
 
 
 def _listings(client):
-    """两个公开发行源的发布列表，取不到的源跳过：逐个给出 `(endpoint, rows)`。"""
-    for endpoint in (API_URL, DOWNLOADS_API):
-        try:
-            headers = {"Accept": "application/json"}
-            if endpoint == API_URL:
-                headers.update(Accept="application/vnd.github+json", **{"X-GitHub-Api-Version": "2022-11-28"})
-            response = client(HttpRequest("GET", endpoint, headers), 12.0, 2_000_000)
-            if response.status != 200:
-                continue
-            rows = json.loads(response.body)
-        except (OSError, ValueError, TypeError, TimeoutError, httpx.HTTPError):
-            continue
-        if isinstance(rows, list):
-            yield endpoint, rows
+    """fork 的 GitHub Release 列表（一份）：取不到就不产出（调用方按「没查成」处理）。
+
+    404（仓库还没有公开的发布）按空列表处理，让检查回报「暂未找到」而不是报错。
+    """
+    try:
+        headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+        response = client(HttpRequest("GET", API_URL, headers), 12.0, 2_000_000)
+        if response.status == 404:
+            yield []
+            return
+        if response.status != 200:
+            return
+        rows = json.loads(response.body)
+    except (OSError, ValueError, TypeError, TimeoutError, httpx.HTTPError):
+        return
+    if isinstance(rows, list):
+        yield rows
 
 
 def tool_package(tool: str, *, transport=None) -> dict:
     """最新公开版本里的 Windows 工具包 `Peach-<版本>-windows-x64-tools-<tool>.zip`。
 
     源码运行的版本号不一定有同名发布（主线可能已在下一版），所以不按本机版本拼地址，
-    取两个源里最新的那份；工具包与程序版本无关，包内 `manifest.json` 自带工具版本。
-    返回 `url`、`size`、`digest`（`sha256:` 前缀）与 `version`；两个源都没有时抛 ValueError。
+    取 Release 列表里最新的那份；工具包与程序版本无关，包内 `manifest.json` 自带工具版本。
+    返回 `url`、`size`、`digest`（`sha256:` 前缀）与 `version`；列表里没有时抛 ValueError。
     """
     client = transport or HttpxTransport()
     try:
         found = []
-        for endpoint, rows in _listings(client):
+        for rows in _listings(client):
             for row in rows:
                 version = _version(row.get("tag_name")) if isinstance(row, dict) and not row.get("draft") else None
                 if version is None:
@@ -213,8 +211,7 @@ def tool_package(tool: str, *, transport=None) -> dict:
                 if (asset is None or not re.fullmatch(r"sha256:[0-9a-f]{64}", asset.get("digest") or "")
                         or not isinstance(asset.get("size"), int)):
                     continue
-                directory = f"{DOWNLOADS_BASE}/{tag}" if endpoint == DOWNLOADS_API else f"{RELEASES_URL}/download/{tag}"
-                found.append((version, {"url": f"{directory}/{name}", "size": asset["size"],
+                found.append((version, {"url": f"{RELEASES_URL}/download/{tag}/{name}", "size": asset["size"],
                                         "digest": asset["digest"], "version": tag.removeprefix("v")}))
         if not found:
             raise UserValueError("errors.releaseUpdates.toolPackageNotFound")
@@ -231,17 +228,13 @@ def check(*, transport=None, system: str | None = None, machine: str | None = No
     client = transport or HttpxTransport()
     try:
         releases = []
-        github_releases = []
         listed = []
         obtained = False
-        for endpoint, rows in _listings(client):
+        for rows in _listings(client):
             obtained = True
             listed.extend(rows)
             try:
-                candidates = _release_candidates(rows, endpoint, system, machine)
-                releases.extend(candidates)
-                if endpoint == API_URL:
-                    github_releases = candidates
+                releases.extend(_release_candidates(rows, system, machine))
             except (ValueError, TypeError):
                 continue
         if not releases:
@@ -250,8 +243,6 @@ def check(*, transport=None, system: str | None = None, machine: str | None = No
         current = _version(result["current_version"])
         if current is None:
             raise ValueError("current version required")
-        if version <= current and not github_releases:
-            return dict(result, state="error", **_message("staleListing"))
         state = "available" if version > current else "ahead" if version < current else "current"
         message = _message(state)
         if state == "available":

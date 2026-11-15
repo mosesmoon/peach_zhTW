@@ -276,9 +276,14 @@ class SparkleUpdateTests(TestCase):
 
         with mock.patch.object(sparkle_update, "PUBLIC_ED_KEY", None):
             self.assertEqual(sparkle_update.info_plist_keys("arm64"), {})
+        # fork 没有 appcast：FEED_URL 为 None 时即使有公钥也不写任何 Sparkle 键，不会指向上游（ADR-0202）。
+        self.assertIsNone(sparkle_update.FEED_URL)
         with mock.patch.object(sparkle_update, "PUBLIC_ED_KEY", "cHVibGlj"):
+            self.assertEqual(sparkle_update.info_plist_keys("arm64"), {})
+        feed = "https://updates.example.test/sparkle/macos-{architecture}.xml"
+        with mock.patch.object(sparkle_update, "PUBLIC_ED_KEY", "cHVibGlj"),                 mock.patch.object(sparkle_update, "FEED_URL", feed):
             keys = sparkle_update.info_plist_keys("x86_64")
-        self.assertEqual(keys["SUFeedURL"], "https://downloads.peach.video/sparkle/macos-x86_64.xml")
+        self.assertEqual(keys["SUFeedURL"], "https://updates.example.test/sparkle/macos-x86_64.xml")
         self.assertEqual(keys["SUPublicEDKey"], "cHVibGlj")
         self.assertIs(keys["SUVerifyUpdateBeforeExtraction"], True)
         self.assertIs(keys["SUAllowsAutomaticUpdates"], False)

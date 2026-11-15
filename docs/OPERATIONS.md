@@ -112,7 +112,7 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/io.github.longmeidao.pea
 
 1. 私钥在 GitHub 仓库 `release` environment 的 secret `SPARKLE_ED_PRIVATE_KEY`，该 environment 只允许 `v*` 标签部署；维护者另有离线备份。ad-hoc 签名下无法轮换，丢失后已装客户端只能手动重装。导入 Mac 钥匙串用 Sparkle 发布包的 `generate_keys -f <私钥文件>`。
 2. 同一 environment 需要 R2 的 secret `PEACH_R2_ACCESS_KEY_ID`、`PEACH_R2_SECRET_ACCESS_KEY`、`PEACH_R2_ENDPOINT` 与变量 `PEACH_R2_BUCKET`。
-3. 仓库变量 `SPARKLE_APPCAST_ENABLED` 为 `true` 时，每个版本标签在 GitHub Release 公开后运行 `sparkle-appcast` 作业：官方 `generate_appcast` 生成两个架构的 appcast，`scripts/sparkle_appcast.py` 补写迁移号并核对版本、下载地址与大小，官方 `sign_update --verify` 核对签名，最后上传到 `https://downloads.peach.video/sparkle/macos-<架构>.xml`。没有 appcast 时，Sparkle 的检查会报更新源不可用。
+3. 仓库变量 `SPARKLE_APPCAST_ENABLED` 为 `true` 时，每个版本标签在 GitHub Release 公开后运行 `sparkle-appcast` 作业：官方 `generate_appcast` 生成两个架构的 appcast，`scripts/sparkle_appcast.py` 补写迁移号并核对版本、下载地址与大小，官方 `sign_update --verify` 核对签名，最后上传到 `https://downloads.peach.video/sparkle/macos-<架构>.xml`。这份 fork 的 `sparkle_update.FEED_URL` 为 None，Sparkle 不启用（[ADR-0202](adr/0202-update-source-is-the-fork-github-releases.md)）；上游发布流程的这一步与 fork 无关。
 4. 第一个带公钥的版本须手动安装一次；之后的版本才能经 Sparkle 更新。在真机按 ADR-0130「未取得的证据」逐项验收。
 
 ### Windows 应用内更新的发布签名
@@ -164,7 +164,7 @@ GitLab 演练通过 R2 暂存传递媒体工具、Windows 发行目录、macOS �
 
 上传期间的完成构建保存在 `CI_BUILDS_DIR/.peach-upload-resume/` 的独立身份目录。R2 部分上传失败后，同机重试核对备份大小与 SHA-256，继续传到原作业前缀；完整上传清单登记后回收本组备份。机器更换且没有完整远端清单时需重新构建，不拼接未知来源文件。
 
-Windows 轻量安装器缺少本地工具包时，先从 R2 下载当前版本的工具；连接失败或内容校验失败时，尝试 GitHub 的同版本文件。两个来源均须匹配安装器内置清单的大小与 SHA-256，不能混用其他版本。发布完成后，用 `scripts/smoke_split_update.py` 的 `--prepare-with-app --online` 在空缓存中运行实际制品，核对联网取得的工具能否重建完整程序。GitLab Release 的下载表使用 R2，资产区另列 GitGud 副本，文档链接指向对应版本标签。
+Windows 轻量安装器缺少本地工具包时，从 fork 的 GitHub Release 下载当前版本的工具（上游流程曾先试 R2，fork 不使用），须匹配安装器内置清单的大小与 SHA-256。发布完成后，用 `scripts/smoke_split_update.py` 的 `--prepare-with-app --online` 在空缓存中运行实际制品，核对联网取得的工具能否重建完整程序。GitLab Release 的下载表使用 R2，资产区另列 GitGud 副本，文档链接指向对应版本标签。
 
 已装的独立包用自己的代码读新版本的发布条目与更新包，发版时改不了。`build-windows` 拆包后运行 `scripts/update_compat.py`，用 0.48.0 起每个已发布版本标签里的更新代码原样读这一版：选不中新版本、读不了工具清单，或清单里有旧版不认得、运行时又补不齐的工具时，作业失败，不上传任何文件。本机测试用合成制品跑同一道核对，检出须带发布标签。客户端只准备自己认得、清单里也有的工具；应用更新包用不了时改下同版本完整包。0.47.3 及更早的版本读不了 0.48 起的清单，需手动运行一次完整安装包。依据见 [ADR-0120](adr/0120-standalone-update-client-compatibility.md)。
 
@@ -856,8 +856,8 @@ Windows 托盘在取得单实例锁后启动独立监视器。监视器用 Win32
 
 ### 版本、更新与自我重启
 
-- 独立包的版本检查读取 GitHub 公开发行记录与 R2 公开清单，选择可下载的最高版本；同版本优先 GitHub。R2 制品必须具有 SHA-256，发行说明统一指向 GitHub。任一来源不可用时仍检查另一来源，两个来源都未取得时显示检查失败。
-- 更新包、完整包和轻量安装器的工具包下载失败或校验不符时，尝试另一公开源的同版本、同文件名；每次都按原发布记录的大小与 SHA-256 校验。备源不能替换为其他版本或放宽校验，两个来源都失败时保留错误状态。
+- 独立包的版本检查只读 fork 仓库（`release_updates.REPOSITORY`）的 GitHub Release 列表，选择可下载的最高版本，发行说明指向同一 Release；不再使用上游下载站。列表为空或仓库尚无发布时显示「暂未找到可下载的测试版」，未取得时显示检查失败（[ADR-0202](adr/0202-update-source-is-the-fork-github-releases.md)）。
+- 更新包、完整包和轻量安装器的工具包只从同一 GitHub Release 下载，按发布记录的大小与 SHA-256 校验；下载失败或校验不符时保留错误状态，不改用其他来源。
 - `release_signing.PUBLIC_KEYS` 非空时，Windows 更新器下载前先取同版本的 `SHA256SUMS.txt` 与 `SHA256SUMS.txt.sig`，用随包公钥验过签名后，更新包与完整包只按签过名的摘要校验；两个来源都验不过就停在当前版本，提示到发布页手动下载（[ADR-0137](adr/0137-release-sums-ed25519-signature.md)）。
 
 - 版本号只在 `src/peach/__init__.py::__version__` 里定义，采用 pre-1.0 SemVer。Git 提交是构建标识，`vX.Y.Z` 标签是发布点，推到 GitHub 就触发 Release 工作流（见「桌面入口与发布」）。

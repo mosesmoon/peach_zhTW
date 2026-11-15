@@ -12,6 +12,7 @@ import time
 from datetime import datetime, timezone
 
 from . import __version__, distribution
+from .release_updates import RELEASES_URL as _RELEASES_URL
 from .profiles import DEFAULT_PROFILE_ID, read_settings
 from . import interface_text
 from .release_notices import NOTICES
@@ -28,7 +29,8 @@ PLATFORM_TOKENS = frozenset({'windows', 'macos', 'linux', 'docker', 'standalone'
 #: `when` 可用的条件，由调用方按本机数据给出。
 FACTS = frozenset({'display_reprobe', 'system_files', 'garbled_performers', 'javdb_entries',
                    'display_cloud_pending'})
-RELEASES_URL = 'https://github.com/peach-mitao/peach/releases/tag/v'
+#: 公告里「查看这一版」的链接，与更新检查同一个 fork 仓库（`release_updates.REPOSITORY`）。
+RELEASES_URL = _RELEASES_URL + '/tag/v'
 
 
 def version_key(version: str) -> tuple[int, ...]:

@@ -4,8 +4,9 @@ Sparkle 在菜单栏进程的主线程里运行：检查、下载、EdDSA 校验
 安装前做两件 Windows 更新器也做的事——读取端不装需要迁移账本的版本，装之前让任务保存
 进度并停掉自己拉起的服务。
 
-`PUBLIC_ED_KEY` 为 None 时整套不启用：构建不写 `SUPublicEDKey`，菜单栏沿用版本检查加
-DMG 下载。ad-hoc 签名下这把公钥无法轮换（ADR-0130），设置或更换都要先改 ADR。
+`PUBLIC_ED_KEY` 或 `FEED_URL` 为 None 时整套不启用：构建不写 `SUFeedURL` 与 `SUPublicEDKey`，
+菜单栏沿用版本检查加 DMG 下载。这份 fork 没有 appcast，`FEED_URL` 为 None（ADR-0202）。
+ad-hoc 签名下这把公钥无法轮换（ADR-0130），设置或更换都要先改 ADR。
 """
 from __future__ import annotations
 
@@ -25,7 +26,9 @@ def _text(key: str, **params) -> str:
 
 LOGGER = logging.getLogger(__name__)
 
-FEED_URL = "https://downloads.peach.video/sparkle/macos-{architecture}.xml"
+#: appcast 地址模板；None 表示没有可用的更新源。fork 不发布 appcast，也没有上游那把私钥能签名，
+#: 所以保持 None，Sparkle 不启用，不去查上游的更新源。要启用须同时换 `PUBLIC_ED_KEY`（见 ADR-0202）。
+FEED_URL: str | None = None
 #: EdDSA 公钥（base64，32 字节），2026-11-02 生成；私钥在 GitHub `release` 环境的 secret 与维护者的离线备份里。
 PUBLIC_ED_KEY: str | None = "iSagMtxBRMOuBVruHAWuSkhh/zwz+k5GC0p497nbMsM="
 #: appcast 条目里新版本最高迁移号的元素名；Sparkle 以限定名为键放进 `propertiesDictionary`。
@@ -34,8 +37,8 @@ MIGRATION_NAMESPACE = "https://peach.video/xml-namespaces/sparkle"
 
 
 def info_plist_keys(architecture: str) -> dict:
-    """构建写进 `Info.plist` 的 Sparkle 键；没有公钥时一个都不写。"""
-    if PUBLIC_ED_KEY is None:
+    """构建写进 `Info.plist` 的 Sparkle 键；没有公钥或没有更新源时一个都不写。"""
+    if PUBLIC_ED_KEY is None or FEED_URL is None:
         return {}
     return {
         "SUFeedURL": FEED_URL.format(architecture=architecture),

@@ -26,7 +26,9 @@ def _blocked(name: str, **params) -> dict:
     return {"available": False, "reason": interface_text.text(f"server:{code}", params),
             "reason_code": code, "reason_params": params}
 
-REPOSITORY = "longmeidao/peach"
+#: 镜像仓库名。这份 fork 不发布镜像，留空：`published` 不询问任何镜像仓库，容器里只报「镜像尚未发布」，
+#: 不会提示去拉上游的镜像（ADR-0202）。
+REPOSITORY: str | None = None
 REGISTRY = "https://registry-1.docker.io"
 REGISTRY_AUTH = "https://auth.docker.io/token"
 #: 版本号标签与 `edge` 用同一组内容协商，比较的才是同一种文档的摘要。
@@ -87,7 +89,9 @@ def _digest(transport, tag: str, token: str) -> str | None:
 
 
 def published(transport, version: str) -> bool:
-    """版本号标签已推送且 `edge` 指向同一镜像。只读 manifest 摘要，不下载镜像层。"""
+    """版本号标签已推送且 `edge` 指向同一镜像。只读 manifest 摘要，不下载镜像层。没有登记镜像仓库时恒为否。"""
+    if REPOSITORY is None:
+        return False
     response = transport(HttpRequest("GET", REGISTRY_AUTH + "?service=registry.docker.io&scope=repository:"
                                      + REPOSITORY + ":pull", {"Accept": "application/json"}), 12.0, 64_000)
     if response.status != 200:

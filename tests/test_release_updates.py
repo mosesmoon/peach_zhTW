@@ -25,72 +25,6 @@ class ReleaseUpdateTests(unittest.TestCase):
         windows.start()
         self.addCleanup(windows.stop)
 
-    def test_r2_release_is_available_when_github_is_unavailable_and_uses_verified_digest(self):
-        row = release("1.0.0")
-        row["assets"][0].update(size=123, digest="sha256:" + "a" * 64,
-                                browser_download_url="https://untrusted.invalid/package.zip")
-
-        def transport(request, *_args):
-            if request.url == release_updates.API_URL:
-                raise httpx.ConnectError("GitHub unavailable")
-            return HttpResponse(200, {}, json.dumps([row]).encode())
-
-        with patch.object(release_updates, "__version__", "0.9.0"):
-            result = release_updates.check(transport=transport)
-        self.assertEqual(result["state"], "available")
-        self.assertEqual(result["asset_url"], "https://downloads.peach.video/v1.0.0/Peach-1.0.0-windows-x64.zip")
-        self.assertEqual(result["asset_digest"], "sha256:" + "a" * 64)
-        self.assertEqual(result["release_url"], release_updates.RELEASES_URL + "/tag/v1.0.0")
-
-    def test_latest_version_can_come_from_either_source_and_r2_requires_a_digest(self):
-        r2 = release("1.0.0")
-        github = release("2.0.0")
-
-        def transport(request, *_args):
-            row = r2 if request.url == release_updates.DOWNLOADS_API else github
-            return HttpResponse(200, {}, json.dumps([row]).encode())
-
-        self.assertEqual(release_updates.check(transport=transport)["latest_version"], "2.0.0")
-        r2["assets"][0]["digest"] = "sha256:" + "a" * 64
-        r2["tag_name"] = "v3.0.0"
-        r2["assets"][0]["name"] = "Peach-3.0.0-windows-x64.zip"
-        self.assertEqual(release_updates.check(transport=transport)["latest_version"], "3.0.0")
-
-    def test_mirror_without_newer_release_cannot_confirm_current_or_ahead(self):
-        for github_status, github_body in ((403, []), (200, {}), (200, []),
-                                            (200, [dict(release("0.56.0"), assets=[])])):
-            for mirror_version in ("0.50.0", "0.54.0"):
-                with self.subTest(github_status=github_status, github_body=github_body,
-                                  mirror_version=mirror_version):
-                    row = release(mirror_version)
-                    row["assets"][0]["digest"] = "sha256:" + "a" * 64
-
-                    def transport(request, *_args, github_status=github_status,
-                                  github_body=github_body, row=row):
-                        if request.url == release_updates.API_URL:
-                            return HttpResponse(github_status, {}, json.dumps(github_body).encode())
-                        return HttpResponse(200, {}, json.dumps([row]).encode())
-
-                    with patch.object(release_updates, "__version__", "0.54.0"):
-                        result = release_updates.check(transport=transport)
-                    self.assertEqual(result["state"], "error")
-                    self.assertIsNone(result["latest_version"])
-                    self.assertNotIn("asset_url", result)
-
-    def test_current_macos_mirror_without_github_cannot_confirm_no_update(self):
-        row = release("0.54.0")
-        row["assets"].append({"name": "Peach-0.54.0-macos-arm64.dmg", "state": "uploaded",
-                              "digest": "sha256:" + "a" * 64})
-
-        def transport(request, *_args):
-            return HttpResponse(403 if request.url == release_updates.API_URL else 200,
-                                {}, json.dumps([row]).encode())
-
-        with patch.object(release_updates, "__version__", "0.54.0"):
-            result = release_updates.check(transport=transport, system="darwin", machine="arm64")
-        self.assertEqual(result["state"], "error")
-        self.assertIsNone(result["latest_version"])
-
     def check(self, rows, status=200):
         transport = Mock(return_value=HttpResponse(status, {}, json.dumps(rows).encode()))
         with patch.object(release_updates, "__version__", "0.9.0"):
@@ -184,23 +118,17 @@ class ReleaseUpdateTests(unittest.TestCase):
             self.assertEqual(result["state"], "error")
             self.assertIsNone(result["latest_version"])
 
-    def test_github_can_report_current_and_ahead_when_r2_is_unavailable(self):
-        def transport(github_version):
-            def answer(request, *_args):
-                if request.url == release_updates.DOWNLOADS_API:
-                    raise httpx.ConnectError("R2 unreachable")
-                return HttpResponse(200, {}, json.dumps([release(github_version)]).encode())
-            return answer
+    def test_update_source_is_the_forks_github_releases_and_every_address_derives_from_it(self):
+        repository = release_updates.REPOSITORY
+        self.assertEqual(release_updates.RELEASES_URL, f"https://github.com/{repository}/releases")
+        self.assertEqual(release_updates.API_URL, f"https://api.github.com/repos/{repository}/releases?per_page=100")
+        self.assertNotIn("peach-mitao", release_updates.RELEASES_URL + release_updates.API_URL)
+        self.assertFalse(hasattr(release_updates, "DOWNLOADS_BASE"), "上游下载站不再是清单来源")
+        self.assertFalse(hasattr(release_updates, "DOWNLOADS_API"))
+        from peach import release_notice
+        self.assertEqual(release_notice.RELEASES_URL, release_updates.RELEASES_URL + "/tag/v")
 
-        with patch.object(release_updates, "__version__", "0.48.2"):
-            for version, state in (("0.46.1", "ahead"), ("0.48.2", "current")):
-                with self.subTest(github=version):
-                    result = release_updates.check(transport=transport(version))
-                    self.assertEqual(result["state"], state)
-            self.assertEqual(release_updates.check(transport=transport("0.49.0"))["state"], "available",
-                             "GitHub 上真有更新的版本时照样可以升")
-
-    def test_identical_versions_prefer_github_downloads(self):
+    def test_a_check_only_asks_github_and_offers_only_github_download_addresses(self):
         row = release("1.0.0")
         row["assets"][0].update(size=123, digest="sha256:" + "a" * 64)
         calls = []
@@ -209,9 +137,70 @@ class ReleaseUpdateTests(unittest.TestCase):
             calls.append(request.url)
             return HttpResponse(200, {}, json.dumps([row]).encode())
 
-        result = release_updates.check(transport=transport)
-        self.assertEqual(calls, [release_updates.API_URL, release_updates.DOWNLOADS_API])
-        self.assertEqual(result["asset_url"], release_updates.RELEASES_URL + "/download/v1.0.0/Peach-1.0.0-windows-x64.zip")
+        with patch.object(release_updates, "__version__", "0.9.0"):
+            result = release_updates.check(transport=transport)
+        self.assertEqual(calls, [release_updates.API_URL])
+        prefix = release_updates.RELEASES_URL + "/download/v1.0.0/"
+        self.assertEqual(result["asset_url"], prefix + "Peach-1.0.0-windows-x64.zip")
+        self.assertTrue(result["full_url"].startswith(prefix))
+        self.assertEqual(release_updates.download_sources(result["asset_url"]), (result["asset_url"],))
+        self.assertEqual(release_updates.download_sources(prefix + "SHA256SUMS.txt"), (prefix + "SHA256SUMS.txt",))
+        for url in ("https://downloads.peach.video/v1.0.0/x.zip", "https://github.com/other/repo/releases/download/v1/x.zip"):
+            self.assertEqual(release_updates.download_sources(url), (url,), "不为任何地址补出备用源")
+
+    def test_a_fork_without_releases_is_empty_not_an_error_and_never_falls_back_upstream(self):
+        for status, body in ((200, []), (404, {"message": "Not Found"})):
+            with self.subTest(status=status):
+                calls = []
+
+                def transport(request, *_args, status=status, body=body, calls=calls):
+                    calls.append(request.url)
+                    return HttpResponse(status, {}, json.dumps(body).encode())
+
+                with patch.object(release_updates, "__version__", "0.9.0"):
+                    for system, machine in (("win32", ""), ("darwin", "arm64"), ("linux", "x86_64")):
+                        result = release_updates.check(transport=transport, system=system, machine=machine)
+                        self.assertEqual(result["state"], "empty")
+                        self.assertEqual(result["message_code"], "release.message.empty")
+                        self.assertIsNone(result["latest_version"])
+                        self.assertNotIn("asset_url", result)
+                self.assertTrue(calls and set(calls) == {release_updates.API_URL}, "只请求 fork 的 Release 列表")
+
+    def test_github_failures_stay_errors_and_do_not_ask_another_source(self):
+        for status in (403, 429, 500):
+            calls = []
+
+            def transport(request, *_args, status=status, calls=calls):
+                calls.append(request.url)
+                return HttpResponse(status, {}, b"[]")
+
+            result = release_updates.check(transport=transport)
+            self.assertEqual((result["state"], calls), ("error", [release_updates.API_URL]))
+
+    def test_automatic_download_and_manual_prepare_do_nothing_when_the_fork_has_no_releases(self):
+        from peach import standalone_update
+        from peach.automatic_updates import AutomaticUpdates
+        calls = []
+
+        def transport(request, *_args):
+            calls.append(request.url)
+            return HttpResponse(200, {}, b"[]")
+
+        client = Mock(side_effect=transport)
+        with tempfile.TemporaryDirectory() as folder,                 patch.object(release_updates, "HttpxTransport", return_value=client),                 patch("peach.distribution.in_app_update", return_value=True),                 patch.object(standalone_update, "start") as start:
+            updates = AutomaticUpdates(Path(folder), available=True)
+            updates.save({"mode": "download", "interval_hours": 24})
+            updates.tick()
+            self.assertEqual(updates.read()["result"]["state"], "empty")
+            self.assertNotIn("error", updates.read())
+            start.assert_not_called()
+        with patch.object(release_updates, "HttpxTransport", return_value=client),                 patch.object(standalone_update, "write") as write,                 patch.object(standalone_update, "fetch_package") as fetch,                 patch.object(standalone_update, "download") as download:
+            standalone_update.prepare({"id": "x"}, Mock())
+            fetch.assert_not_called()
+            download.assert_not_called()
+            self.assertEqual(write.call_args.kwargs["state"], "error")
+            self.assertEqual(write.call_args.kwargs.get("message_code"), "release.message.empty")
+        self.assertEqual(set(calls), {release_updates.API_URL}, "全程只读过 fork 的 Release 列表")
 
     def test_tool_package_is_the_newest_release_carrying_that_tool_with_a_digest(self):
         def tools(version, digest=True):
@@ -220,11 +209,9 @@ class ReleaseUpdateTests(unittest.TestCase):
                                   "size": 42, **({"digest": "sha256:" + "b" * 64} if digest else {})})
             return row
 
-        github = [tools("2.0.0", digest=False), tools("1.5.0"), release("3.0.0")]
-        mirror = [tools("1.0.0")]
+        rows = [tools("2.0.0", digest=False), tools("1.5.0"), release("3.0.0")]
 
         def transport(request, *_args):
-            rows = mirror if request.url == release_updates.DOWNLOADS_API else github
             return HttpResponse(200, {}, json.dumps(rows).encode())
 
         self.assertEqual(release_updates.tool_package("ffmpeg", transport=transport), {
@@ -264,7 +251,7 @@ class ReleaseUpdateTests(unittest.TestCase):
             with patch.object(distribution, "sys", SimpleNamespace(platform="win32")):
                 self.assertTrue(release_updates.snapshot()["in_app_update"])
 
-    def docker_check(self, digests, *, auth_status=200):
+    def docker_check(self, digests, *, auth_status=200, repository="example/peach"):
         """Release 列表给 1.0.0；镜像仓库按 `digests` 回各标签的摘要，缺的标签回 404。"""
         calls = []
 
@@ -279,8 +266,17 @@ class ReleaseUpdateTests(unittest.TestCase):
 
         with patch.dict("os.environ", {"PEACH_DISTRIBUTION": "docker"}), \
                 patch.object(release_updates, "__version__", "0.9.0"), \
+                patch.object(docker_update, "REPOSITORY", repository), \
                 patch.object(docker_update, "status", return_value={"available": True, "reason": ""}):
             return release_updates.check(transport=transport, system="linux", machine="x86_64"), calls
+
+    def test_without_a_registered_image_repository_no_registry_is_asked(self):
+        same = "sha256:" + "a" * 64
+        result, calls = self.docker_check({"1.0.0": same, "edge": same}, repository=None)
+        self.assertEqual((result["state"], result["latest_version"]), ("pending", "1.0.0"))
+        self.assertNotIn("one_click", result)
+        self.assertFalse([request.url for request in calls if "docker.io" in request.url], "不询问任何镜像仓库")
+        self.assertIsNone(docker_update.REPOSITORY, "这份 fork 不发布镜像")
 
     def test_docker_image_reports_itself_and_gives_host_steps_instead_of_a_package(self):
         same = "sha256:" + "a" * 64
