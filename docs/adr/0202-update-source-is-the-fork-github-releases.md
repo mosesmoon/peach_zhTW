@@ -28,7 +28,7 @@
 - Windows：`Peach-X.Y.Z-windows-x64.zip` 必须有；有 `-update.zip` 且四个工具包 `-tools-<工具>.zip` 齐全时优先用更新包。资产状态须为 `uploaded`。
 - macOS：`Peach-X.Y.Z-macos-<arm64|x86_64>.dmg`，只提示下载，不在应用内安装。
 - 签名启用后另需 `SHA256SUMS.txt` 与 `SHA256SUMS.txt.sig`。
-- 正文格式见 `scripts/changelog.py`，缺省则更新说明为空。
+- 正文格式见 `scripts/changelog.py`：英文正文、折叠的「简体中文」段、完整变更链接，其后是折叠的「繁體中文」段（ADR-0201）；缺省则更新说明为空。产生正文需要 opencc（`uv sync --extra naming`），发布流程里调用 `changelog.py --notes` 的作业须安装它。
 
 ## 后果
 

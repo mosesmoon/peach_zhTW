@@ -71,6 +71,30 @@ class ReleaseUpdateTests(unittest.TestCase):
         for empty in (None, "", "[Full Changelog](https://x)\n"):
             self.assertIsNone(release_updates.changelog_notes(empty))
 
+    TRADITIONAL_BODY = BODY + ("\n<details>\n<summary>繁體中文</summary>\n\n> 導語。\n\n### 新增\n\n- **播放**：字幕跟隨介面語言（#9）。\n\n"
+                               "<details>\n<summary>下載</summary>\n\n### Docker\n\n- 不是條目\n\n</details>\n\n</details>\n")
+
+    def test_a_traditional_section_after_the_changelog_link_becomes_the_zh_tw_notes(self):
+        """正体段在完整变更链接之后：先取出它，英文与简体两份不受影响，下载段不算条目。"""
+        notes = release_updates.changelog_notes(self.TRADITIONAL_BODY)
+        self.assertEqual(notes["zh-TW"], {"lead": ["導語。"], "groups": [
+            {"title": "新增", "items": [{"area": "播放", "text": "字幕跟隨介面語言（#9）。"}]}]})
+        plain = release_updates.changelog_notes(self.BODY)
+        self.assertEqual((notes["en"], notes["zh-CN"]), (plain["en"], plain["zh-CN"]))
+        self.assertEqual([group["title"] for group in notes["en"]["groups"]], ["Added"])
+
+    def test_bodies_without_a_traditional_section_read_the_same_in_zh_tw_as_in_zh_cn(self):
+        """上游格式、本 fork 旧版 Release 与只有中文的旧正文没有正体段：zh-TW 回落到简体那一份。"""
+        notes = release_updates.changelog_notes(self.BODY)
+        self.assertEqual(notes["zh-TW"], notes["zh-CN"])
+        legacy = release_updates.changelog_notes("### 修复\n\n- **界面**：修好一处。\n\n## 下载选择\n\n| 平台 |\n")
+        self.assertEqual(legacy["zh-TW"], legacy["zh-CN"])
+
+    def test_the_traditional_section_reaches_every_release_in_the_check_result(self):
+        rows = [release("0.9.0"), release("0.10.0", body=self.TRADITIONAL_BODY)]
+        notes = self.check(rows)["notes"]
+        self.assertEqual(notes[0]["zh-TW"]["groups"][0]["title"], "新增")
+
     def test_notes_follow_the_format_the_release_script_writes(self):
         """应用拆的就是 `changelog.py --notes` 生成的正文；两边改格式要一起改。"""
         from scripts import changelog
@@ -87,6 +111,10 @@ class ReleaseUpdateTests(unittest.TestCase):
                          [line[4:] for line in chinese.splitlines() if line.startswith("### ")])
         self.assertTrue(all(item["area"] in changelog.AREAS.values()
                             for group in notes["en"]["groups"] for item in group["items"]))
+        self.assertLess(body.index("[Full Changelog]"), body.index("<summary>繁體中文</summary>"))
+        self.assertEqual(sum(len(group["items"]) for group in notes["zh-TW"]["groups"]),
+                         sum(len(group["items"]) for group in notes["zh-CN"]["groups"]))
+        self.assertNotEqual(notes["zh-TW"], notes["zh-CN"])
 
     def test_prefers_app_update_when_all_tool_assets_are_uploaded(self):
         row = release("1.0.0")

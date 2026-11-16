@@ -1971,6 +1971,8 @@
     "notBilingual": "The {{version}} section of {{file}} has lines not written as `English / 中文`, or English still reading TODO: {{preview}}{{remainder}}",
     "noSectionForNotes": "{{file}} has no {{version}} section, so the Release body cannot be generated",
     "noLinkForNotes": "{{file}} lacks the `[{{version}}]:` link at the bottom, so the Release body cannot link the full changes",
+    "openccMissing": "The Traditional Chinese section needs opencc: run `uv sync --extra naming` first; the Release body cannot be generated",
+    "traditionalLeftovers": "The Traditional Chinese section still has unconverted Simplified characters {{chars}}; add terms in scripts/zh_tw/terms.json and retry",
     "sectionExists": "{{file}} already has a {{version}} section",
     "noUnreleasedSection": "{{file}} lacks the `## [{{unreleased}}]` section",
     "unreleasedEmpty": "The {{unreleased}} section is empty; this release has no changes to record",

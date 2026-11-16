@@ -1971,6 +1971,8 @@
     "notBilingual": "{{file}} 的 {{version}} 一節有行沒寫成「英文 / 中文」，或英文還是 TODO：{{preview}}{{remainder}}",
     "noSectionForNotes": "{{file}} 裡沒有 {{version}} 這一節，Release 正文無從產生",
     "noLinkForNotes": "{{file}} 底部缺少 `[{{version}}]:` 連結，Release 正文無從附上完整變更",
+    "openccMissing": "產生繁體中文段需要 opencc：請先執行 `uv sync --extra naming`，Release 正文無從產生",
+    "traditionalLeftovers": "繁體中文段仍有未轉換的簡體字 {{chars}}，到 scripts/zh_tw/terms.json 補詞後重試",
     "sectionExists": "{{file}} 裡已經有 {{version}} 這一節",
     "noUnreleasedSection": "{{file}} 缺少 `## [{{unreleased}}]` 這一節",
     "unreleasedEmpty": "{{unreleased}}節是空的，這次發布沒有可紀錄的變化",

@@ -248,19 +248,70 @@ class NotesTests(unittest.TestCase):
     """Release 页的更新说明：英文在前、中文折叠、末尾完整变更链接；缺那一节或链接就拒绝。"""
 
     def test_the_notes_put_english_first_and_fold_the_chinese(self):
+        """英文正文、折叠的简体中文、完整变更链接；正体中文段在链接之后，旧版应用读到链接就停。"""
         self.assertEqual(changelog.notes(DOCUMENT, "0.27.1"),
                          "> Fourth pre-release.\n\n<details>\n<summary>简体中文</summary>\n\n> 第四个预发布。\n\n"
-                         "</details>\n\n[Full Changelog](https://github.com/owner/repo/releases/tag/v0.27.1)\n")
+                         "</details>\n\n[Full Changelog](https://github.com/owner/repo/releases/tag/v0.27.1)\n\n"
+                         "<details>\n<summary>繁體中文</summary>\n\n> 第四個預發布。\n\n</details>\n")
 
     def test_downloads_fold_per_language_with_english_outside(self):
-        """按语言分开：外面是英文说明与折叠的 Downloads；中文说明与折叠的「下载」都在「简体中文」里。"""
+        """按语言分开：外面是英文说明与折叠的 Downloads；中文说明与折叠的「下载」都在「简体中文」里，
+        正体说明与折叠的「下載」在末尾的「繁體中文」里。"""
         body = changelog.notes(DOCUMENT, "0.27.1", ("English downloads.", "中文下载。"))
         self.assertEqual(body,
                          "> Fourth pre-release.\n\n<details>\n<summary>Downloads</summary>\n\nEnglish downloads.\n\n"
                          "</details>\n\n<details>\n<summary>简体中文</summary>\n\n> 第四个预发布。\n\n"
                          "<details>\n<summary>下载</summary>\n\n中文下载。\n\n</details>\n\n</details>\n\n"
-                         "[Full Changelog](https://github.com/owner/repo/releases/tag/v0.27.1)\n")
+                         "[Full Changelog](https://github.com/owner/repo/releases/tag/v0.27.1)\n\n"
+                         "<details>\n<summary>繁體中文</summary>\n\n> 第四個預發布。\n\n"
+                         "<details>\n<summary>下載</summary>\n\n中文下載。\n\n</details>\n\n</details>\n")
 
+    def test_the_traditional_section_uses_the_same_terms_as_the_zh_tw_interface(self):
+        """条目、区域标签与分组标题经同一份术语表转成台湾用词，链接地址与代码片段原样保留。"""
+        document = DOCUMENT.replace(
+            "- **Settings**: Settings add a desktop shortcut switch.",
+            "- **Sourcing**: The userscript reads `T28-612` ([docs](https://x.test/a.html)).").replace(
+            "**配置**：配置页新增桌面快捷方式开关。", "**采集**：用户脚本识别 `T28-612`（[文档](https://x.test/a.html)）。")
+        self.assertEqual(changelog.notes(document, "0.27.1"), changelog.notes(document, "0.27.1"))
+        section = changelog.section_of(document, changelog.UNRELEASED)
+        converted = changelog._traditional_converter()(changelog.bilingual(section)[1])
+        self.assertIn("### 新增", converted)
+        self.assertIn("- **抓取**：使用者腳本辨識 `T28-612`（[文件](https://x.test/a.html)）。", converted)
+        self.assertIn("### 修復", converted)
+
+    def test_the_folded_download_title_matches_what_the_app_strips(self):
+        """应用靠 `release_words` 的字面常量跳过下载段与认出正体段；产生端转出来的标题必须与之相同。"""
+        from peach import release_words
+        convert = changelog._traditional_converter()
+        self.assertEqual(convert(changelog.DOWNLOADS_SUMMARY[1]), release_words.DOWNLOAD_SUMMARIES[2])
+        self.assertEqual((changelog.CHINESE_SUMMARY, changelog.TRADITIONAL_SUMMARY),
+                         (release_words.CHINESE_SUMMARY, release_words.TRADITIONAL_SUMMARY))
+        self.assertEqual(changelog.DOWNLOADS_SUMMARY, release_words.DOWNLOAD_SUMMARIES[:2])
+
+    def test_every_released_section_converts_with_its_downloads(self):
+        """已发布的每一节连同下载段都能转成正体：不报占位或简体残留，历史版本重新生成正文也不会停在这里。"""
+        from scripts.package_windows_release import download_sections
+        document = (Path(changelog.ROOT) / changelog.CHANGELOG).read_text(encoding="utf-8")
+        for version in re.findall(r"(?m)^## \[(\d+\.\d+\.\d+)\]", document):
+            with self.subTest(version=version):
+                body = changelog.notes(document, version, download_sections(version, lite_installer=True))
+                self.assertIn("<summary>繁體中文</summary>", body)
+
+    def test_without_opencc_the_notes_are_refused_instead_of_silently_shortened(self):
+        """没装 opencc（可选依赖 `naming`）时报明确的错，不静默发一份少了正体段的正文。"""
+        import sys
+        import scripts
+        saved = getattr(scripts, "build_zh_tw_locales", None)
+        with mock.patch.dict(sys.modules, {"opencc": None}):
+            sys.modules.pop("scripts.build_zh_tw_locales", None)
+            if saved is not None:
+                del scripts.build_zh_tw_locales
+            try:
+                with self.assertRaisesRegex(VersionError, "opencc"):
+                    changelog.notes(DOCUMENT, "0.27.1")
+            finally:
+                if saved is not None:
+                    scripts.build_zh_tw_locales = saved
 
     def test_groups_and_entries_split_at_the_first_separator(self):
         """分组标题、条目、说明段都按第一个 ` / ` 拆开；中文里的全角斜杠留在中文那边。"""

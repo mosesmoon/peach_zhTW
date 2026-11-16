@@ -19,14 +19,17 @@ from .user_messages import UserValueError, message_fields
 REPOSITORY = "mosesmoon/peach_zhTW"
 RELEASES_URL = f"https://github.com/{REPOSITORY}/releases"
 API_URL = f"https://api.github.com/repos/{REPOSITORY}/releases?per_page=100"
-#: 检查结果的形状；改了就让缓存的旧结果作废、后台按新规则重查一次。v2 起带更新说明 `notes`。
-LISTING_RULE = 'source-aware-v2'
+#: 检查结果的形状；改了就让缓存的旧结果作废、后台按新规则重查一次。v2 起带更新说明 `notes`，v3 起每版有 `en`、`zh-CN`、`zh-TW` 三份。
+LISTING_RULE = 'source-aware-v3'
 #: 有新版本时最多列出几版的更新说明，更早的看 Release 页。
 NOTES_LIMIT = 10
 #: Release 正文里中文那一段的折叠块，标题与 `scripts/changelog.py` 的 `CHINESE_SUMMARY` 相同。
 CHINESE_FOLD = re.compile(rf"<details>\s*<summary>{re.escape(release_words.CHINESE_SUMMARY)}</summary>"
                           r"(?P<body>.*?)</details>", re.S)
-#: 下载段的折叠块（英文、中文各一个），不算更新说明；先于中文段去掉，中文段里就不再有嵌套。
+#: 繁體中文那一段的折叠块，放在完整变更链接之后；先去掉下载段，这一段里就不再有嵌套。
+TRADITIONAL_FOLD = re.compile(rf"<details>\s*<summary>{re.escape(release_words.TRADITIONAL_SUMMARY)}</summary>"
+                              r"(?P<body>.*?)</details>", re.S)
+#: 下载段的折叠块（英文、简体、正体各一个），不算更新说明；先于中文段去掉，中文段里就不再有嵌套。
 DOWNLOADS_FOLD = re.compile(rf"<details>\s*<summary>(?:{'|'.join(map(re.escape, release_words.DOWNLOAD_SUMMARIES))})"
                             r"[^<]*</summary>.*?</details>", re.S)
 #: 更新说明到这里为止：之后是旧写法的下载段或完整变更链接。
@@ -136,20 +139,24 @@ def _changelog_part(text: str) -> dict:
 
 
 def changelog_notes(body: object) -> dict | None:
-    """把 Release 正文拆成英文与中文两份更新说明（格式见 `scripts/changelog.py`）。
+    """把 Release 正文拆成英文、简体中文与正体中文三份更新说明（格式见 `scripts/changelog.py`）。
 
-    英文是正文，中文在「简体中文」折叠段里；0.59.0 之前只有中文的旧正文两边相同。
+    英文是正文，简体在「简体中文」折叠段里，正体在完整变更链接之后的「繁體中文」折叠段里；
+    没有正体段（上游格式、本 fork 旧版 Release）时 `zh-TW` 与 `zh-CN` 相同，0.59.0 之前只有中文的旧正文三份相同。
     下载段与完整变更链接不算更新说明。取不出任何条目时返回 None。
     """
     if not isinstance(body, str) or not body.strip():
         return None
     body = DOWNLOADS_FOLD.sub("", body.replace("\r\n", "\n"))
+    traditional = TRADITIONAL_FOLD.search(body)
+    body = TRADITIONAL_FOLD.sub("", body)
     end = NOTES_END.search(body)
     body = body[:end.start()] if end else body
     folded = CHINESE_FOLD.search(body)
     english = CHINESE_FOLD.sub("", body) if folded else body
     chinese = folded["body"] if folded else body
     notes = {"en": _changelog_part(english), "zh-CN": _changelog_part(chinese)}
+    notes["zh-TW"] = _changelog_part(traditional["body"]) if traditional else notes["zh-CN"]
     return notes if any(part["groups"] or part["lead"] for part in notes.values()) else None
 
 

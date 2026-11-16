@@ -25,7 +25,7 @@ ADR-0156 只登记了 zh-CN 与 en，所有中文标签（`zh-TW`、`zh-Hant-HK`
 
 **四、暂不按语言拆分载入。** ADR-0156 预告加第三种语言时拆包。zh-TW 的资源与 zh-CN 大小相当（约 0.5 MB），全部打进主包会让主包再大约 0.5 MB。这次仍打进主包：拆包要把模块顶层同步取文案的代码改成异步，范围远大于登记一种语言。主包体积成为问题时另立 ADR。
 
-**五、更新说明。** GitHub Release 正文只有英文和折叠的「简体中文」两段。安装包里没有随包分发的简转繁能力（`kanji.py` 是日本汉字到简体的对照表，OpenCC 只在可选依赖里），所以 zh-TW 界面读简体中文段，比英文更贴近。若以后要繁体说明，改发布流程多生成一段，而不是在用户机器上转换。
+**五、更新说明。** GitHub Release 正文由本 fork 的发布流程产生，除英文正文和折叠的「简体中文」段外，另有折叠的「繁體中文」段。繁體段在产生正文时由简体段转换（`scripts/changelog.py` 复用 `scripts/build_zh_tw_locales.py` 的 OpenCC 与 `scripts/zh_tw/terms.json`，用词与 zh-TW 界面一致），放在完整变更链接之后，只认英文与简体段的旧版应用读到链接就停，不受影响。应用没有随包分发的简转繁能力（OpenCC 只在可选依赖 `naming` 里），所以转换只发生在发布时，不在用户机器上；缺 opencc 时 `changelog.py --notes` 报错，不静默省略。`release_updates.changelog_notes` 解出 `en`、`zh-CN`、`zh-TW` 三份，没有繁體段（上游格式、旧版 Release）时 `zh-TW` 与 `zh-CN` 相同；前端 zh-TW 界面取 `zh-TW`，缺则取 `zh-CN`。
 
 **六、其他随语言变的地方。**
 

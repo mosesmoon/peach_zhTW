@@ -13,7 +13,10 @@ Semantic Versioning 2.0.0（https://semver.org/lang/zh-CN/spec/v2.0.0.html）：
 
 每一行英文在前、中文在后，中间用 ` / ` 隔开（与 peach-userscript 同一写法）：
 `### Added / 新增`、`- **Playback**: English (#1). / **播放**：中文（#1）。`。Release 正文与
-应用内的更新说明都按第一个 ` / ` 拆成两种语言，英文是正文，中文进折叠的「简体中文」段。
+应用内的更新说明都按第一个 ` / ` 拆成两种语言，英文是正文，中文进折叠的「简体中文」段；
+同一份中文再经 `scripts/build_zh_tw_locales.py` 的简转繁（OpenCC 与 `scripts/zh_tw/terms.json`）
+转成折叠的「繁體中文」段，放在完整变更链接之后，只读英文与简体段的旧版应用读到链接就停，不受影响。
+生成繁體中文段需要 opencc（`uv sync --extra naming`），缺它时 `--notes` 明确报错，不静默省略。
 
     python scripts/changelog.py                                # 起草未发布区间
     python scripts/changelog.py --range v0.16.0..v0.27.1       # 起草任意区间
@@ -35,6 +38,7 @@ if not __package__:
     __package__ = "scripts"
 if str(Path(__file__).resolve().parents[1] / "src") not in sys.path:
     sys.path.insert(1, str(Path(__file__).resolve().parents[1] / "src"))
+from peach import release_words
 from peach.interface_text import dev as t
 
 from . import version_bump
@@ -49,7 +53,9 @@ UNRELEASED = "Unreleased"
 SEPARATOR = " / "
 #: Release 正文里中文那一段的折叠标题；应用读正文时也认它。
 CHINESE_SUMMARY = "简体中文"
-#: 下载段的折叠标题（英文，中文）；应用读正文时按它们跳过下载段。
+#: 繁體中文那一段的折叠标题，由简体中文段转换而来；应用读正文时也认它。
+TRADITIONAL_SUMMARY = release_words.TRADITIONAL_SUMMARY
+#: 下载段的折叠标题（英文，中文）；应用读正文时按它们（以及转成正体的「下載」）跳过下载段。
 DOWNLOADS_SUMMARY = ("Downloads", "下载")
 
 #: Conventional Commits 的主题形状：`type(scope)!: 描述`。
@@ -349,11 +355,34 @@ def fold(summary: str, body: str) -> str:
     return f"<details>\n<summary>{summary}</summary>\n\n{body.strip()}\n\n</details>"
 
 
+def _traditional_converter():
+    """简转繁的转换器：复用语言资源产生脚本里的 OpenCC 与术语表，不另写一套。
+
+    OpenCC 只在可选依赖 `naming` 里，所以在这里才导入；缺它时 Release 正文无法生成，明确报错。
+    """
+    try:
+        from . import build_zh_tw_locales as builder
+    except ImportError as error:
+        raise version_bump.VersionError(t("changelog.openccMissing")) from error
+    terms = builder.Terms(builder.load_json(builder.TERMS))
+
+    def convert(text: str) -> str:
+        result = builder.convert_text(text, terms)
+        left = builder.simplified_leftovers(result, terms.allow)
+        if left:
+            raise version_bump.VersionError(t("changelog.traditionalLeftovers", chars="".join(left)))
+        return result
+    return convert
+
+
 def notes(document: str, version: str, downloads: tuple[str, str] | None = None) -> str:
     """Release 页的正文，按语言分开：外面是英文更新说明与折叠的 Downloads，中文更新说明与折叠的
-    「下载」一起放进折叠的「简体中文」段，末尾是到上一版的完整变更链接。
+    「下载」一起放进折叠的「简体中文」段，之后是到上一版的完整变更链接，最后是同一份中文转成正体的
+    折叠「繁體中文」段（含折叠的「下載」）。
 
-    `downloads` 是下载段的（英文，中文），由 `package_windows_release.download_sections()` 生成。
+    繁體中文段放在完整变更链接之后：只认英文与简体段的旧版应用读到链接就停，不会把它当成英文说明；
+    新版应用在截断前先取出它。`downloads` 是下载段的（英文，中文），由
+    `package_windows_release.download_sections()` 生成。
     使用者在 GitHub 上读到的就是这段，所以那一节或它的链接缺了不能静默发一段固定文案顶上，
     直接拒绝，让发布链停在这里。
     """
@@ -364,10 +393,14 @@ def notes(document: str, version: str, downloads: tuple[str, str] | None = None)
     if link is None:
         raise version_bump.VersionError(t("changelog.noLinkForNotes", file=CHANGELOG, version=version))
     english, chinese = bilingual(section)
+    convert = _traditional_converter()
+    traditional_text = convert(chinese)
     if downloads:
         english += "\n\n" + fold(DOWNLOADS_SUMMARY[0], downloads[0])
         chinese += "\n\n" + fold(DOWNLOADS_SUMMARY[1], downloads[1])
-    return f"{english}\n\n{fold(CHINESE_SUMMARY, chinese)}\n\n[Full Changelog]({link[1]})\n"
+        traditional_text += "\n\n" + fold(convert(DOWNLOADS_SUMMARY[1]), convert(downloads[1]))
+    return (f"{english}\n\n{fold(CHINESE_SUMMARY, chinese)}\n\n[Full Changelog]({link[1]})\n\n"
+            f"{fold(TRADITIONAL_SUMMARY, traditional_text)}\n")
 
 
 def promote(document: str, version: str, *, date: str, repo: str, previous: str | None,
