@@ -454,8 +454,8 @@ def verify_spk(spk: Path, *, personal: tuple[str, ...] = ()) -> tuple[list[str],
         for key in ("package", "version", "arch", "os_min_ver", "maintainer", "checksum"):
             if not fields.get(key):
                 problems.append(f"INFO lacks {key}")
-        if fields.get("os_min_ver") != "7.0-40000":
-            problems.append("os_min_ver is not 7.0-40000")
+        if fields.get("os_min_ver") != "7.2-64561":
+            problems.append("os_min_ver is not 7.2-64561")
         if "arm" in fields.get("arch", "") or "aarch" in fields.get("arch", ""):
             problems.append("arch includes an ARM value")
         if "package.tgz" in members:

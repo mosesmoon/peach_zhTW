@@ -192,7 +192,7 @@ class PackagingTests(unittest.TestCase):
         info = facts["info"]
         self.assertEqual(info["version"], "9.9.9-0003")
         self.assertEqual(info["package"], "PeachZhTW")
-        self.assertEqual(info["os_min_ver"], "7.0-40000")
+        self.assertEqual(info["os_min_ver"], "7.2-64561")
         self.assertIn("x86_64", info["arch"].split())
         self.assertFalse({"armv7", "armv8", "aarch64", "alpine", "rtd1296"} & set(info["arch"].split()))
         with tarfile.open(self.spk) as tar:
@@ -279,7 +279,7 @@ class SkeletonTests(unittest.TestCase):
         for field in ("package", "version", "arch", "os_min_ver", "maintainer", "displayname_cht", "description_cht",
                       "dsmuidir", "dsmappname", "checksum"):
             self.assertRegex(text, rf'(?m)^{field}="')
-        self.assertIn('os_min_ver="7.0-40000"', text)
+        self.assertIn('os_min_ver="7.2-64561"', text)
 
     def test_ui_config_is_valid_json(self):
         config = json.loads((self.skeleton / "ui" / "config").read_text(encoding="utf-8"))

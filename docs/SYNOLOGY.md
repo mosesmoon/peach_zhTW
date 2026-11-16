@@ -9,7 +9,7 @@
 | 项目 | 说明 |
 | --- | --- |
 | 处理器 | 只支持 x86-64 机型。INFO 的 `arch` 写 `x86_64` 加上 pkgscripts-ng 归入 x86_64 家族的全部平台代号（apollolake、geminilake、denverton、broadwell、v1000、r1000、epyc7002 等），不含任何 ARM 平台 |
-| DSM 版本 | INFO 声明 `os_min_ver="7.0-40000"`，不支持 DSM 6。**实际下限更高**，见下一节 |
+| DSM 版本 | DSM 7.2 及以上（INFO 声明 `os_min_ver="7.2-64561"`）；不支持 DSM 7.0、7.1 与 DSM 6，原因见下一节 |
 | 运行环境 | 套件自带 CPython 3.14（python-build-standalone）与锁定的 Python 依赖，不依赖系统 Python |
 | FFmpeg | 套件不含 FFmpeg，需自备并在安装向导指定，见 [FFmpeg](#ffmpeg) |
 | 应用内更新 | 不可用。更新靠安装新版 SPK |
@@ -18,7 +18,7 @@
 
 套件里的原生库来自 Linux x86-64 wheel。构建脚本会扫描所有 ELF 文件中的 `GLIBC_x.y` 符号，实测最高为 2.27（来自 numpy 与 Pillow），`GLIBCXX` 最高为 3.4.21。Synology 工具链的发布文件名记录了各版本的 glibc：DSM 7.0 与 7.1 为 2.26，DSM 7.2 为 2.36（`archive.synology.com/download/ToolChain/toolchain/` 的 `gcc*_glibc*` 文件名，2026-11-16 查阅）。
 
-因此套件的 `preinst` 在 glibc 低于 2.27 时拒绝安装并给出提示：**实际可用的是 DSM 7.2 及以上**，DSM 7.0 与 7.1 虽满足 `os_min_ver`，仍会被拒绝。Pillow 是核心依赖，去掉可选的 OpenCV 与 NumPy 也不能解决。
+因此套件的 `preinst` 在 glibc 低于 2.27 时拒绝安装并给出提示：**可用的是 DSM 7.2 及以上**。INFO 的 `os_min_ver` 已声明 7.2，套件中心会直接把 DSM 7.0 与 7.1 标为不兼容；`preinst` 的 glibc 检查留作第二道保险。Pillow 是核心依赖，去掉可选的 OpenCV 与 NumPy 也不能解决。
 
 ## 构建
 
@@ -102,4 +102,4 @@ DSM 7 的套件不以 root 运行，套件用户 `PeachZhTW` 默认读不到任�
 - 卸载时 `var/` 是否保留，升级时 `var/` 是否保留（按 DSM 文档推定）。
 - 访问密码在 DSM 套件安装日志中是否出现。
 
-最可能出问题的地方：DSM 7.0 与 7.1 被 glibc 检查拒绝；向导或 `ui/config` 的格式与 DSM 版本的细微差异；共享文件夹没授权导致扫描不到影片；没有 FFmpeg 导致缩略图与转码不可用。
+最可能出问题的地方：向导或 `ui/config` 的格式与 DSM 版本的细微差异；共享文件夹没授权导致扫描不到影片；没有 FFmpeg 导致缩略图与转码不可用。

@@ -12,7 +12,7 @@
 
 **一、自带运行环境。** 套件内嵌 python-build-standalone 的 CPython 3.14（`x86_64-unknown-linux-gnu`，`install_only_stripped`，基线 CPU），加上 `uv.lock` 锁定的全部依赖（含 `vision` 额外依赖，与 Docker 镜像一致）的 Linux x86-64 wheel 与 Peach 源码。构建脚本 `scripts/package_synology.py` 只用标准库、`uv` 与 Pillow（取图标），在 Windows 上即可构建：不把 wheel 解到 NTFS，而是从压缩包直接写入 tar，显式设置 Unix 权限与 0:0 所有者。Python 执行环境与每个 wheel 都核对哈希（前者固定在脚本里并与官方 `SHA256SUMS` 一致，后者取自锁文件）。没有可用 wheel 时构建中止。
 
-**二、glibc 下限由实测决定。** DSM 7.0、7.1 的 glibc 是 2.26，DSM 7.2 是 2.36（Synology 工具链文件名）。Pillow 与 NumPy 的 wheel 要求 glibc 2.27，所以脚本扫描所有 ELF 的 `GLIBC_x.y` 符号，把实测最高值写入 `preinst` 的检查；INFO 仍按使用者要求写 `os_min_ver="7.0-40000"`，但 DSM 7.0 与 7.1 会在安装时被拒绝并说明原因。这与「支持 DSM 7.0 以上」的要求有出入，需要使用者决定（见后果）。
+**二、glibc 下限由实测决定。** DSM 7.0、7.1 的 glibc 是 2.26，DSM 7.2 是 2.36（Synology 工具链文件名）。Pillow 与 NumPy 的 wheel 要求 glibc 2.27，所以脚本扫描所有 ELF 的 `GLIBC_x.y` 符号，把实测最高值写入 `preinst` 的检查；使用者据此把支持范围定为 DSM 7.2 及以上：INFO 写 `os_min_ver="7.2-64561"`，套件中心直接把 DSM 7.0 与 7.1 标为不兼容，`preinst` 的 glibc 检查留作第二道保险。
 
 **三、`arch`。** 写 `x86_64` 与 pkgscripts-ng（`plat_to_family`）归入 x86_64 家族的全部平台代号，不含 ARM。官方附录表没有列 r1000、epyc7002、`nk` 变体，而 pkgscripts-ng 与 SynoCommunity 都有，所以以后者为准；字面 `x86_64` 是否被 DSM 接受没有一手证据，列出平台代号保证不依赖它。
 
@@ -35,6 +35,6 @@
 ## 后果
 
 - 套件约 160 MB（解开约 440 MB）。不需要人脸功能时可用 `--without-vision` 去掉 OpenCV 与 NumPy，但不能解决 glibc 下限，因为 Pillow 同样要求 2.27。
-- 实际可安装的是 DSM 7.2 及以上。若必须支持 DSM 7.0 与 7.1，需要 Pillow 的 manylinux2014 轮子（上游没有）、改用 glibc 2.26 可用的构建，或放弃该版本，由使用者决定；不在本 ADR 范围内放宽锁定版本。
+- 支持范围是 DSM 7.2 及以上。若日后要支持 DSM 7.0 与 7.1，需要 Pillow 的 manylinux2014 轮子（上游没有）、改用 glibc 2.26 可用的构建，或放弃该版本，由使用者决定；不在本 ADR 范围内放宽锁定版本。
 - 构建与静态检查只证明包的结构与 ELF 架构、glibc 符号需求；没有任何实机运行记录，验收清单见 [未在实机验证的项目](../SYNOLOGY.md#未在实机验证的项目)。
 - 元数据桥（amane）的独立环境不随包，相关功能不可用；元数据桥需要 `uv` 或打包环境，与本决定无关地留待后续。
