@@ -49,7 +49,7 @@ import time
 from pathlib import Path
 from urllib.parse import quote
 
-from . import minnano_av
+from . import minnano_av, performer_zh_tw
 from .entities import (is_short_single_name, merge_entity, name_chain, name_rank,
                        normalize_entity_name)
 from .followups import Attempts, Followup, FollowupType, attempts_root, register
@@ -216,7 +216,7 @@ def _names(connection: sqlite3.Connection, entity_id: int, *, own: bool = True, 
         return None
     aliases = [str(alias) for alias, source in connection.execute(
         "SELECT alias,source FROM entity_alias WHERE entity_id=? ORDER BY alias", (int(entity_id),))
-        if own or not _ours(str(source))]
+        if (own or not _ours(str(source))) and not performer_zh_tw.is_ours(str(source))]
     return str(row[0] or ""), aliases
 
 
@@ -288,7 +288,8 @@ def _stock_facts(connection: sqlite3.Connection):
     for entity_id, alias, source in connection.execute(
             "SELECT al.entity_id,al.alias,al.source FROM entity_alias al JOIN entity e ON e.id=al.entity_id"
             " WHERE e.kind='performer' ORDER BY al.entity_id,al.alias"):
-        aliases.setdefault(int(entity_id), []).append((str(alias), str(source)))
+        if not performer_zh_tw.is_ours(str(source)):
+            aliases.setdefault(int(entity_id), []).append((str(alias), str(source)))
     refs: dict[int, list[str]] = {}
     for entity_id, external_id in connection.execute(
             "SELECT entity_id,external_id FROM entity_external_ref WHERE provider=?"

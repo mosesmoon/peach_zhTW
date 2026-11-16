@@ -1108,10 +1108,10 @@ class UpgradeRepairTests(unittest.TestCase):
             row=connection.execute('SELECT catalog_title,field_owners FROM asset WHERE id=1').fetchone()
             self.assertEqual(row[0], '元の題名')
             self.assertEqual(json.loads(row[1])['catalog_title'], 'auto:dmm')
-            # 悬空候选、JavDB 记录类型、视频改登记、来源分辨率标签、画质分档与旧记录转换六条补修各记一行，这里只数更新已有资料的回执。
-            self.assertEqual(connection.execute('SELECT count(*) FROM ledger_upgrade_repair WHERE id NOT IN (?,?,?,?,?,?)',
+            # 悬空候选、JavDB 记录类型、JavDB 繁体写法、视频改登记、来源分辨率标签、画质分档与旧记录转换七条补修各记一行，这里只数更新已有资料的回执。
+            self.assertEqual(connection.execute('SELECT count(*) FROM ledger_upgrade_repair WHERE id NOT IN (?,?,?,?,?,?,?)',
                                                 (upgrade_repairs.DANGLING_KEY,
-                                                 upgrade_repairs.JAVDB_RECORDS_KEY,
+                                                 upgrade_repairs.JAVDB_RECORDS_KEY, upgrade_repairs.JAVDB_ZH_TW_KEY,
                                                  upgrade_repairs.VIDEO_MEDIUM_KEY,
                                                  upgrade_repairs.RESOLUTION_TAGS_KEY, quality_repair.KEY,
                                                  interface_text_upgrade.RECEIPT_KEY)).fetchone()[0], 2)
@@ -1636,10 +1636,10 @@ class UpgradeRepairTests(unittest.TestCase):
         with self.database.read_connection() as connection:
             rows = connection.execute('SELECT id,code,duration FROM asset ORDER BY id').fetchall()
             self.assertEqual([tuple(row) for row in rows], [(1, 'SSIS-123', None), (2, 'BAD-001', None)])
-            # 悬空候选、JavDB 记录类型、视频改登记、来源分辨率标签、画质分档与旧记录转换六条补修各记一行，这里只数更新已有资料的回执。
-            self.assertEqual(connection.execute('SELECT count(*) FROM ledger_upgrade_repair WHERE id NOT IN (?,?,?,?,?,?)',
+            # 悬空候选、JavDB 记录类型、JavDB 繁体写法、视频改登记、来源分辨率标签、画质分档与旧记录转换七条补修各记一行，这里只数更新已有资料的回执。
+            self.assertEqual(connection.execute('SELECT count(*) FROM ledger_upgrade_repair WHERE id NOT IN (?,?,?,?,?,?,?)',
                                                 (upgrade_repairs.DANGLING_KEY,
-                                                 upgrade_repairs.JAVDB_RECORDS_KEY,
+                                                 upgrade_repairs.JAVDB_RECORDS_KEY, upgrade_repairs.JAVDB_ZH_TW_KEY,
                                                  upgrade_repairs.VIDEO_MEDIUM_KEY,
                                                  upgrade_repairs.RESOLUTION_TAGS_KEY, quality_repair.KEY,
                                                  interface_text_upgrade.RECEIPT_KEY)).fetchone()[0], 1)
@@ -1945,6 +1945,39 @@ class UpgradeRepairTests(unittest.TestCase):
             self.assertEqual(auto_landing_revert.plan(
                 connection, upgrade_repairs.JAVDB_RECORDS_SOURCE, logo_root=self.root / 'logos',
                 cover_root=self.root / 'covers')['javdb_records'], [])
+
+    def test_javdb_traditional_names_come_from_cached_actor_pages_once(self):
+        """ADR-0203：缓存的演员页现名栏给已绑 id 补繁体写法；缓存里没有页的 id 不记，留给后继。"""
+        def page(actor, current):
+            return (f'<span class="actor-section-name">{current}</span><span class="section-meta">9 部影片</span>'
+                    f'<a href="/actors/{actor}/collect"></a>')
+
+        cache = self.root / 'state' / 'directory-links' / 'javdb'
+        cache.mkdir(parents=True)
+        (cache / 'a.html').write_text(page('Ab12', '涼森玲夢, 涼森れむ'), encoding='utf-8')
+        with self.database.write_transaction() as connection:
+            for key, name in ((1, '凉森玲梦'), (2, '别人')):
+                connection.execute("INSERT INTO entity(id,kind,canonical_name,normalized_name,created_at,updated_at)"
+                                   " VALUES(?,'performer',?,?,'t','t')", (key, name, name))
+            connection.execute("INSERT INTO entity_alias(entity_id,alias,normalized_alias,source)"
+                               " VALUES(1,'涼森れむ','涼森れむ','test')")
+            connection.executemany(
+                "INSERT INTO entity_external_ref(entity_id,provider,external_kind,external_id,metadata_json)"
+                " VALUES(?,'javdb','performer',?,'{}')", [(1, 'Ab12'), (2, 'Zz99')])
+        self.service.prepare()
+        with self.database.read_connection() as connection:
+            self.assertEqual([tuple(row) for row in connection.execute(
+                'SELECT alias,source FROM entity_alias WHERE entity_id=1 AND alias=?', ('涼森玲夢',))],
+                [('涼森玲夢', f'auto:performer-zh-tw-name@{upgrade_repairs.JAVDB_ZH_TW_KEY}')])
+            self.assertEqual(connection.execute(
+                'SELECT metadata_json FROM entity_external_ref WHERE external_id=?', ('Zz99',)).fetchone()[0], '{}')
+            receipt = json.loads(connection.execute('SELECT result_json FROM ledger_upgrade_repair WHERE id=?',
+                                                    (upgrade_repairs.JAVDB_ZH_TW_KEY,)).fetchone()[0])
+        self.assertEqual([row['external_id'] for row in receipt['written']], ['Ab12'])
+        self.service.prepare()
+        with self.database.read_connection() as connection:
+            self.assertEqual(connection.execute('SELECT count(*) FROM entity_alias WHERE alias=?',
+                                                ('涼森玲夢',)).fetchone()[0], 1)
 
     def test_quality_repair_updates_measured_videos_once_and_preserves_later_edits(self):
         """已有尺寸按画质规则补修，撤回只还原尺寸和值均未再变的记录。"""

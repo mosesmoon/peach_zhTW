@@ -119,6 +119,15 @@ class LedgerFixture(unittest.TestCase):
 class SuggestTests(LedgerFixture):
     """补全按输入给出馆藏里的身份与作品。"""
 
+    def test_a_traditional_spelling_stored_from_javdb_finds_the_performer(self):
+        """繁体写法存成别名（ADR-0203）：两字与三字以上的查询各走一条分支，补全也认。"""
+        self.con.execute("INSERT INTO entity_alias(entity_id,alias,normalized_alias,source)"
+                         " VALUES(11,'涼森玲夢','涼森玲夢','auto:performer-zh-tw-name@7')")
+        self.con.commit()
+        self.assertEqual(self.total("涼森玲夢"), 3)
+        self.assertEqual(self.total("玲夢"), 3)
+        self.assertEqual(self.values("涼森玲", "performer"), ["涼森れむ"])
+
     def test_a_canonical_name_completes_from_its_first_characters(self):
         self.assertEqual(self.values("涼森", "performer"), ["涼森れむ"])
 

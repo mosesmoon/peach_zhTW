@@ -4,7 +4,7 @@
  * 存量只接受形状与范围合法的值，单项非法时取该项默认值。 */
 import { api } from '@peach/legacy/core';
 
-import { isInterfaceLanguageChoice, matchInterfaceLanguage, type InterfaceLanguage, type InterfaceLanguageChoice } from '../i18n';
+import { interfaceLanguage as pageInterfaceLanguage, isInterfaceLanguageChoice, matchInterfaceLanguage, type InterfaceLanguage, type InterfaceLanguageChoice } from '../i18n';
 import { SETTINGS_KEY } from '../settings-key';
 
 import { normalizeJavPreferences } from '../jav-artwork';
@@ -27,6 +27,19 @@ export const FOLLOW_INITIAL_DAYS: readonly number[] = [0, 7, 30, 90];
    镜像：开关的真相在 `/api/settings`。默认收起大合集与切片、单人合集照列。 */
 export const FEED_COMPILATION_KEYS = ['feedHideGroupCompilations', 'feedHideSoloCompilations', 'feedHideExcerpts'] as const;
 
+export const PERFORMER_NAME_LANGUAGES = ['zh-CN', 'zh-TW', 'ja'] as const;
+export type PerformerNameLanguage = typeof PERFORMER_NAME_LANGUAGES[number];
+export const isPerformerNameLanguage = (value: unknown): value is PerformerNameLanguage =>
+  PERFORMER_NAME_LANGUAGES.includes(value as PerformerNameLanguage);
+
+/** 女优名称实际用哪种：选过就用所选；没选过时繁体界面（含「自动」判成繁体）用繁体中文，其余用中文。 */
+export function effectiveNameLanguage(
+  chosen: unknown, ui: InterfaceLanguage = pageInterfaceLanguage,
+): PerformerNameLanguage {
+  if (isPerformerNameLanguage(chosen)) return chosen;
+  return ui === 'zh-TW' ? 'zh-TW' : 'zh-CN';
+}
+
 /** 归一化之后一定在的那几项。对象上还有别的字段（壳与各岛按需写入），这里不一一列出。 */
 export interface AppSettings {
   [key: string]: unknown;
@@ -42,7 +55,8 @@ export interface AppSettings {
   javLayout: string;
   homeLayout: string;
   javImage: string;
-  performerNameLanguage: 'zh-CN' | 'ja';
+  /** 明确选过的名称语言；null 是没选过，显示按界面语言取默认（`effectiveNameLanguage`）。 */
+  performerNameLanguage: PerformerNameLanguage | null;
   interfaceLanguage: InterfaceLanguageChoice;
   /** 运行 Peach 的电脑的系统语言（服务端报来，缓存在本地）；「自动」时浏览器语言都对不上才看它。 */
   systemLanguage: InterfaceLanguage | null;
@@ -76,7 +90,7 @@ export const DEFAULT_SETTINGS = {
   searchHistoryLimit: 10, relatedLimit: 20, feedLimit: 12, javLayout: 'big', homeLayout: 'small', javImage: 'cover',
   followLayout: 'default', peopleLayout: 'big', photoSize: 'small', ambientMode: true, miniplayer: true,
   theaterMode: false, theme: 'system', groupCollapse: true, sidebarOrder: [...DEFAULT_SIDEBAR_ORDER], manageOrder: [...MANAGE_MENU_SECTIONS],
-  homeGlow: DEFAULT_HOME_GLOW, accent: DEFAULT_ACCENT, performerNameLanguage: 'zh-CN', interfaceLanguage: 'auto', systemLanguage: null,
+  homeGlow: DEFAULT_HOME_GLOW, accent: DEFAULT_ACCENT, performerNameLanguage: null, interfaceLanguage: 'auto', systemLanguage: null,
   navigationOrders: {},
   libraryOrder: [],
 } as const;
@@ -121,7 +135,7 @@ export function normalizeAppSettings(raw: unknown): { settings: AppSettings; mig
   settings.feedLimit = boundedPreference(+(settings.feedLimit as number), 1, 100, 12);
   Object.assign(settings, normalizeJavPreferences(settings));
   settings.theme = allowedSetting(settings.theme, THEME_CHOICES, 'system');
-  settings.performerNameLanguage = allowedSetting(settings.performerNameLanguage, ['zh-CN', 'ja'], 'zh-CN');
+  settings.performerNameLanguage = isPerformerNameLanguage(settings.performerNameLanguage) ? settings.performerNameLanguage : null;
   settings.interfaceLanguage = isInterfaceLanguageChoice(settings.interfaceLanguage) ? settings.interfaceLanguage : 'auto';
   settings.systemLanguage = matchInterfaceLanguage(settings.systemLanguage);
   settings.homeGlow = normalizeHomeGlow(settings.homeGlow);
@@ -178,8 +192,9 @@ export function applySyncedSettings(
   target: SettingsStore<AppSettings> = appSettingsStore(),
 ): void {
   const settings = target.value;
+  /* 数据库里没存过（null）时本机缓存也清成「没选过」：旧版本把默认值当选择缓存过。 */
   const language = remote?.performerNameLanguage;
-  if ((language === 'zh-CN' || language === 'ja') && language !== settings.performerNameLanguage) {
+  if ((isPerformerNameLanguage(language) || language === null) && language !== settings.performerNameLanguage) {
     settings.performerNameLanguage = language;
     target.save();
     changed('performerNameLanguage');

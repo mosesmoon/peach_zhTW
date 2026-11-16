@@ -77,8 +77,9 @@ LATIN = re.compile(r"[A-Za-z]")
 
 #: 复核 CSV 的 `verdict`，`localize_performer_names.py` 与 `apply_alias_candidates.py` 按 `--accept` 读：
 #: 对上了、只在旧艺名栏、中文写法不止一个、站上只有日文名、要登录、搜不到、取页失败。
-OK, FORMER, AMBIGUOUS, SAME_SHAPE, LOGIN, MISSING, FAILED = (
-    "ok", "former-name", "ambiguous", "japanese-only", "login-required", "missed", "fetch-failed")
+OK, FORMER, LOGIN, MISSING, FAILED = (
+    "ok", "former-name", "login-required", "missed", "fetch-failed")
+AMBIGUOUS, SAME_SHAPE = javdb.AMBIGUOUS, javdb.JAPANESE_ONLY
 #: 靠别名对上的页，现名栏写的是另一个艺名。换规范名是人要决定的事。
 RENAMED = "renamed"
 #: 现名栏并排的两个名字不是同一个名字的两种写法（两栏姓氏对不上）。
@@ -213,23 +214,8 @@ def targets(connection: sqlite3.Connection, scope: str = "kana",
     return out
 
 
-def chinese_writings(names: list[str]) -> list[str]:
-    """一栏名字里的中文写法：整名汉字、无假名无拉丁的那些。
-
-    掺一个假名就是日文写法（`きみかわ結衣`），掺一个拉丁字母就是艺名本体（`JULIA`）。
-    """
-    return [value for value in names
-            if HAN.search(value) and not KANA.search(value) and not LATIN.search(value)]
-
-
-def chinese_name(current: list[str]) -> tuple[str, str]:
-    """现名那一栏里的中文写法与判据。只认唯一那一个。"""
-    han = chinese_writings(current)
-    if len(han) == 1:
-        return han[0], ""
-    if not han:
-        return "", SAME_SHAPE
-    return "", AMBIGUOUS
+chinese_writings = javdb.chinese_writings
+chinese_name = javdb.chinese_name
 
 
 def adopted_name(current: list[str]) -> str:

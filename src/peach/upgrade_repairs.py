@@ -379,6 +379,10 @@ DANGLING_KEY = f'dangling-candidates-{upgrade_rules.DANGLING_CANDIDATES}'
 #: JavDB 演员页补记有碼／無碼（#271）的回执键；规则版本见 `upgrade_rules`。
 JAVDB_RECORDS_KEY = f'javdb-actor-records-{upgrade_rules.JAVDB_ACTOR_RECORDS}'
 
+#: 存量 JavDB 演员 id 按缓存的演员页补繁体写法（ADR-0203）的回执键；批次也是它，撤回按
+#: `auto:performer-zh-tw-name` 整批认。规则版本见 `upgrade_rules`。
+JAVDB_ZH_TW_KEY = f'javdb-zh-tw-names-{upgrade_rules.JAVDB_ZH_TW_NAMES}'
+
 #: 来源 genre 挂上的分辨率标签解除的回执键；规则版本见 `upgrade_rules`。
 RESOLUTION_TAGS_KEY = f'source-resolution-tags-{upgrade_rules.SOURCE_RESOLUTION_TAGS}'
 
@@ -454,6 +458,36 @@ def settle_javdb_records(connection, records: dict[str, bool]) -> dict:
                 disabled.append({'entity_id': entity_id, 'external_id': ref['external_id'], 'source_id': source_id})
     return {'rule': upgrade_rules.JAVDB_ACTOR_RECORDS, 'recorded': recorded, 'hidden': hidden,
             'disabled_feeds': disabled}
+
+
+def settle_javdb_zh_tw(connection, names: dict[str, list[str]], batch: str) -> dict:
+    """给存量 javdb 演员 id 补繁体写法（`names` 取自本机缓存的演员页，只读缓存、不出网）。
+
+    判据与补女优资料后继同一份（`javdb.traditional_name`）；缓存里没有页的 id 不记，留给后继去取。
+    已按现行判据查过的不重做。别名来源带本回执的批次，`revert_auto_landing.py` 整批撤回。
+    """
+    from . import javdb, performer_zh_tw
+    written, none = [], []
+    for entity_id, canonical, external_id, raw in connection.execute(
+            "SELECT r.entity_id,e.canonical_name,r.external_id,r.metadata_json FROM entity_external_ref r"
+            " JOIN entity e ON e.id=r.entity_id WHERE r.provider='javdb' AND r.external_kind='performer'"
+            " AND e.kind='performer' ORDER BY r.entity_id,r.external_id").fetchall():
+        if external_id not in names or performer_zh_tw.checked(connection, entity_id):
+            continue
+        try:
+            metadata = json.loads(raw or '{}')
+        except ValueError:
+            continue
+        if not isinstance(metadata, dict) or metadata.get('uncensored') is True:
+            continue
+        chain = [canonical, *(alias for (alias, source) in connection.execute(
+            'SELECT alias,source FROM entity_alias WHERE entity_id=?', (entity_id,))
+            if not performer_zh_tw.is_ours(str(source)))]
+        writing, reason = javdb.traditional_name(names[external_id], chain)
+        done = performer_zh_tw.record(connection, entity_id, external_id, writing, canonical, batch)
+        (written if done else none).append({'entity_id': entity_id, 'external_id': external_id,
+                                           'name': done, 'reason': reason})
+    return {'rule': upgrade_rules.JAVDB_ZH_TW_NAMES, 'written': written, 'none': none}
 
 
 #: `revert_auto_landing.py --source` 认这条补修的归属串；批次是回执行的 id（`JAVDB_RECORDS_KEY`）。
@@ -1000,6 +1034,7 @@ class UpgradeRepairs:
                 self._withdraw_stale_code_evidence()
                 self._settle_dangling_candidates()
                 self._settle_javdb_records()
+                self._settle_javdb_zh_tw()
                 self._reclassify_videos()
                 self._settle_resolution_tags()
                 self._settle_quality()
@@ -1053,6 +1088,7 @@ class UpgradeRepairs:
             self._withdraw_stale_code_evidence()
             self._settle_dangling_candidates()
             self._settle_javdb_records()
+            self._settle_javdb_zh_tw()
             self._reclassify_videos()
             self._settle_resolution_tags()
             self._settle_quality()
@@ -1268,6 +1304,31 @@ class UpgradeRepairs:
             return
         LOGGER.info('JavDB actor pages: recorded %s record types, stopped offering %s entries, disabled %s feeds',
                     len(result['recorded']), len(result['hidden']), len(result['disabled_feeds']))
+
+    def _settle_javdb_zh_tw(self) -> None:
+        """存量 javdb 演员 id 补繁体写法（`settle_javdb_zh_tw`），只做一次；只读本机缓存、不出网。
+
+        缓存里没有的 id 由补女优资料后继按限流去取。出错只记日志，下次启动再试。
+        """
+        from . import javdb
+        try:
+            with self.contract.database.read_connection() as connection:
+                if connection.execute('SELECT 1 FROM ledger_upgrade_repair WHERE id=?',
+                                      (JAVDB_ZH_TW_KEY,)).fetchone():
+                    return
+            names = javdb.cached_current_names(javdb_card_pages(self.contract))
+            with self.contract.database.write_transaction() as connection:
+                if connection.execute('SELECT 1 FROM ledger_upgrade_repair WHERE id=?',
+                                      (JAVDB_ZH_TW_KEY,)).fetchone():
+                    return
+                result = settle_javdb_zh_tw(connection, names, JAVDB_ZH_TW_KEY)
+                connection.execute('INSERT INTO ledger_upgrade_repair(id,applied_at,result_json) VALUES(?,?,?)',
+                                   (JAVDB_ZH_TW_KEY, str(time.time()), json.dumps(result, ensure_ascii=False)))
+        except Exception:
+            LOGGER.exception('JavDB traditional performer name repair failed')
+            return
+        LOGGER.info('JavDB actor pages: wrote %s traditional names, %s without a usable one',
+                    len(result['written']), len(result['none']))
 
     def _reclassify_videos(self) -> None:
         """记成 other、按现行扩展名规则是视频的行（`misfiled_videos`）改成视频，只做一次。

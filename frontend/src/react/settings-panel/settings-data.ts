@@ -41,7 +41,8 @@ export const fetchMediaProcessing = (signal?: AbortSignal) =>
 /** `q_settings` 返回的整份；写入时只送改了的那几个键，回来的仍是整份。 */
 export interface SyncedSettings {
   taskSpeedMode?: 'low' | 'standard' | 'high';
-  performerNameLanguage?: 'zh-CN' | 'ja';
+  /** null：数据库里没存过，显示按界面语言取默认。 */
+  performerNameLanguage?: 'zh-CN' | 'zh-TW' | 'ja' | null;
   interfaceLanguage?: InterfaceLanguageChoice;
   systemLanguage?: string | null;
   sidebarOrder?: string[];

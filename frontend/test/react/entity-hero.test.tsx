@@ -57,16 +57,20 @@ async function open(initial: EntityHeroProps) {
 
 describe('排版用的纯函数', () => {
   it('语言切换保留所选艺名，名称菜单使用原始值提交统一名称', async () => {
-    registerNameWritings([{ id: 7792, kind: 'performer', canonical_name: '枫花恋', zh_cn: '枫花恋', ja: '楓カレン' }]);
+    registerNameWritings([{ id: 7792, kind: 'performer', canonical_name: '枫花恋', zh_cn: '枫花恋', ja: '楓カレン', zh_tw: '楓花戀' }]);
     const given = props({ name: '枫花恋', helpers: helpers({ portraitImg: () => '<img src="/avatar" alt="枫花恋">' }),
       entity: performer({ canonical_name: '枫花恋', aliases: ['楓カレン', '田中柠檬'],
       name_display: { choices: {
         'zh-CN': [{ value: '枫花恋', label: '枫花恋' }, { value: '田中柠檬', label: '田中柠檬' }],
+        'zh-TW': [{ value: '枫花恋', label: '楓花戀' }, { value: '田中柠檬', label: '田中レモン' }],
         ja: [{ value: '枫花恋', label: '楓カレン' }, { value: '田中柠檬', label: '田中レモン' }],
-      }, groups: { 'zh-CN': { shown: [], total: 0, groups: [] }, ja: { shown: [], total: 0, groups: [] } } },
+      }, groups: { 'zh-CN': { shown: [], total: 0, groups: [] }, 'zh-TW': { shown: [], total: 0, groups: [] },
+        ja: { shown: [], total: 0, groups: [] } } },
     }) });
     const host = await open(given);
     expect(host.querySelector('h2')?.textContent).toBe('枫花恋');
+    await act(async () => setNameLanguage('zh-TW'));
+    expect(host.querySelector('h2')?.textContent).toBe('楓花戀');
     await act(async () => setNameLanguage('ja'));
     expect(host.querySelector('h2')?.textContent).toBe('楓カレン');
     expect(host.querySelector('[data-entity-portrait] img')?.getAttribute('alt')).toBe('楓カレン');

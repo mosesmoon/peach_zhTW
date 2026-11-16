@@ -29,11 +29,12 @@ from .genre_taxonomy import resolve_profile_tag
 from .kanji import fold_glyphs
 from .metadata_alias_resolve import PLANNING_ALIAS_SOURCE
 from .minnano_av import name_entries
+from . import performer_zh_tw
 from .performer_profiles import TABLE, read_profile
 from .social_links import name_key
 
 #: 不上页头的别名来源。
-HIDDEN_SOURCES = frozenset({"r18:performer", PLANNING_ALIAS_SOURCE})
+HIDDEN_SOURCES = frozenset({"r18:performer", PLANNING_ALIAS_SOURCE, performer_zh_tw.SOURCE})
 #: 名字那一行在读音之后先列几个。
 SHOWN = 3
 #: 页头名字的三个固定分组：显示名的 code（ADR-0159）。分组的 `label` 照旧是 zh-CN 原文，另带 `label_code`；

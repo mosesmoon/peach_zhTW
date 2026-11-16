@@ -59,7 +59,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from . import (code_siblings, company_profiles, fc2_sellers, follow_creators, jav_poster_crop, metadata_text_repair,
+from . import (code_siblings, performer_zh_tw, company_profiles, fc2_sellers, follow_creators, jav_poster_crop, metadata_text_repair,
                record_rehome, sample_images, seed_pack, wants, western_artwork)
 from .metadata_auto_apply import UNION_TAGS_SOURCE, planned_verified_revert, revert_verified
 
@@ -337,6 +337,8 @@ def apply(connection, planned: dict) -> dict:
     connection.executemany(
         "DELETE FROM entity_alias WHERE entity_id=? AND normalized_alias=? AND source=?",
         [(alias["entity_id"], alias["normalized"], alias["source"]) for alias in aliases])
+    performer_zh_tw.withdraw(connection, [alias["entity_id"] for alias in aliases
+                                          if performer_zh_tw.is_ours(alias["source"])])
     connection.executemany(
         "DELETE FROM performer_profile WHERE entity_id=? AND source=?",
         [(profile["entity_id"], profile["source"]) for profile in profiles])

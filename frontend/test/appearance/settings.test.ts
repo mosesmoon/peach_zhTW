@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DEFAULT_ACCENT, DEFAULT_HOME_GLOW } from '../../src/appearance/home-glow';
 import {
-  applySyncedSettings, DEFAULT_SETTINGS, normalizeAppSettings, readAppSettings, SETTINGS_KEY, type AppSettings,
+  applySyncedSettings, DEFAULT_SETTINGS, effectiveNameLanguage, normalizeAppSettings, readAppSettings, SETTINGS_KEY, type AppSettings,
 } from '../../src/appearance/settings';
 import { createSettingsStore } from '../../src/settings-store';
 import { DEFAULT_SIDEBAR_ORDER } from '../../src/sidebar';
@@ -124,6 +124,29 @@ describe('数据库那一份落进本地缓存', () => {
     applySyncedSettings({ performerNameLanguage: 'unsupported' }, changed, store);
     expect(save).toHaveBeenCalledTimes(1);
     expect(store.value.performerNameLanguage).toBe('zh-CN');
+  });
+
+  it('名称偏好接受繁体中文；数据库没存过（null）时本地也清成没选过', () => {
+    const { store, changed, save } = stage({ performerNameLanguage: 'zh-CN' });
+    applySyncedSettings({ performerNameLanguage: 'zh-TW' }, changed, store);
+    expect(store.value.performerNameLanguage).toBe('zh-TW');
+    applySyncedSettings({ performerNameLanguage: null }, changed, store);
+    expect(store.value.performerNameLanguage).toBeNull();
+    expect(save).toHaveBeenCalledTimes(2);
+    expect(changed.mock.calls).toEqual([['performerNameLanguage'], ['performerNameLanguage']]);
+    applySyncedSettings({}, changed, store);
+    expect(changed).toHaveBeenCalledTimes(2);
+  });
+
+  it('名称语言没选过时按界面语言取默认，选过的不被界面语言改写', () => {
+    expect(normalizeAppSettings({}).settings.performerNameLanguage).toBeNull();
+    expect(normalizeAppSettings({ performerNameLanguage: 'fr' }).settings.performerNameLanguage).toBeNull();
+    expect(normalizeAppSettings({ performerNameLanguage: 'zh-TW' }).settings.performerNameLanguage).toBe('zh-TW');
+    expect(effectiveNameLanguage(null, 'zh-TW')).toBe('zh-TW');
+    expect(effectiveNameLanguage(null, 'zh-CN')).toBe('zh-CN');
+    expect(effectiveNameLanguage(null, 'en')).toBe('zh-CN');
+    expect(effectiveNameLanguage('ja', 'zh-TW')).toBe('ja');
+    expect(effectiveNameLanguage('zh-CN', 'zh-TW')).toBe('zh-CN');
   });
 
   it('界面语言以数据库为准，变了才落盘并交给壳重载，不认识的值丢掉', () => {

@@ -21,7 +21,7 @@ import sqlite3
 from datetime import datetime, timezone
 from urllib.parse import urlsplit
 
-from . import link_status
+from . import link_status, performer_zh_tw
 from . import seed_corrections, seed_validation
 from .catalog_vocabulary import current_link_label
 from .entities import _ref_is_free, normalize_entity_name, prefer_entity_name, rewrite_flat_projection
@@ -88,7 +88,7 @@ def _aliases(connection: sqlite3.Connection, entity_id: int, kind: str, *, sourc
     for alias, source, confidence in connection.execute(
             "SELECT alias,source,confidence FROM entity_alias WHERE entity_id=? ORDER BY normalized_alias,source",
             (entity_id,)):
-        if _ours(source) or not str(alias or "").strip():
+        if _ours(source) or performer_zh_tw.is_ours(str(source)) or not str(alias or "").strip():
             continue
         if kind == "performer" and rejection(str(alias)):
             continue

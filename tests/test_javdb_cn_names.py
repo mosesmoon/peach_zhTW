@@ -599,3 +599,31 @@ class MappingCsvTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TraditionalNameTests(unittest.TestCase):
+    """运行期的繁体写法判据（ADR-0203）：不用 OpenCC，只用账本名字链与日本字形折叠。"""
+
+    chain = ["凉森玲梦", "涼森れむ"]
+
+    def test_the_only_chinese_writing_paired_with_a_known_japanese_name_is_taken(self):
+        self.assertEqual(javdb.traditional_name(["涼森玲夢", "涼森れむ"], self.chain), ("涼森玲夢", ""))
+
+    def test_a_single_name_page_needs_the_writing_itself_in_the_ledger(self):
+        self.assertEqual(javdb.traditional_name(["大橋未久"], ["大桥未久"]), ("大橋未久", ""))
+        self.assertEqual(javdb.traditional_name(["大橋未久"], ["别人"]), ("", "not-in-ledger"))
+
+    def test_two_chinese_writings_or_none_are_not_guessed(self):
+        self.assertEqual(javdb.traditional_name(["涼森玲夢", "凉森玲梦", "涼森れむ"], self.chain),
+                         ("", javdb.AMBIGUOUS))
+        self.assertEqual(javdb.traditional_name(["涼森れむ"], self.chain), ("", javdb.JAPANESE_ONLY))
+
+    def test_names_that_are_not_hers_or_differ_in_surname_are_refused(self):
+        self.assertEqual(javdb.traditional_name(["桜空夢", "さくらそらむ"], self.chain), ("", "not-in-ledger"))
+        self.assertEqual(javdb.traditional_name(["美空玲夢", "涼森れむ"], self.chain), ("", "surnames-differ"))
+
+    def test_cached_pages_give_current_names_by_actor_id_and_drop_disagreements(self):
+        a = page("涼森玲夢, 涼森れむ", actor="Ab12")
+        b = page("別人", actor="Cd34")
+        c = page("甲", actor="Cd34")
+        self.assertEqual(javdb.cached_current_names([a, b, c]), {"Ab12": ["涼森玲夢", "涼森れむ"]})

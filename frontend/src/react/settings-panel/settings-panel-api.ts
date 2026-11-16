@@ -25,7 +25,7 @@ export interface PanelSettings {
   defaultSortDirection: string;
   groupCollapse: boolean;
   javImage: string;
-  performerNameLanguage: 'zh-CN' | 'ja';
+  performerNameLanguage: 'zh-CN' | 'zh-TW' | 'ja' | null;
   interfaceLanguage: InterfaceLanguageChoice;
   systemLanguage: InterfaceLanguage | null;
   feedAutoScroll: boolean;

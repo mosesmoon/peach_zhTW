@@ -17,7 +17,7 @@ from types import SimpleNamespace
 from unittest import mock
 from urllib.parse import quote
 
-from peach import avwikidb, javdb, minnano_av
+from peach import avwikidb, javdb, minnano_av, performer_zh_tw
 from peach import performer_alias_followup as alias
 from peach import performer_profile_followup as followup
 from peach.entities import merge_entity, normalize_entity_name
@@ -755,7 +755,78 @@ class JavdbTests(Case):
     def test_a_bound_id_is_not_searched_again(self):
         self.ref(self.meguri, followup.JAVDB, "Ab12")
         self.run_followup(self.meguri)
-        self.assertEqual(self.javdb.calls, [])
+        self.assertEqual(self.javdb.calls, ["https://javdb.com/actors/Ab12"])
+
+    def actor_page(self, actor: str, current: str, former: str = "") -> None:
+        self.javdb.pages[f"https://javdb.com/actors/{actor}"] = (200, (
+            f'<span class="actor-section-name">{current}</span><span class="section-meta">{former}</span>'
+            f'<a href="/actors/{actor}/collect"></a>'))
+
+    def zh_tw_aliases(self, entity_id: int) -> list[tuple[str, str]]:
+        with self.database.read_connection() as connection:
+            return [(str(row[0]), str(row[1])) for row in connection.execute(
+                "SELECT alias,source FROM entity_alias WHERE entity_id=? AND source LIKE ? ORDER BY alias",
+                (entity_id, "auto:performer-zh-tw-name%"))]
+
+    def rem(self):
+        reiko = self.entity("凉森玲梦", "涼森れむ")
+        self.work(2, reiko)
+        self.ref(reiko, alias.MINNANO, "5555")
+        self.ref(reiko, followup.JAVDB, "Ab12", {"uncensored": False})
+        return reiko
+
+    def test_the_traditional_spelling_on_the_actor_page_is_stored_once(self):
+        reiko = self.rem()
+        self.actor_page("Ab12", "涼森玲夢, 涼森れむ")
+        self.run_followup(reiko, run_id=9)
+        self.assertEqual(self.zh_tw_aliases(reiko), [("涼森玲夢", f"{performer_zh_tw.SOURCE}@9")])
+        metadata = self.refs(reiko)[followup.JAVDB][1]
+        self.assertEqual((metadata["zh_tw"], metadata["zh_tw_for"], metadata["zh_tw_rule"]),
+                         ("涼森玲夢", "凉森玲梦", performer_zh_tw.RULE))
+        with self.database.read_connection() as connection:
+            self.assertTrue(performer_zh_tw.checked(connection, reiko))
+        self.javdb.calls.clear()
+        self.run_followup(reiko, run_id=10)
+        self.assertNotIn("https://javdb.com/actors/Ab12", self.javdb.calls)
+
+    def test_two_chinese_spellings_on_the_page_are_recorded_as_checked_without_a_name(self):
+        reiko = self.rem()
+        self.actor_page("Ab12", "涼森玲夢, 凉森玲梦, 涼森れむ")
+        self.run_followup(reiko)
+        self.assertEqual(self.zh_tw_aliases(reiko), [])
+        self.assertEqual(self.refs(reiko)[followup.JAVDB][1]["zh_tw"], "")
+
+    def test_a_page_whose_names_are_not_hers_stores_nothing(self):
+        reiko = self.rem()
+        self.actor_page("Ab12", "桜空夢, さくらそらむ")
+        self.run_followup(reiko)
+        self.assertEqual(self.zh_tw_aliases(reiko), [])
+
+    def test_a_spelling_owned_by_another_performer_is_not_stored(self):
+        reiko = self.rem()
+        self.entity("涼森玲夢")
+        self.actor_page("Ab12", "涼森玲夢, 涼森れむ")
+        self.run_followup(reiko)
+        self.assertEqual(self.zh_tw_aliases(reiko), [])
+
+    def test_the_uncensored_record_is_not_fetched(self):
+        reiko = self.entity("凉森玲梦", "涼森れむ")
+        self.work(2, reiko)
+        self.ref(reiko, alias.MINNANO, "5555")
+        self.ref(reiko, followup.JAVDB, "Xy99", {"uncensored": True})
+        self.run_followup(reiko)
+        self.assertNotIn("https://javdb.com/actors/Xy99", self.javdb.calls)
+
+    def test_the_traditional_alias_does_not_join_the_name_chain_or_fingerprint(self):
+        reiko = self.rem()
+        with self.database.read_connection() as connection:
+            before = (alias._names(connection, reiko), followup.fingerprint(connection, reiko))
+        self.actor_page("Ab12", "涼森玲夢, 涼森れむ")
+        self.run_followup(reiko)
+        with self.database.read_connection() as connection:
+            after = (alias._names(connection, reiko), followup.fingerprint(connection, reiko))
+        self.assertEqual(after[0], before[0])
+        self.assertNotEqual(after[1], before[1])  # 查过的标记进指纹，之后不再重派
 
     def test_a_login_page_is_unfetched_and_asked_again_next_round(self):
         """回 200 的登入页不是「站上没有她」：不结算，缓存也不留。"""

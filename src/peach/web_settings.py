@@ -50,6 +50,8 @@ SEARCH_HISTORY_LIMIT_MAX = 50
 INTERFACE_LANGUAGES = ("zh-CN", "zh-TW", "en")
 #: 设置里能存的值：`auto` 由每个浏览器按自己的语言偏好、再按运行 Peach 的电脑的系统语言选（默认）。
 INTERFACE_LANGUAGE_CHOICES = ("auto", *INTERFACE_LANGUAGES)
+#: 女优名称的取值；没选过存不存都行，读回是 None。
+PERFORMER_NAME_LANGUAGES = ("zh-CN", "zh-TW", "ja")
 
 #: 只有这些键跟着账本走。白名单而不是黑名单：将来往设置里加字段的人必须显式表态
 #: 它该不该跨机同步，而不是默认就同步过去。
@@ -266,7 +268,9 @@ def q_settings(contract: SettingsContract, _args=None) -> dict:
         "codePatterns": _stored_code_patterns(payload),
         **_feed_switches(payload),
         "searchHistoryLimit": normalise_search_history_limit(payload.get("searchHistoryLimit")),
-        "performerNameLanguage": "ja" if payload.get("performerNameLanguage") == "ja" else "zh-CN",
+        # 没存过是 None：默认值随各设备的界面语言算，由前端决定，不在这里替用户存一个。
+        "performerNameLanguage": (payload["performerNameLanguage"]
+                                  if payload.get("performerNameLanguage") in PERFORMER_NAME_LANGUAGES else None),
         "interfaceLanguage": payload["interfaceLanguage"] if payload.get("interfaceLanguage") in INTERFACE_LANGUAGE_CHOICES else "auto",
         "systemLanguage": system_language(),
         "taskSpeedMode": payload.get("taskSpeedMode", "standard"),
@@ -309,7 +313,7 @@ def w_settings(contract: SettingsContract, body) -> dict:
         merged["taskSpeedMode"] = valid_mode(body["taskSpeedMode"])
     if "performerNameLanguage" in body:
         language = body["performerNameLanguage"]
-        if language not in ("zh-CN", "ja"):
+        if language not in PERFORMER_NAME_LANGUAGES:
             raise UserValueError("api.settings.performerNameLanguageInvalid")
         merged["performerNameLanguage"] = language
     if "interfaceLanguage" in body:

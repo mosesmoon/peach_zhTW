@@ -26,6 +26,7 @@ import {
 } from '@peach/legacy/ui';
 
 import { isInterfaceLanguageChoice, t, type InterfaceLanguageChoice } from '../../i18n';
+import { effectiveNameLanguage, isPerformerNameLanguage, type PerformerNameLanguage } from '../../appearance/settings';
 import { PREFERENCE_SECTIONS, sectionId } from '../../history/settings-route';
 import { normalizeJavImage } from '../../jav-artwork';
 import { boundedPreference } from '../../number-setting';
@@ -556,16 +557,17 @@ function InterfaceLanguageSetting({ host: current, epoch }: { host: SettingsPane
 function NameLanguageSetting({ host: current, epoch }: { host: SettingsPanelHost; epoch: number }) {
   const query = useQuery({ queryKey: SETTINGS_KEY, queryFn: ({ signal }) => fetchSettings(signal), staleTime: 0 });
   const save = useSaveSettings();
-  const [pending, setPending] = useState<'zh-CN' | 'ja' | null>(null);
-  const language = query.data?.performerNameLanguage;
+  const [pending, setPending] = useState<PerformerNameLanguage | null>(null);
+  /* 数据库没存过（null）时下拉框显示按界面语言取的默认值；只有用户选了才写入。 */
+  const language = query.data?.performerNameLanguage ?? null;
   return <>
     <Row title={t('settings:performerNameLanguage.title')} description={<small data-copy-key="performer-name-language-help">{t('settings:performerNameLanguage.help')}</small>}>
       <SelectField id="performerNameLanguageSetting" label={t('settings:performerNameLanguage.title')} epoch={epoch}
-        options={[["zh-CN", t('settings:performerNameLanguage.chinese')], ["ja", t('settings:performerNameLanguage.japanese')]]}
-        value={pending ?? language ?? current.store.value.performerNameLanguage}
-        disabled={query.isPending || query.isError || save.isPending || !language} busy={save.isPending}
+        options={[["zh-CN", t('settings:performerNameLanguage.chinese')], ["zh-TW", t('settings:performerNameLanguage.traditional')], ["ja", t('settings:performerNameLanguage.japanese')]]}
+        value={pending ?? effectiveNameLanguage(language)}
+        disabled={query.isPending || query.isError || save.isPending} busy={save.isPending}
         onPick={(value) => {
-          if (save.isPending || (value !== 'zh-CN' && value !== 'ja') || value === language) return;
+          if (save.isPending || !isPerformerNameLanguage(value) || value === language) return;
           setPending(value);
           save.mutate({ performerNameLanguage: value }, {
             onSuccess: (saved) => { current.syncRemote(saved); current.receipt(t('settings:performerNameLanguage.saved')) },

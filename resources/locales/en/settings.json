@@ -771,11 +771,12 @@
   },
   "performerNameLanguage": {
     "chinese": "Chinese",
-    "help": "Names and aliases show only in the selected language. If a name has no version in that language, the current name is kept.",
+    "help": "Names and aliases show only in the selected language. If a name has no version in that language, the current name is kept. With Traditional Chinese, a name shows its JavDB traditional spelling when there is one and the original Japanese otherwise. Until you pick one, the Traditional Chinese interface defaults to Traditional Chinese.",
     "japanese": "Original Japanese",
     "saveFailed": "Save name language",
     "saved": "Name language saved",
     "title": "Actress names",
+    "traditional": "Traditional Chinese",
     "unavailable": "Couldn't read the name language from the database. Reopen preferences."
   },
   "photoLayout": {

@@ -137,7 +137,7 @@ class SettingsRoundTripTests(unittest.TestCase):
                           "organizeTemplates": {}, "codePatterns": [],
                           "feedHideGroupCompilations": True,
                           "feedHideSoloCompilations": False, "feedHideExcerpts": True,
-                          "searchHistoryLimit": None, "performerNameLanguage": "zh-CN", "taskSpeedMode": "standard",
+                          "searchHistoryLimit": None, "performerNameLanguage": None, "taskSpeedMode": "standard",
                           "interfaceLanguage": "auto", "systemLanguage": None, "javBrowserWantOnNoMatch": True})
 
     def test_code_patterns_are_checked_when_saved(self):
@@ -164,7 +164,8 @@ class SettingsRoundTripTests(unittest.TestCase):
         self.assertEqual(q_settings(self.contract)['taskSpeedMode'], 'high')
 
     def test_name_language_is_shared_and_preserves_other_profile_settings(self):
-        self.assertEqual(q_settings(self.contract)['performerNameLanguage'], 'zh-CN')
+        # 没选过读回 None：默认值随各设备的界面语言算，不替用户存。
+        self.assertIsNone(q_settings(self.contract)['performerNameLanguage'])
         self.assertEqual(self._stored_json(), {})
         order = ['tags', '']
         w_settings(self.contract, {'sidebarOrder': order, 'performerNameLanguage': 'ja'})
@@ -173,6 +174,11 @@ class SettingsRoundTripTests(unittest.TestCase):
         w_settings(other_device, {'performerNameLanguage': 'zh-CN'})
         self.assertEqual(q_settings(self.contract)['performerNameLanguage'], 'zh-CN')
         self.assertEqual(self._stored_json(), {'sidebarOrder': order, 'performerNameLanguage': 'zh-CN'})
+
+    def test_traditional_chinese_is_an_accepted_name_language(self):
+        w_settings(self.contract, {'performerNameLanguage': 'zh-TW'})
+        self.assertEqual(q_settings(self.contract)['performerNameLanguage'], 'zh-TW')
+        self.assertEqual(self._stored_json(), {'performerNameLanguage': 'zh-TW'})
 
     def test_invalid_name_languages_leave_the_stored_preference_unchanged(self):
         w_settings(self.contract, {'performerNameLanguage': 'ja'})
@@ -259,7 +265,7 @@ class SettingsRoundTripTests(unittest.TestCase):
                           "organizeTemplates": {}, "codePatterns": [],
                           "feedHideGroupCompilations": True,
                           "feedHideSoloCompilations": False, "feedHideExcerpts": True,
-                          "searchHistoryLimit": None, "performerNameLanguage": "zh-CN", "taskSpeedMode": "standard",
+                          "searchHistoryLimit": None, "performerNameLanguage": None, "taskSpeedMode": "standard",
                           "interfaceLanguage": "auto", "systemLanguage": None, "javBrowserWantOnNoMatch": True})
         self.assertEqual(q_settings(self.contract)["sidebarOrder"], order)
         self.assertEqual(self._stored_json()["sidebarOrder"], order)

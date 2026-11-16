@@ -1,7 +1,7 @@
 /* preferences 域控制器：本域状态与动作，启动由 Application 的生命周期统一安装。 */
 import { loadMediaSources } from './../query/media-sources';
 import { buildBars, catalogState, dropOfflineFromDefaultLoc, homePath, loadCatalog, paintCatalogFilter, repaintCatalogGrid } from './catalog.js';
-import { appSettingsStore } from './../appearance/settings';
+import { appSettingsStore, effectiveNameLanguage } from './../appearance/settings';
 import { interfaceLanguage, storedInterfaceLanguage, t } from '../i18n';
 import { entityDisplayName, setNameLanguage } from '../core/entity-names';
 import { orientLabel } from '../core/stored-values';
@@ -163,7 +163,7 @@ preferencesState.OFFLINE_REASON = {local:t('shell:storageOffline.localLabel'),
 preferencesState.offlineReason = key=>preferencesState.sourceProblems[key]||preferencesState.OFFLINE_REASON[key]||t('shell:storageOffline.other');
 preferencesState.settingsStore = appSettingsStore();
 preferencesState.appSettings = preferencesState.settingsStore.value;
-setNameLanguage(preferencesState.appSettings.performerNameLanguage);
+setNameLanguage(effectiveNameLanguage(preferencesState.appSettings.performerNameLanguage));
 preferencesState.saveSettings = ()=>preferencesState.settingsStore.save();
 document.documentElement.style.setProperty('--hover-delay',`${preferencesState.appSettings.hoverDelaySeconds}s`);
 setUiSoundsEnabled(preferencesState.appSettings.uiSounds);
@@ -178,7 +178,7 @@ preferencesState.nextCatalogLoad = ()=>new Promise(resolve=>preferencesState.cat
 preferencesState.handOff = loading=>{preferencesState.catalogLoadWaiters.splice(0).forEach(resolve=>resolve(loading));return loading};
 preferencesState.settingsEffects = {
   performerNameLanguage:()=>{
-    setNameLanguage(preferencesState.appSettings.performerNameLanguage);
+    setNameLanguage(effectiveNameLanguage(preferencesState.appSettings.performerNameLanguage));
     loadingState.syncPageTitle(location.href);
     catalogState.barsRendered='';buildBars();
   },

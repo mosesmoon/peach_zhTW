@@ -1,7 +1,9 @@
 /** 语言写法只用于标签。查询、路由和写入始终使用调用方持有的原始名称与 ID。 */
-export type NameLanguage = 'zh-CN' | 'ja';
+export type NameLanguage = 'zh-CN' | 'zh-TW' | 'ja';
 export interface NameWriting {
   id: number; kind: string; canonical_name: string; zh_cn: string | null; ja: string | null;
+  /** JavDB 现名的繁体写法；没有时繁体中文显示日文。 */
+  zh_tw?: string | null;
 }
 const names = new Map<string, NameWriting>();
 const identities = new Map<string, NameWriting>();
@@ -28,7 +30,7 @@ export function registerNameWritings(rows: NameWriting[], sharedGlyphs: Record<s
 function indexNameWriting(row: NameWriting): void {
   identities.set(`${row.kind}/${row.id}`, row);
   names.set(`${row.kind}/${row.canonical_name}`, row);
-  for (const name of [row.zh_cn, row.ja]) {
+  for (const name of [row.zh_cn, row.ja, row.zh_tw]) {
     if (!name) continue;
     const key = `${row.kind}/${name}`;
     const candidates = spellings.get(key) || new Map<number, NameWriting>();
@@ -42,7 +44,7 @@ export function registerNameWriting(row: NameWriting): void {
 }
 export function entityWriting(kind: string, name: string, id?: number | null): NameWriting | undefined {
   const byId = id ? identities.get(`${kind}/${id}`) : undefined;
-  if (byId && [byId.canonical_name, byId.zh_cn, byId.ja].includes(name)) return byId;
+  if (byId && [byId.canonical_name, byId.zh_cn, byId.ja, byId.zh_tw].includes(name)) return byId;
   const key = `${kind}/${name}`;
   const canonical = names.get(key);
   if (canonical) return canonical;
@@ -52,6 +54,8 @@ export function entityWriting(kind: string, name: string, id?: number | null): N
 export function entityDisplayName(kind: string, name: string, id?: number | null): string {
   const row = entityWriting(kind, name, id);
   if (language === 'ja') return row?.ja || name;
+  /* 繁体中文：有 JavDB 的繁体写法就用，没有用日文；不把简体名逐字硬转。 */
+  if (language === 'zh-TW') return row?.zh_tw || row?.ja || name;
   if (row?.zh_cn) return row.zh_cn;
   if ((kind !== 'performer' && kind !== 'creator') || !/^[\p{Script=Han}々\s]+$/u.test(name)) return name;
   const written: string[] = [];

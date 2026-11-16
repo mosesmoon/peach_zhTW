@@ -10,7 +10,7 @@ import unittest
 from datetime import date
 from pathlib import Path
 
-from peach import minnano_av, performer_header, performer_name_display
+from peach import minnano_av, performer_header, performer_name_display, performer_zh_tw
 from peach import web_contract as rm_web
 from peach.entities import normalize_entity_name
 from peach.genre_decisions import record_genre_decision
@@ -113,6 +113,66 @@ class Case(unittest.TestCase):
 
 
 class HeaderTests(Case):
+    def test_traditional_chinese_shows_the_javdb_spelling_or_falls_back_to_japanese(self):
+        """繁体中文：有 JavDB 繁体写法显示它，没有显示日文；简体规范名不充数，别名不外露（ADR-0203）。"""
+        aliases = [('楓カレン', 'avdb'), ('田中レモン', 'avdb')]
+        entity_id = self.entity('枫花恋', *aliases)
+        profile = {'kana': 'かえでかれん', 'raw': {'名前': '楓カレン', '別名': [
+            '楓カレン （かえでかれん / Kaede Karen）', '田中レモン(旧名) （たなかれもん / Tanaka Remon）']}}
+        with self.connection:
+            write_profile(self.connection, entity_id, profile, source='auto:performer-profile@1',
+                          source_url='https://example.invalid/', fetched_at=STAMP)
+            self.connection.execute("INSERT INTO entity_external_ref(entity_id,provider,external_kind,external_id)"
+                                    " VALUES(?,'javdb','performer','Ab12')", (entity_id,))
+
+        def shown(canonical='枫花恋'):
+            rows = [{'alias': row[0], 'source': row[1]} for row in self.connection.execute(
+                'SELECT alias,source FROM entity_alias WHERE entity_id=?', (entity_id,))]
+            return performer_name_display.display(self.connection, entity_id, canonical, rows,
+                                                  self.header(entity_id, canonical)['name_groups'])
+
+        without = shown()
+        self.assertEqual([choice['label'] for choice in without['choices']['zh-TW']], ['楓カレン', '田中レモン'])
+        self.assertIsNone(without['current']['zh_tw'])
+        with self.connection:
+            performer_zh_tw.record(self.connection, entity_id, 'Ab12', '楓花戀', '枫花恋', '7')
+        found = shown()
+        self.assertEqual(found['current']['zh_tw'], '楓花戀')
+        self.assertEqual([choice['label'] for choice in found['choices']['zh-TW']], ['楓花戀', '田中レモン'])
+        self.assertEqual(found['choices']['zh-TW'][0]['value'], '枫花恋')
+        self.assertEqual(found['choices']['zh-CN'], without['choices']['zh-CN'])
+        self.assertEqual(found['choices']['ja'], without['choices']['ja'])
+        everyone = {language: [entry['name'] for group in found['groups'][language]['groups']
+                               for entry in group['names']] for language in found['groups']}
+        self.assertNotIn('楓花戀', everyone['zh-CN'] + everyone['ja'] + everyone['zh-TW'])
+        self.assertNotIn('楓花戀', [choice['value'] for language in found['choices']
+                                   for choice in found['choices'][language]])
+        self.connection.row_factory = sqlite3.Row
+        self.assertEqual([row['zh_tw'] for row in performer_name_display.variants(self.connection)], ['楓花戀'])
+        # 用户之后改选了别的艺名当规范名：繁体写法不再属于它，回落日文；别名仍在，搜得到。
+        moved = shown('田中柠檬')
+        self.assertIsNone(moved['current']['zh_tw'])
+        self.assertEqual(self.connection.execute(
+            "SELECT count(*) FROM entity_alias WHERE alias='楓花戀'").fetchone()[0], 1)
+
+    def test_withdrawing_the_batch_removes_the_alias_and_the_reference_marks(self):
+        from peach import auto_landing_revert
+        entity_id = self.entity('枫花恋')
+        with self.connection:
+            self.connection.execute("INSERT INTO entity_external_ref(entity_id,provider,external_kind,external_id)"
+                                    " VALUES(?,'javdb','performer','Ab12')", (entity_id,))
+            performer_zh_tw.record(self.connection, entity_id, 'Ab12', '楓花戀', '枫花恋', '7')
+        self.connection.row_factory = sqlite3.Row
+        planned = auto_landing_revert.plan(
+            self.connection, performer_zh_tw.SOURCE, performer_zh_tw.SOURCE + '@7',
+            logo_root=self.root / 'logos', cover_root=self.root / 'covers')
+        self.assertEqual([row['alias'] for row in planned['aliases']], ['楓花戀'])
+        with self.connection:
+            auto_landing_revert.apply(self.connection, planned)
+        self.assertEqual(performer_zh_tw.writings(self.connection), {})
+        self.assertFalse(performer_zh_tw.checked(self.connection, entity_id))
+        self.assertEqual(self.connection.execute("SELECT count(*) FROM entity_alias").fetchone()[0], 0)
+
     def test_chinese_display_keeps_original_stage_names_and_only_changes_confirmed_glyphs(self):
         for original, chinese in [('宮澤寧音', '宫泽宁音'), ('山田鈴奈', '山田铃奈'),
                                   ('本郷愛', '本乡爱'), ('天使萌', '天使萌'),

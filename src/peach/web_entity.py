@@ -35,7 +35,7 @@ from .web_catalog import (
     video_work_key,
 )
 from .web_state import WebContract
-from . import entity_classification
+from . import entity_classification, performer_zh_tw
 
 
 #: 有资料页的实体种类。事务所（agency）和厂牌是两件事：厂牌出片、事务所出人，
@@ -306,7 +306,8 @@ def q_entity(contract: WebContract, args):
         # 罗马字仍是检索和旧链接的重要身份键，但中文/日文规范名下面再把英文全列一遍
         # 只会像名称没有本地化。展示契约单独收窄，身份契约 `aliases` 保持完整。
         d["display_aliases"] = _display_entity_aliases(
-            d["canonical_name"], d["aliases"])
+            d["canonical_name"], [row["alias"] for row in alias_rows
+                                  if not performer_zh_tw.is_ours(row["source"])])
         if kind in {'studio', 'agency'}:
             d['display_aliases'] = [alias for alias in d['aliases'] if alias != d['canonical_name']]
         # 自己敲进来的那几个单独报一遍：界面只在这些名字上给撤销，刮削和合并留下的

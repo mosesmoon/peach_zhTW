@@ -54,7 +54,7 @@ from pathlib import Path
 
 from urllib.parse import quote
 
-from . import avwikidb, entry_links, interface_text, javdb, minnano_av
+from . import avwikidb, entry_links, interface_text, javdb, minnano_av, performer_zh_tw
 from . import performer_alias_followup as alias
 from .followups import Attempts, Followup, FollowupType, attempts_root, register
 from .task_outcomes import joined, outcome_parts, part, said
@@ -149,6 +149,9 @@ def fingerprint(connection: sqlite3.Connection, entity_id: int) -> str:
     parts = [keys, _refs(connection, entity_id, MINNANO), _refs(connection, entity_id, AVWIKIDB),
              work_codes(connection, entity_id), _refs(connection, entity_id, JAVDB),
              _refs(connection, entity_id, AVBASE), f"r{RULE}"]
+    if parts[4]:
+        # 绑着 JavDB 演员 id 的才带繁体写法查没查过：没有 id 的女优指纹不变，不会因此重派。
+        parts.append(performer_zh_tw.checked(connection, entity_id))
     raw = json.dumps(parts, ensure_ascii=False)
     return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16]
 
@@ -665,15 +668,17 @@ def _visit_javdb(contract, pages, entity_id: int, names, batch: str, base: dict,
     """javdb：按名字搜演员卡，卡上的 id 是她的就绑上。只给 JAV 女优，已有 id 的不再搜。"""
     canonical, aliases = names
     with contract.database.read_connection() as connection:
-        refs = [{"provider": row[0], "external_kind": row[1], "external_id": row[2]}
+        refs = [{"provider": row[0], "external_kind": row[1], "external_id": row[2], "metadata_json": row[3]}
                 for row in connection.execute(
-                    "SELECT provider,external_kind,external_id FROM entity_external_ref"
+                    "SELECT provider,external_kind,external_id,metadata_json FROM entity_external_ref"
                     " WHERE entity_id=?", (int(entity_id),))]
     if not entry_links.is_jav_performer(refs):
         reports[JAVDB] = _said("site.notJav")
         return
-    if entry_links.provider_ids(refs).get(JAVDB):
+    bound = entry_links.provider_ids(refs).get(JAVDB)
+    if bound:
         reports[JAVDB] = _said("site.bound")
+        _visit_javdb_actor(contract, pages, entity_id, names, bound, refs, batch, base, reports, rows)
         return
     keys = alias.search_keys(canonical, aliases)[:alias.MAX_KEYS]
     if not keys:
@@ -724,6 +729,12 @@ def _visit_javdb(contract, pages, entity_id: int, names, batch: str, base: dict,
         # 记下这张卡是有碼还是無碼那条：同站几枚入口按它分辨（`entry_links.provider_ids`）。
         verdicts = [(card, bind(connection, entity_id, JAVDB, card["id"], _card_metadata(card, batch)))
                     for card in cards]
+    bound = [card["id"] for card, verdict in verdicts if verdict == BIND]
+    if bound:
+        fresh = [{"provider": JAVDB, "external_kind": "performer", "external_id": card_id,
+                  "metadata_json": json.dumps(_card_metadata(card, batch))}
+                 for card in cards for card_id in [card["id"]] if card_id in bound]
+        _visit_javdb_actor(contract, pages, entity_id, names, bound, fresh, batch, base, reports, rows)
     reports[JAVDB] = _NOTES.join(_said("site.cardHit" if verdict == BIND else "site.cardTaken", id=card['id'])
                                  for card, verdict in verdicts)
     for card, verdict in verdicts:
@@ -732,6 +743,49 @@ def _visit_javdb(contract, pages, entity_id: int, names, batch: str, base: dict,
         rows.append({**base, "site": JAVDB, "page": url, "action": verdict,
                      "batch": batch if verdict == BIND else "",
                      "detail": listed if verdict == BIND else _said("detail.cardTaken", id=card['id'])})
+
+
+def _visit_javdb_actor(contract, pages, entity_id: int, names, ids: list[str], refs: list[dict],
+                       batch: str, base: dict, reports: dict, rows: list) -> None:
+    """JavDB 演员页现名栏里的繁体写法（ADR-0203）：每个演员 id 按现行判据只查一次，同一份取页限流。
+
+    进有碼那一页（無碼那条常要登录）；取不到不记，下一轮再来。繁体写法判不出来也记一笔「查过」。
+    """
+    canonical, aliases = names
+    with contract.database.read_connection() as connection:
+        if performer_zh_tw.checked(connection, entity_id):
+            return
+    records = {ref["external_id"]: entry_links._ref_metadata(ref).get("uncensored") for ref in refs}
+    wanted = next((actor for actor in ids if records.get(actor) is not True), None)
+    if wanted is None:
+        return
+    url = entry_links.javdb_actor_page(wanted)
+    try:
+        _final, html = pages.get(url)
+    except alias.Blocked as error:
+        reports.unfetched_at(JAVDB, error)
+        return
+    except alias.Unavailable:
+        return
+    if javdb.LOGIN.search(html):
+        pages.forget(url)
+        writing, reason = "", "login-required"
+    elif javdb.actor_id(html) != wanted:
+        pages.forget(url)
+        return
+    else:
+        writing, reason = javdb.traditional_name(javdb.current_names(html), [canonical, *aliases])
+    with contract.database.write_transaction() as connection:
+        if not _alive(connection, entity_id, canonical):
+            return
+        # 别名来源是自己的 `auto:performer-zh-tw-name@<任务行 id>`，撤回不连带资料行与外部编号。
+        written = performer_zh_tw.record(connection, entity_id, wanted, writing, canonical,
+                                         batch.rpartition("@")[2])
+    detail = (_said("detail.zhTwWritten", id=wanted, name=written) if written
+              else _said("detail.zhTwNone", id=wanted, reason=reason or "taken"))
+    rows.append({**base, "site": JAVDB, "page": url, "action": WRITE if written else MISS,
+                 "batch": f"{performer_zh_tw.SOURCE}@{batch.rpartition('@')[2]}" if written else "",
+                 "detail": detail})
 
 
 def _parse_stamp(value) -> datetime | None:

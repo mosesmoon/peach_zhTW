@@ -802,7 +802,7 @@
       "libraryOrderInvalid": "媒體庫順序須使用不重複的媒體庫 ID",
       "navigationOrderUnknownEntry": "導覽順序包含無效項目",
       "navigationOrdersInvalid": "導覽排序需要已知分組與順序陣列",
-      "performerNameLanguageInvalid": "performerNameLanguage 只收 zh-CN 或 ja",
+      "performerNameLanguageInvalid": "performerNameLanguage 只收 zh-CN、zh-TW 或 ja",
       "profileMissing": "profile {{profile}} 不存在",
       "searchHistoryLimitInvalid": "searchHistoryLimit 只收 0 到 {{max}} 的整數",
       "switchNotBoolean": "{{key}} 只收 true 或 false",
@@ -3575,7 +3575,9 @@
         "sameNameMany": "站上同名不止一位：{{ids}}",
         "card": "演員卡 {{id}} 列著她的名字",
         "cardWithRecord": "演員卡 {{id}}（{{record}}）列著她的名字",
-        "cardTaken": "演員 id {{id}} 已屬另一條實體"
+        "cardTaken": "演員 id {{id}} 已屬另一條實體",
+        "zhTwWritten": "演員頁 {{id}} 現名欄的繁體寫法：{{name}}",
+        "zhTwNone": "演員頁 {{id}} 沒有可用的繁體寫法（{{reason}}）"
       },
       "site": {
         "failed": "未取得：{{error}}",

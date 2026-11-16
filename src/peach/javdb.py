@@ -23,6 +23,7 @@ from __future__ import annotations
 import html as html_lib
 import re
 
+from .kanji import fold_glyphs
 from .social_links import name_key
 from .source_page_words import JAVDB_COUNT, JAVDB_LOGIN, JAVDB_RECORD_KIND, JAVDB_UNCENSORED
 
@@ -172,3 +173,64 @@ def card_records(pages) -> dict[str, bool]:
             seen.setdefault(card["id"], set()).add(card_uncensored(card))
     return {actor: kinds.pop() for actor, kinds in seen.items()
             if len(kinds) == 1 and None not in kinds}
+
+
+_KANA = re.compile(r"[\u3040-\u30ff]")
+_HAN = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff]")
+_LATIN = re.compile(r"[A-Za-z]")
+_KANJI_HEAD = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff]+")
+
+#: `chinese_name` 的判据：站上只有日文写法、中文写法不止一个。
+JAPANESE_ONLY, AMBIGUOUS = "japanese-only", "ambiguous"
+
+
+def chinese_writings(names: list[str]) -> list[str]:
+    """一栏名字里的中文写法：整名汉字、无假名无拉丁的那些。
+
+    掺一个假名就是日文写法（`きみかわ結衣`），掺一个拉丁字母就是艺名本体（`JULIA`）。
+    """
+    return [value for value in names
+            if _HAN.search(value) and not _KANA.search(value) and not _LATIN.search(value)]
+
+
+def chinese_name(current: list[str]) -> tuple[str, str]:
+    """现名那一栏里的中文写法与判据。只认唯一那一个。"""
+    han = chinese_writings(current)
+    if len(han) == 1:
+        return han[0], ""
+    return "", (JAPANESE_ONLY if not han else AMBIGUOUS)
+
+
+def _fold_key(name: str) -> str:
+    return name_key(fold_glyphs(name))
+
+
+def traditional_name(current: list[str], chain: list[str]) -> tuple[str, str]:
+    """演员页现名栏里的繁体写法，和不采用的原因（采用时原因为空串）。
+
+    运行期没有繁简转换，只用日本字形折叠比名字，所以比 `harvest_javdb_cn_names.py`
+    保守：现名栏里的中文写法唯一，且另一个写法（日文名）或它自己折叠后落在账本名字链里，
+    日文名与它还得同姓；对不上就不采用，宁可回落日文。
+    """
+    zh, why = chinese_name(current)
+    if not zh:
+        return "", why
+    known = {_fold_key(name) for name in chain if name}
+    others = [name for name in current if name != zh]
+    if not (_fold_key(zh) in known or any(_fold_key(name) in known for name in others)):
+        return "", "not-in-ledger"
+    jp = next((name for name in others if _KANA.search(name)), "")
+    head = _KANJI_HEAD.search(fold_glyphs(jp)) if jp else None
+    if head and head.group(0) not in fold_glyphs(zh):
+        return "", "surnames-differ"
+    return zh, ""
+
+
+def cached_current_names(pages) -> dict[str, list[str]]:
+    """几张缓存页 → {站内 id: 现名栏的写法}。只认演员资料页；同一个 id 各页写得不一样就不收。"""
+    seen: dict[str, set[tuple[str, ...]]] = {}
+    for html in pages:
+        actor, names = actor_id(html), current_names(html)
+        if actor and names and not LOGIN.search(html):
+            seen.setdefault(actor, set()).add(tuple(names))
+    return {actor: list(variants.pop()) for actor, variants in seen.items() if len(variants) == 1}

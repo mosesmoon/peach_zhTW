@@ -110,7 +110,7 @@ async function connect(r: Loaded) {
 const settings = (): PanelSettings => ({
   theme: 'system', uiSounds: true, homeGlow: { ...normalizeHomeGlow(null), on: true, preset: 'ash' }, accent: 'blue',
   sidebarOrder: [''], batchSize: 60, defaultSort: 'seed', defaultSortDirection: '', groupCollapse: true,
-  javImage: 'cover', performerNameLanguage: 'zh-CN', interfaceLanguage: 'zh-CN', systemLanguage: null, feedAutoScroll: true, feedLimit: 12, feedHideGroupCompilations: true, feedHideSoloCompilations: false,
+  javImage: 'cover', performerNameLanguage: 'zh-CN' as const, interfaceLanguage: 'zh-CN', systemLanguage: null, feedAutoScroll: true, feedLimit: 12, feedHideGroupCompilations: true, feedHideSoloCompilations: false,
   feedHideExcerpts: true, hoverDelaySeconds: 5, detailAutoplay: false, miniplayer: true, seekSeconds: 10,
   relatedLimit: 24, searchHistoryLimit: 10, followInitialDays: 30, avatarRefreshDays: 90, faviconRefreshDays: 365,
 });
@@ -188,7 +188,7 @@ describe('设置面板与壳的接缝', () => {
     current.host.failure = failure;
     current.host.syncRemote = (saved) => {
       const language = saved.performerNameLanguage;
-      if (language === 'zh-CN' || language === 'ja') {
+      if (language === 'zh-CN' || language === 'zh-TW' || language === 'ja') {
         current.value.performerNameLanguage = language;
         names.setNameLanguage(language);
       }
@@ -207,6 +207,20 @@ describe('设置面板与壳的接缝', () => {
     expect(current.value.performerNameLanguage).toBe(success ? 'ja' : 'zh-CN');
     expect(field.value).toBe(success ? 'ja' : 'zh-CN');
     expect(failure).toHaveBeenCalledTimes(success ? 0 : 1);
+  });
+  it('名称偏好没存过时下拉框显示默认值，可以选繁体中文', async () => {
+    const writes: unknown[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (_url, init) => {
+      if (init?.body) { writes.push(JSON.parse(init.body)); return { ok: true, status: 200, json: async () => ({ performerNameLanguage: 'zh-TW' }) } }
+      return { ok: true, status: 200, json: async () => ({ performerNameLanguage: null }) };
+    }));
+    const current = await setup();
+    const panel = await open(current, 'JAV 与新作');
+    const field = panel.querySelector<HTMLElement & { value: string }>('#performerNameLanguageSetting > div')!;
+    expect(field.value).toBe('zh-CN');
+    await act(async () => { field.value = 'zh-TW'; field.dispatchEvent(new Event('change', { bubbles: true })) });
+    await settle();
+    expect(writes).toEqual([{ performerNameLanguage: 'zh-TW' }]);
   });
   it.each([true, false])('界面语言存进数据库，保存成功=%s 时才交壳对账', async (success) => {
     const answer = pending<{ ok: boolean; status: number; json(): Promise<unknown> }>();

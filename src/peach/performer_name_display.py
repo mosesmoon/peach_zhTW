@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import re
 
-from . import entity_classification
+from . import entity_classification, performer_zh_tw
 from .entities import USER_ALIAS_SOURCE, normalize_entity_name
 from .kanji import fold_glyphs, simplify_kanji
 from .metadata_alias_resolve import is_descriptive, is_planning_alias
@@ -62,7 +62,7 @@ class _NameEvidence:
         self.originals = {page["name"], *(entry["name"] for entry in page["aliases"])} - {""}
         self.readings = {page["reading"], *(entry.get("reading", "") for entry in page["aliases"])} - {""}
         self.romanizations = {_key(entry.get("romaji", "")) for entry in page["aliases"]} - {""}
-        self.hidden = {_key(row["alias"]) for row in aliases if row["source"] in HIDDEN_SOURCES}
+        self.hidden = {_key(row["alias"]) for row in aliases if str(row["source"]).partition("@")[0] in HIDDEN_SOURCES}
         self.manual = set(manual) - {""}
         self.registered = {canonical, *(row["alias"] for row in aliases), *self.manual}
         self.known = {_key(name) for name in self.registered | self.originals}
@@ -85,7 +85,7 @@ class _NameEvidence:
 
 
 def _registered_stages(canonical: str, aliases: list[dict], page: dict, source_url: str,
-                       manual: list[str]) -> dict:
+                       manual: list[str], traditional: str | None = None) -> dict:
     """按同一艺名归并写法，同时保留实际登记值。
 
     用户添的别名所在的那一组缺某种语言的写法时，用别名原文补上，两种语言都不落下它。
@@ -109,6 +109,10 @@ def _registered_stages(canonical: str, aliases: list[dict], page: dict, source_u
             row["manual"] = True
             row["zh_cn"] = row["zh_cn"] or name
             row["ja"] = row["ja"] or name
+    # 繁体中文：JavDB 现名的繁体写法只属于当前艺名；没有就用日文，不拿简体规范名顶替。
+    for key, row in stages.items():
+        row["zh_tw"] = traditional if traditional and key == current_key else None
+        row["tw"] = row["zh_tw"] or row["ja"]
     return stages
 
 
@@ -162,17 +166,19 @@ def display(connection, entity_id: int, canonical: str, aliases: list[dict], gro
         *(str(row[0]) for row in connection.execute(
             "SELECT alias FROM entity_alias WHERE entity_id=? AND source=? ORDER BY alias",
             (int(entity_id), USER_ALIAS_SOURCE)))]))
-    stages = _registered_stages(canonical, aliases, page, source_url, manual)
+    traditional = performer_zh_tw.shown(performer_zh_tw.writings(connection, entity_id).get(int(entity_id)), canonical)
+    stages = _registered_stages(canonical, aliases, page, source_url, manual, traditional)
     current_key = _stage_key(canonical, page)
     choices, groups = {}, {}
-    for language, field in (("zh-CN", "zh_cn"), ("ja", "ja")):
+    for language, field in (("zh-CN", "zh_cn"), ("zh-TW", "tw"), ("ja", "ja")):
         choices[language] = [{"value": canonical if key == current_key else
                              row[field] if row[field] in row["registered"] else row["value"],
                               "label": row[field] or canonical}
                              for key, row in stages.items()
                              if row["value"] is not None and (row[field] or key == current_key)]
         groups[language] = _language_groups(stages, canonical, page, grouped, field)
-    return {"current": {"canonical_name": canonical, **writing(canonical, page, source_url)},
+    return {"current": {"canonical_name": canonical, **writing(canonical, page, source_url),
+                        "zh_tw": traditional},
             "choices": choices, "groups": groups}
 
 
@@ -183,6 +189,7 @@ def variants(connection) -> list[dict]:
     categories = entity_classification.summaries(connection, [row["id"] for row in people])
     profiles = {row["entity_id"]: dict(row) for row in connection.execute(
         "SELECT entity_id,raw_json,source_url FROM performer_profile")}
+    traditional = performer_zh_tw.writings(connection)
     result = []
     for person in people:
         if "japanese_av" not in categories[person["id"]]["identity_categories"]:
@@ -191,5 +198,6 @@ def variants(connection) -> list[dict]:
         raw = json.loads(profile.get("raw_json") or "{}")
         names = writing(person["canonical_name"], page_names({"raw": raw}), profile.get("source_url", ""))
         result.append({"id": person["id"], "kind": person["kind"],
-                       "canonical_name": person["canonical_name"], **names})
+                       "canonical_name": person["canonical_name"], **names,
+                       "zh_tw": performer_zh_tw.shown(traditional.get(person["id"]), person["canonical_name"])})
     return result

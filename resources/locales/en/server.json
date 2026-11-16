@@ -802,7 +802,7 @@
       "libraryOrderInvalid": "Library order must use unique library IDs.",
       "navigationOrderUnknownEntry": "Navigation order contains invalid items.",
       "navigationOrdersInvalid": "Navigation order needs known groups and order arrays.",
-      "performerNameLanguageInvalid": "performerNameLanguage only accepts zh-CN or ja.",
+      "performerNameLanguageInvalid": "performerNameLanguage only accepts zh-CN, zh-TW or ja.",
       "profileMissing": "profile {{profile}} doesn't exist.",
       "searchHistoryLimitInvalid": "searchHistoryLimit only accepts integers from 0 to {{max}}.",
       "switchNotBoolean": "{{key}} only accepts true or false.",
@@ -3575,7 +3575,9 @@
         "sameNameMany": "More than one person on the site has this name: {{ids}}",
         "card": "Performer card {{id}} lists her name",
         "cardWithRecord": "Performer card {{id}} ({{record}}) lists her name",
-        "cardTaken": "Performer ID {{id}} already belongs to another entity"
+        "cardTaken": "Performer ID {{id}} already belongs to another entity",
+        "zhTwWritten": "Traditional spelling in the current-name row of performer page {{id}}: {{name}}",
+        "zhTwNone": "Performer page {{id}} has no usable traditional spelling ({{reason}})"
       },
       "site": {
         "failed": "Not found: {{error}}",

@@ -20,6 +20,20 @@ describe('实体名称的只读显示投影', () => {
     expect(entityDisplayName('performer', '枫花恋', 1)).toBe('楓カレン');
   });
 
+  it('繁体中文：有 JavDB 繁体写法显示它，没有显示日文，不拿简体规范名充数', () => {
+    registerNameWritings([{ ...writing, zh_tw: '楓花戀' }, { ...writing, id: 2, canonical_name: '无繁体', zh_cn: '无繁体', ja: '無繁體カナ' },
+      { ...writing, id: 3, canonical_name: '仅简体', zh_cn: '仅简体', ja: null }]);
+    setNameLanguage('zh-TW');
+    expect(entityDisplayName('performer', '枫花恋', 1)).toBe('楓花戀');
+    expect(entityDisplayName('performer', '楓花戀', 1)).toBe('楓花戀');
+    expect(entityDisplayName('performer', '无繁体', 2)).toBe('無繁體カナ');
+    expect(entityDisplayName('performer', '仅简体', 3)).toBe('仅简体');
+    setNameLanguage('zh-CN');
+    expect(entityDisplayName('performer', '枫花恋', 1)).toBe('枫花恋');
+    setNameLanguage('ja');
+    expect(entityDisplayName('performer', '枫花恋', 1)).toBe('楓カレン');
+  });
+
   it('共享写法不能在未取得身份时选中另一人，显式身份仍使用各自来源', () => {
     registerNameWritings([writing, { ...writing, id: 2, canonical_name: '另一艺名', zh_cn: '另一写法' }]);
     expect(entityDisplayName('performer', '楓カレン')).toBe('楓カレン');
