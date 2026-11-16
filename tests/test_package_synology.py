@@ -237,13 +237,13 @@ class SkeletonTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.skeleton = ROOT / "scripts" / "synology"
+        cls.builder = load_builder()
 
     def test_wizard_files_are_valid_json_with_the_same_keys(self):
         keys = {}
         for name in ("install_uifile", "install_uifile_cht", "install_uifile_chs"):
-            raw = (self.skeleton / "WIZARD_UIFILES" / name).read_bytes()
-            self.assertNotIn(b"\r", raw)
-            steps = json.loads(raw)
+            # `normalized_text` 遇到 CRLF 抛 `ValueError`，与打包时同一道门。
+            steps = json.loads(self.builder.normalized_text(self.skeleton / "WIZARD_UIFILES" / name))
             keys[name] = [sub["key"] for step in steps for item in step["items"] for sub in item.get("subitems", [])]
         self.assertEqual(keys["install_uifile"], ["wizard_media_path", "wizard_port", "wizard_access_password",
                                                    "wizard_ffmpeg_dir"])
@@ -265,21 +265,18 @@ class SkeletonTests(unittest.TestCase):
 
     def test_scripts_use_lf_posix_shell_and_no_personal_paths(self):
         for path in sorted((self.skeleton / "scripts").iterdir()):
-            data = path.read_bytes()
-            self.assertTrue(data.startswith(b"#!/bin/sh\n"), path.name)
-            self.assertNotIn(b"\r", data, path.name)
-        for path in self.skeleton.rglob("*"):
-            if path.is_file():
-                text = path.read_bytes()
-                for token in (b"C:\\", b"/Users/", b"/home/"):
-                    self.assertNotIn(token, text, f"{path.name}: {token!r}")
+            self.assertTrue(self.builder.normalized_text(path).startswith(b"#!/bin/sh\n"), path.name)
+        leaks = [f"{path.name}: {token!r}" for path in self.skeleton.rglob("*") if path.is_file()
+                 for token in (b"C:\\", b"/Users/", b"/home/") if token in path.read_bytes()]
+        self.assertEqual(leaks, [])
 
     def test_info_template_has_the_required_fields(self):
-        text = (self.skeleton / "INFO.template").read_text(encoding="utf-8")
-        for field in ("package", "version", "arch", "os_min_ver", "maintainer", "displayname_cht", "description_cht",
-                      "dsmuidir", "dsmappname", "checksum"):
-            self.assertRegex(text, rf'(?m)^{field}="')
-        self.assertIn('os_min_ver="7.2-64561"', text)
+        text = self.builder.normalized_text(self.skeleton / "INFO.template").decode("utf-8")
+        fields = dict(re.findall(r'(?m)^(\w+)="(.*)"$', text))
+        missing = [field for field in ("package", "version", "arch", "os_min_ver", "maintainer", "displayname_cht",
+                                       "description_cht", "dsmuidir", "dsmappname", "checksum") if field not in fields]
+        self.assertEqual(missing, [])
+        self.assertEqual(fields["os_min_ver"], "7.2-64561")
 
     def test_ui_config_is_valid_json(self):
         config = json.loads((self.skeleton / "ui" / "config").read_text(encoding="utf-8"))

@@ -73,6 +73,9 @@ ELF_MACHINE_X86_64 = 62
 _GLIBC = re.compile(rb"GLIBC_(\d+)\.(\d+)(?:\.\d+)?\x00")
 _GLIBCXX = re.compile(rb"GLIBCXX_3\.4\.(\d+)\x00")
 
+#: Identifies this build tool to the download hosts; it is not a browser user agent.
+DOWNLOAD_AGENT = "peach-package-synology"
+
 
 @dataclass(frozen=True)
 class Download:
@@ -204,7 +207,7 @@ def fetch(item: Download, cache: Path) -> Path:
         return target
     partial = target.with_suffix(target.suffix + ".part")
     digest = hashlib.sha256()
-    request = urllib.request.Request(item.url, headers={"User-Agent": "peach-package-synology"})
+    request = urllib.request.Request(item.url, headers={"User-Agent": DOWNLOAD_AGENT})
     with urllib.request.urlopen(request, timeout=120) as response, partial.open("wb") as handle:
         for block in iter(lambda: response.read(1 << 20), b""):
             digest.update(block)
@@ -435,29 +438,11 @@ def verify_spk(spk: Path, *, personal: tuple[str, ...] = ()) -> tuple[list[str],
             problems.append(f"missing {name}")
         if not any(n.startswith("WIZARD_UIFILES/install_uifile") for n in members):
             problems.append("missing wizard files")
-        for name, member in members.items():
-            if member.uid or member.gid or member.uname or member.gname:
-                problems.append(f"owner is not 0:0 for {name}")
-            if name.startswith("scripts/"):
-                data = outer.extractfile(member).read()
-                if not data.startswith(b"#!/bin/sh\n"):
-                    problems.append(f"bad shebang in {name}")
-                if b"\r" in data:
-                    problems.append(f"CRLF in {name}")
-                if member.mode & 0o777 != 0o755:
-                    problems.append(f"{name} is not mode 0755")
-                if b"@MIN_GLIBC@" in data:
-                    problems.append(f"unrendered placeholder in {name}")
+        problems += _verify_outer_members(outer, members)
         info = outer.extractfile(members["INFO"]).read().decode("utf-8") if "INFO" in members else ""
         fields = dict(re.findall(r'^(\w+)="(.*)"$', info, re.M))
         facts["info"] = fields
-        for key in ("package", "version", "arch", "os_min_ver", "maintainer", "checksum"):
-            if not fields.get(key):
-                problems.append(f"INFO lacks {key}")
-        if fields.get("os_min_ver") != "7.2-64561":
-            problems.append("os_min_ver is not 7.2-64561")
-        if "arm" in fields.get("arch", "") or "aarch" in fields.get("arch", ""):
-            problems.append("arch includes an ARM value")
+        problems += _verify_info_fields(fields)
         if "package.tgz" in members:
             payload = outer.extractfile(members["package.tgz"])
             data = payload.read()
@@ -476,6 +461,36 @@ def verify_spk(spk: Path, *, personal: tuple[str, ...] = ()) -> tuple[list[str],
                 except ValueError:
                     problems.append(f"{name} is not valid JSON")
     return problems, facts
+
+
+def _verify_outer_members(outer: tarfile.TarFile, members: dict) -> list[str]:
+    """Ownership of every outer member, plus shebang, line endings, mode and placeholders of the scripts."""
+    problems: list[str] = []
+    for name, member in members.items():
+        if member.uid or member.gid or member.uname or member.gname:
+            problems.append(f"owner is not 0:0 for {name}")
+        if name.startswith("scripts/"):
+            data = outer.extractfile(member).read()
+            if not data.startswith(b"#!/bin/sh\n"):
+                problems.append(f"bad shebang in {name}")
+            if b"\r" in data:
+                problems.append(f"CRLF in {name}")
+            if member.mode & 0o777 != 0o755:
+                problems.append(f"{name} is not mode 0755")
+            if b"@MIN_GLIBC@" in data:
+                problems.append(f"unrendered placeholder in {name}")
+    return problems
+
+
+def _verify_info_fields(fields: dict) -> list[str]:
+    """Required INFO keys, the DSM floor and the architecture list."""
+    problems = [f"INFO lacks {key}" for key in ("package", "version", "arch", "os_min_ver", "maintainer", "checksum")
+                if not fields.get(key)]
+    if fields.get("os_min_ver") != "7.2-64561":
+        problems.append("os_min_ver is not 7.2-64561")
+    if "arm" in fields.get("arch", "") or "aarch" in fields.get("arch", ""):
+        problems.append("arch includes an ARM value")
+    return problems
 
 
 def _verify_payload(data: bytes, facts: dict, personal: tuple[str, ...]) -> list[str]:
