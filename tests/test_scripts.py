@@ -5475,7 +5475,7 @@ class ReleaseDownloadNotesTests(unittest.TestCase):
         for section in download_sections('1.0.0', lite_installer=True):
             links = {url for url in re.findall(r'https://[^\s)]+', section) if not url.startswith(DOCS)}
             self.assertEqual(len(links), 9)
-            self.assertTrue(all(url.startswith('https://github.com/peach-mitao/peach/releases/download/v1.0.0/')
+            self.assertTrue(all(url.startswith('https://github.com/mosesmoon/peach_zhTW/releases/download/v1.0.0/')
                                 for url in links))
 
     def test_each_language_has_one_table_covering_windows_macos_and_docker(self):
@@ -5494,13 +5494,13 @@ class ReleaseDownloadNotesTests(unittest.TestCase):
         from scripts.publish_gitlab_release import r2_release_notes
         english, chinese = download_sections('1.0.0', lite_installer=True)
         body = ('### Added\n\n- **Updates**: Public downloads.\n\n'
-                '[Guide](https://github.com/peach-mitao/peach/blob/master/docs/OPERATIONS.md)\n\n' + english + chinese)
+                '[Guide](https://github.com/mosesmoon/peach_zhTW/blob/master/docs/OPERATIONS.md)\n\n' + english + chinese)
         result = r2_release_notes(body, '1.0.0', 'https://downloads.peach.video',
                                   'https://gitgud.io/peach-mitao/peach')
         links = re.findall(r'https://[^\s)]+', result)
         self.assertIn('### Added\n\n- **Updates**: Public downloads.', result)
         self.assertEqual(links[0], 'https://gitgud.io/peach-mitao/peach/-/blob/v1.0.0/docs/OPERATIONS.md')
-        self.assertNotIn('github.com/peach-mitao/peach/releases/download', result)
+        self.assertNotIn('github.com/mosesmoon/peach_zhTW/releases/download', result)
         downloads = {url for url in links[1:] if '/docs/' not in url}
         self.assertEqual(len(downloads), 9)
         self.assertTrue(all(url.startswith('https://downloads.peach.video/v1.0.0/') for url in downloads))
@@ -5575,7 +5575,7 @@ class GitGudPackageMirrorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
             (root / 'RELEASE_NOTES.md').write_text(
-                '### Added\n\n- Downloads.\n\n[Installer](https://github.com/peach-mitao/peach/releases/download/'
+                '### Added\n\n- Downloads.\n\n[Installer](https://github.com/mosesmoon/peach_zhTW/releases/download/'
                 'v1.2.3/Peach-1.2.3-windows-x64-setup.exe)\n', encoding='utf-8')
             with mock.patch.dict(os.environ, {'CI_COMMIT_TAG': 'v1.2.3', 'CI_COMMIT_SHA': sha,
                     'CI_PROJECT_URL': 'https://gitgud.io/owner/repo', 'PEACH_DOWNLOAD_BACKEND': 'both',
