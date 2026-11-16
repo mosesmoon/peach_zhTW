@@ -28,6 +28,9 @@ ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "source-replay"
 SCRIPT = ROOT / "scripts" / "record_source_fixtures.py"
 DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+#: 站点有意不给的字段（ADR-0205）：AVWikiDB 不给封面；它的 MGS 版有码作品（Prestige 的 ABW-358）标题带
+#: 商店附注、日期是配信日，两项留空，日期另记在 `delivery_date`。
+DELIBERATELY_OMITTED = {"avwikidb": {"cover_urls"}, "avwikidb/ABW-358": {"title", "release_date"}}
 
 
 def _offline(*_args, **_kwargs):
@@ -70,12 +73,19 @@ class RecordedSampleTests(OfflineTestCase):
                 continue
             with self.subTest(sample=f"{cassette.source}/{cassette.code}"):
                 payload = cassette.payload
+                omitted = DELIBERATELY_OMITTED.get(cassette.source, set()) | DELIBERATELY_OMITTED.get(
+                    f"{cassette.source}/{cassette.code}", set())
                 self.assertTrue(same_release_code(cassette.code, payload["id"]), payload["id"])
-                self.assertTrue(payload["title"].strip())
-                self.assertRegex(payload["release_date"], DATE)
+                if "title" not in omitted:
+                    self.assertTrue(payload["title"].strip())
+                if "release_date" not in omitted:
+                    self.assertRegex(payload["release_date"], DATE)
                 self.assertTrue(payload["actresses"])
                 self.assertTrue(all(row["japanese_name"].strip() for row in payload["actresses"]))
                 self.assertTrue(payload["maker"].strip())
+                if "cover_urls" in omitted:
+                    self.assertEqual((payload["cover_urls"], payload["cover_url"]), ([], ""))
+                    continue
                 self.assertTrue(payload["cover_urls"])
                 for url in payload["cover_urls"]:
                     self.assertIsInstance(url, str)

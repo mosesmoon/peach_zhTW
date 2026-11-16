@@ -478,12 +478,13 @@ Windows 與 macOS 測試包不需要另外安裝 Python、Git、Node 或 OpenSSL
 - **入口**：資料處理（掃描與抓取，見 5.11.1）、`scripts/scrape_codes.py`、命令列 `peach process`；來源與登入狀態頁為管理區的「來源與憑證」（介面原名：来源和凭证，`/sources`）。
 - **行為與規則**：
   - 內容類型只看番號形狀與本機證據，分為 `censored`（有碼）、`amateur`（素人）、`uncensored`（無碼）、`fc2`、`kmib`（韓國 MIB）、`other`、`unsure` 七類。
-  - 有碼鏈：本機證據認得時走 prestige、faleno、dahlia；否則依序為 makers、r18dev、dmm、avbase、javbus、javdb。素人鏈：mgstage、sougouwiki、av_neme、avbase、javbus、javdb、r18dev。無碼鏈（證據指向一本道時）：1pondo、avbase、javbus、javdb、avsox。FC2 鏈：javdb、fc2、fc2cmadb、fc2ppvdb、javten、javarchive。
+  - 有碼鏈：本機證據認得時走 prestige、faleno、dahlia；否則依序為 makers、r18dev、dmm、avwikidb、avbase、javbus、javdb。素人鏈：mgstage、sougouwiki、av_neme、avwikidb、avbase、javbus、javdb、r18dev。無碼鏈（證據指向一本道時）：1pondo、avbase、javbus、javdb、avsox。FC2 鏈：javdb、fc2、fc2cmadb、fc2ppvdb、javten、javarchive。
+  - avwikidb（AVWikiDB 作品頁）自成一檔：素人鏈排在兩個認人 Wiki 之後，缺演員且兩個 Wiki 都沒有答案時接著問；有碼鏈排在 dmm 之後、綜合索引之前，前面的檔已給齊必填欄位就不問它；它答完不短路，綜合索引照問（與 dmm 同源，只是轉述）。無碼、FC2、`kmib`、`other`、`unsure` 都不問（ADR-0205）。
   - `kmib` 與 `other` 一家都不問，也不問封面。韓國 MIB 前綴與日本片同形，問回來的必是別部作品，只認官網 k-mib.com。
   - 官方檔逐檔成檔：該列缺的必填欄位（標題、演員、廠牌、發行日期）給齊了，就不問下一檔；綜合索引檔整檔一起問，不短路。
   - 創作者作品的檔名被讀成番號時，該列不送去刮 JAV（`catalog_rules.scrapes_as_jav`）。
 - **預設值與限制**：來源鏈可用 `process_library(route_overrides='censored=r18dev,javdb')` 整條替換；類型或來源名寫錯會直接報錯。
-- **相關設定**：5.6.3、5.1.2（媒體庫處理方式）。依據為 `docs/SOURCING.md`；ADR-0043、0044、0048、0059、0145。
+- **相關設定**：5.6.3、5.1.2（媒體庫處理方式）。依據為 `docs/SOURCING.md`；ADR-0043、0044、0048、0059、0145、0205。
 
 #### 5.6.2 欄位寫入規則與免複核自動落庫
 
@@ -499,6 +500,7 @@ Windows 與 macOS 測試包不需要另外安裝 Python、Git、Node 或 OpenSSL
   7. 出演者形態門檻：剪到年齡標記為止，剪完仍不像藝名的交人工（ADR-0025）；企劃名義先以本機 Wiki 快照與別名換成主藝名（ADR-0038）。
   8. 使用者手動改過（`user:`、`review:`）的欄位任何情況都不碰。
   9. 每筆自動落庫寫入 `review_decision`，`note` 記規則名稱、來源與取值，可回溯。
+  - AVWikiDB 作品頁（ADR-0205）：分級為社群來源，只補空。標題、廠牌、系列、類別與片長轉載自 DMM／MGS，與官方來源同源，兩者一致不算第二家獨立印證；站方自行辨識的素人演員（`actorUnknown`）單獨不自動落庫，須素人系総合 Wiki、av_neme、av_name 其中另一家給出同一批演員才免複核；沒有任何認人 Wiki 開口時，該列的演員欄整欄進人工複核（含 MGStage 的素人名義），有 Wiki 給出不同的人則聽 Wiki。官方署名的演員照一般社群來源補空。演員不帶站上編號，編號仍由補女優資料後續任務依 ADR-0067 綁定。MGS 版有碼作品（如 ABW-358）的標題與日期不採用，日期只記為配信日。
   - 本機 NFO：有效欄位補空；XML 損壞或番號衝突時整份不作證據（ADR-0029、0108）。
   - 留給人工的只有三類：候選番號與檔名番號不符且整列僅此類、企劃名義三條路都解不出、詞表不認得的類別詞。
 - **預設值與限制**：以上以最後修訂的 ADR 為準（規則由多份 ADR 疊加）。
@@ -510,6 +512,7 @@ Windows 與 macOS 測試包不需要另外安裝 Python、Git、Node 或 OpenSSL
 - **入口**：來源與憑證頁 `/sources`（含全部來源的連線檢查）；斷網橫幅指向「網路與存取 → Peach 代理」；`GET /api/network-status`。
 - **行為與規則**：
   - 已登記的來源包含 r18dev、dmm（GraphQL）、prestige、mgstage、faleno、dahlia、makers（amane 官網 29 家）、fc2club、freejavbt、airav、avsox、fc2、fc2cmadb、fc2ppvdb、javten、javarchive、1pondo、instagram、javdb、javbus、manko、sukebei、avbase、avwikidb。amane 橋以子處理程序執行，其虛擬環境可在來源與憑證頁重建。
+  - avwikidb 作品頁：一次請求（`/work/<番號>/`），只讀頁面內的作品資料表；主機間隔 3 秒，冷卻鍵 `avwikidb`，補女優資料與補頭像後續任務等同一個限速器，合計仍是每 3 秒一頁。不取站方改寫的摘要與評論摘要、樣片、`/mgsimg/`、`/api/`、`/go/`，不提供封面（ADR-0205）。
   - javdb：擷取走匿名 API（三個主機輪替，間隔 0.5 秒）；三家都要求登入時，改讀 javdb.com 的搜尋與詳情頁（詳情頁主機間隔 3 秒）（ADR-0144、0148、0160）。
   - 封鎖處理：收到 403 或驗證頁時整個來源停下，首次冷卻 15 分鐘，連續再撞則加倍，上限為 javdb 24 小時、AVBase 與 JavBus 6 小時；冷卻期間不記「查過沒有」。遇到 Cloudflare 或驗證牆一律不繞過；FC2PPV-DB 與 JAVten 的驗證須在本機瀏覽器完成（ADR-0060、0065）。
   - 快照與「說過沒有」的記憶都保留 7 天；以瀏覽器取頁的來源（FC2PPV-DB、JAVten）單次請求 45 秒。

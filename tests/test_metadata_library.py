@@ -59,6 +59,7 @@ def stub_provider():
     provider.community.side_effect = NotFound('errors.libraryProcessing.communitySaidNo')
     provider.amane.side_effect = NotFound('errors.libraryProcessing.amaneSitesSaidNo')
     provider.wiki.side_effect = NotFound('errors.seesaa.notInSearch')
+    provider.site.side_effect = NotFound(*relayed('HTTP 404'))
     return provider
 
 
@@ -1535,7 +1536,7 @@ class LibraryNfoTests(unittest.TestCase):
                         provider_factory=Mock(return_value=provider))
         return provider, read_rows(self.root / 'generated/library-metadata-field-candidates.csv')
 
-    def _collect_amateur(self, code, wiki_answers, performer=None):
+    def _collect_amateur(self, code, wiki_answers, performer=None, site=None):
         """一部素人片走采集：MGStage 给齐标量、演员只给素人名义，认人 Wiki 按 `wiki_answers` 答。
 
         `performer` 给了就先把这个演员挂到账本上，这一行就不缺演员。返回 (provider, 候选行)。"""
@@ -1574,6 +1575,8 @@ class LibraryNfoTests(unittest.TestCase):
             return [(source, {'id': query, 'source': source, 'actresses': [{'japanese_name': wiki_answers[source]}]})]
 
         provider.wiki.side_effect = wiki
+        if site is not None:
+            provider.site.side_effect = lambda source, query, **_: {'id': query, 'source': source, **site}
         process_library(config, db, self.root / 'generated', self.root / 'covers',
                         provider_factory=Mock(return_value=provider))
         return provider, read_rows(self.root / 'generated/library-metadata-field-candidates.csv', missing_ok=True)
@@ -1599,9 +1602,58 @@ class LibraryNfoTests(unittest.TestCase):
                          {'mgstage'})
 
     @windows_ledger_roots
+    def test_avwikidb_is_asked_after_both_wikis_miss_and_its_identified_cast_stays_a_candidate(self):
+        """两个认人 Wiki 都没给时接着问 AVWikiDB（ADR-0205），一家给了就停，不落到综合索引；
+        站方认出的演员标上 `site_identified`，不单独自动落库。"""
+        provider, rows = self._collect_amateur('259LUXU-1378', {}, site={
+            'actresses': [{'japanese_name': '優梨まいな'}], 'actor_unknown': True})
+        self.assertEqual([call.args[0] for call in provider.wiki.call_args_list], ['sougouwiki', 'av_neme'])
+        self.assertEqual([call.args[0] for call in provider.site.call_args_list], ['avwikidb'])
+        provider.community.assert_not_called()
+        performers = next(row for row in rows if row['field'] == 'performers')
+        candidates = {c['source']: c for c in json.loads(performers['candidates_json'])}
+        self.assertEqual(set(candidates), {'mgstage', 'avwikidb'})
+        self.assertTrue(candidates['avwikidb']['site_identified'])
+        self.assertNotIn('site_identified', candidates['mgstage'])
+
+    @windows_ledger_roots
+    def test_on_the_censored_chain_avwikidb_filling_every_scalar_does_not_skip_the_community_index(self):
+        """r18.dev 与 DMM 都落空、avwikidb 给齐标量：它与两者同源，只是转述，综合索引照问（ADR-0205）。"""
+        code = 'SSIS-057'
+        media = self.root / 'media'
+        media.mkdir()
+        (media / f'{code}.mp4').write_bytes(b'video')
+        db = fresh_ledger(self.root)
+        config = PeachConfig(self.root, self.root / 'config.toml', present=True, locations={'local': (str(media),)})
+        provider = stub_provider()
+        provider.query.side_effect = NotFound(*relayed('HTTP 404'))
+        provider.amane.side_effect = NotFound('errors.libraryProcessing.amaneSitesSaidNo')
+        provider.site.side_effect = lambda source, query, **_: {
+            'id': query, 'source': source, 'title': '標題', 'maker': 'エスワン ナンバーワンスタイル',
+            'release_date': '2021-05-07', 'actresses': [{'japanese_name': '葵つかさ'}], 'actor_unknown': False}
+        process_library(config, db, self.root / 'generated', self.root / 'covers',
+                        provider_factory=Mock(return_value=provider))
+        self.assertEqual([call.args[0] for call in provider.site.call_args_list], ['avwikidb'])
+        provider.community.assert_called()
+
+    @windows_ledger_roots
+    def test_avwikidb_is_not_asked_once_a_wiki_has_named_the_cast(self):
+        provider, _ = self._collect_amateur('259LUXU-1378', {'sougouwiki': '優梨まいな'}, site={
+            'actresses': [{'japanese_name': '別の人'}]})
+        provider.site.assert_not_called()
+        provider.community.assert_not_called()
+
+    @windows_ledger_roots
+    def test_an_amateur_code_nobody_knows_still_settles_on_mgstage_without_the_community_sites(self):
+        provider, _ = self._collect_amateur('259LUXU-1378', {})
+        self.assertEqual([call.args[0] for call in provider.site.call_args_list], ['avwikidb'])
+        provider.community.assert_not_called()
+
+    @windows_ledger_roots
     def test_an_amateur_row_that_already_has_its_cast_does_not_ask_the_wikis(self):
         provider, _ = self._collect_amateur('259LUXU-1378', {'sougouwiki': '優梨まいな'}, performer='優梨まいな')
         provider.wiki.assert_not_called()
+        provider.site.assert_not_called()
 
     @windows_ledger_roots
     def test_javdb_tags_are_collected_with_their_community_identity_after_maker_scalars(self):
@@ -1948,7 +2000,9 @@ class LibraryNfoTests(unittest.TestCase):
     def test_javdb_keeps_its_own_host_interval_on_both_of_its_hosts(self):
         """这一档的节奏由用户定，改动要连图床一起改：页面与图分别落在两个主机上。"""
         from peach.library_processing import SOURCE_INTERVALS
-        self.assertEqual(SOURCE_INTERVALS, {'javdb.com': 3.0, 'jdbstatic.com': 3.0})
+        self.assertEqual({host: interval for host, interval in SOURCE_INTERVALS.items() if 'javdb' in host or 'jdb' in host},
+                         {'javdb.com': 3.0, 'jdbstatic.com': 3.0})
+        self.assertEqual(SOURCE_INTERVALS['avwikidb.com'], 3.0)
 
     def test_every_provider_waits_on_one_shared_host_interval(self):
         """想要作品资料采集、新作资料采集与资料处理各起一个 provider；同时跑时问 javdb 也要排同一条队。"""
@@ -2174,6 +2228,7 @@ class LibraryNfoTests(unittest.TestCase):
         provider = Mock()
         provider.amane.side_effect = NotFound('errors.libraryProcessing.amaneSitesSaidNo')
         provider.query.side_effect = NotFound(*relayed('HTTP 404'))
+        provider.site.side_effect = NotFound(*relayed('HTTP 404'))
         provider.community.return_value = [
             ('avbase', {'id': 'ORETD-615', 'title': 'たまき', 'release_date': '2024-01-05',
                         'source_url': 'https://www.avbase.net/works/orenoshirouto:ORETD-615'}),
@@ -2467,7 +2522,7 @@ class LibraryNfoTests(unittest.TestCase):
         self.assertEqual(first['notes'], {'querying_metadata': 1})
         recorded = json.loads(misses_path(config).read_text(encoding='utf-8'))
         self.assertEqual(list(recorded['misses']),
-                         ['mgstage', 'sougouwiki', 'av_neme', 'avbase', 'javbus', 'javdb', 'r18dev'],
+                         ['mgstage', 'sougouwiki', 'av_neme', 'avwikidb', 'avbase', 'javbus', 'javdb', 'r18dev'],
                          '按站记，不按档记')
         self.assertEqual(provider.amane.call_args.kwargs['route'], ('mgstage',))
         self.assertEqual(list(recorded['misses']['r18dev']), ['STP-26232'])

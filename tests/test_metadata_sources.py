@@ -435,15 +435,16 @@ class ConfigConsistencyTests(unittest.TestCase):
         limiter.assert_called_once_with({}, default_interval=SEESAA.interval)
         self.assertIs(pages.config, SEESAA)
 
-    def test_javdb_keeps_the_user_set_interval_and_the_other_sites_the_default(self):
+    def test_javdb_and_avwikidb_keep_their_own_interval_and_the_other_sites_the_default(self):
         self.assertEqual(SITE_SOURCES["javdb"].DEFAULT.interval, 3.0)
+        self.assertEqual(SITE_SOURCES["avwikidb"].DEFAULT.interval, 3.0)
         for name in ("javbus", "avbase", "r18dev", "1pondo", "fc2", "fc2cmadb", "fc2ppvdb", "javten", "javarchive",
                      *WIKI_SOURCES):
             self.assertEqual(SITE_SOURCES[name].DEFAULT.interval, 2.0, name)
-        self.assertEqual({host for host in SOURCE_INTERVALS if scraping_access.source_for("https://" + host + "/") == "javdb"},
-                         set(SOURCE_INTERVALS), "SOURCE_INTERVALS 里只有 javdb 的主机单独设间隔")
+        self.assertEqual({scraping_access.source_for("https://" + host + "/") for host in SOURCE_INTERVALS},
+                         {"javdb", "avwikidb"}, "SOURCE_INTERVALS 里只有 javdb 与 avwikidb 的主机单独设间隔")
 
-    def test_the_fourteen_sites_are_registered_with_their_stage_cookie_and_page_limit(self):
+    def test_the_fifteen_sites_are_registered_with_their_stage_cookie_and_page_limit(self):
         shape = {name: (site.DEFAULT.stage, site.DEFAULT.cookie, site.DEFAULT.page_limit)
                  for name, site in SITE_SOURCES.items()}
         self.assertEqual(shape, {"r18dev": ("official_mirror", False, 2 * 1024 * 1024),
@@ -455,6 +456,7 @@ class ConfigConsistencyTests(unittest.TestCase):
                                  "javten": ("community", True, 2 * 1024 * 1024),
                                  "javarchive": ("community", False, 2 * 1024 * 1024),
                                  "avbase": ("community", False, 4 * 1024 * 1024),
+                                 "avwikidb": ("community", False, 4 * 1024 * 1024),
                                  "javbus": ("community", True, 4 * 1024 * 1024),
                                  "javdb": ("community", True, 4 * 1024 * 1024),
                                  "sougouwiki": ("community", False, 4 * 1024 * 1024),

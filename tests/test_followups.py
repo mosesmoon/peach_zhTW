@@ -1618,6 +1618,7 @@ class ProcessLibraryTests(LedgerTestCase):
         provider = mock.Mock()
         provider.amane.side_effect = NotFound('errors.libraryProcessing.amaneSitesSaidNo')
         provider.community.side_effect = NotFound('errors.libraryProcessing.communitySaidNo')
+        provider.site.side_effect = NotFound('errors.avwikidb.notFound')
         provider.cover.return_value = False
         provider.query.return_value = {
             'id': 'ABW-358',

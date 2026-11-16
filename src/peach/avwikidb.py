@@ -134,6 +134,43 @@ def _page_props(html: str) -> dict:
     return props if isinstance(props, dict) else {}
 
 
+def work_movie(html: str) -> dict | None:
+    """作品页 → `pageProps.movie`（作品资料表）；页上没有 `__NEXT_DATA__` 或没有这一项返回 None。
+
+    作品页来源（`sources.avwikidb`）只读这一份：JSON-LD 少了厂牌、系列，类别还是滤过的子集，
+    不做回退。读不出来的页由调用方按验证页或改版分档，这里不猜。
+    """
+    movie = _page_props(html).get("movie")
+    return movie if isinstance(movie, dict) else None
+
+
+#: 作品页解析会读的 `movie` 键（`sources.avwikidb`）。录制夹具按它裁页，别的键不落盘。
+WORK_KEYS = ("adultVideoId", "adultVideoAlias", "mgsProductCode", "fanzaContentId", "floor", "title",
+             "durationMin", "dateOfPublication", "actorUnknown", "_needsDisambiguation")
+#: 列表键与它每项里那一层的键：`maker[0].maker.name`、`actor[0].actor.name`。
+WORK_LISTS = {"actor": "actor", "maker": "maker", "label": "label", "series": "series",
+              "director": "director", "genre": "genre"}
+
+
+def compact_work_page(html: str) -> str:
+    """只留作品页解析读到的那些键，再包回 `__NEXT_DATA__`；不是作品页的原样交回。
+
+    整页 55～75 KB，多半是相关作品、评论与样片地址。录制夹具只需要解析输入，且不该带站方改写的摘要
+    与评论、样片网址、演员的身高三围一类解析不读的个人资料。404 页、验证页没有 `movie`，原样交回。
+    """
+    movie = work_movie(html)
+    if movie is None:
+        return html
+    kept = {key: movie[key] for key in WORK_KEYS if key in movie}
+    for key, inner in WORK_LISTS.items():
+        rows = movie.get(key)
+        if isinstance(rows, list):
+            kept[key] = [{inner: {"name": row[inner].get("name")}} for row in rows
+                         if isinstance(row, dict) and isinstance(row.get(inner), dict)]
+    data = json.dumps({"props": {"pageProps": {"movie": kept}}}, ensure_ascii=False).replace("</", "<\\/")
+    return f'<script id="__NEXT_DATA__" type="application/json">{data}</script>'
+
+
 def single_count(html: str) -> int:
     """女优页上站方数的单人作品部数（`pageProps.singleCount`）；读不出是 0。"""
     count = _page_props(html).get("singleCount")

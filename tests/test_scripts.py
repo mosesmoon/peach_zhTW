@@ -4095,8 +4095,8 @@ class OperationalScriptTests(unittest.TestCase):
             self.assertEqual(result, 0)
             self.assertEqual(provider.calls, [
                 ("ABC-001", "makers"), ("ABC-001", "r18dev"), ("ABC-001", "javdb"),
-                ("DEF-002", "makers"), ("DEF-002", "r18dev"), ("DEF-002", "dmm"), ("DEF-002", "avbase"),
-                ("DEF-002", "javbus"), ("DEF-002", "javdb"),
+                ("DEF-002", "makers"), ("DEF-002", "r18dev"), ("DEF-002", "dmm"), ("DEF-002", "avwikidb"),
+                ("DEF-002", "avbase"), ("DEF-002", "javbus"), ("DEF-002", "javdb"),
             ])
             with output.open(encoding="utf-8-sig", newline="") as handle:
                 rows = list(csv.DictReader(handle))
@@ -4104,9 +4104,9 @@ class OperationalScriptTests(unittest.TestCase):
             self.assertTrue(all(row["source_profile"] == "chain" for row in rows))
             studio = next(row for row in rows if row["code"] == "DEF-002" and row["field"] == "studio")
             candidates = json.loads(studio["candidates_json"])
-            # 同一档三家的取值并排进候选，排序按字段来源表：javdb 在前，表里没有的
-            # avbase 排到末尾之后。
-            self.assertEqual([c["source"] for c in candidates], ["javdb", "javbus", "avbase"])
+            # 综合索引三家与 avwikidb（自成一档）的取值并排进候选，排序按字段来源表：javdb 在前，
+            # avwikidb 紧随其后，表里没有的 avbase 排到末尾之后。
+            self.assertEqual([c["source"] for c in candidates], ["javdb", "avwikidb", "javbus", "avbase"])
             # 候选记的解析器名与采集任务的证据文件同一份（`PROVIDER_NAMES`）。
             from peach.library_processing import PROVIDER_NAMES
             self.assertEqual(candidates[0]["provider"], PROVIDER_NAMES["javdb"])

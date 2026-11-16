@@ -2469,6 +2469,11 @@
       "unrecognized": "The AVBase page structure wasn't recognized; it may be showing a verification check",
       "notFound": "AVBase doesn't have this code"
     },
+    "avwikidb": {
+      "unrecognized": "The AVWikiDB page structure wasn't recognized; it may be showing a verification check",
+      "notFound": "AVWikiDB doesn't have this code",
+      "ambiguous": "This code matches several works on AVWikiDB"
+    },
     "dmm": {
       "unrecognizedCode": "Couldn't recognize a code that can be looked up on DMM",
       "notFound": "DMM doesn't have this code",

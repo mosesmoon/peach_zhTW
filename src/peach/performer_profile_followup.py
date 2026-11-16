@@ -239,12 +239,17 @@ class TalentPages:
 
 
 def avwikidb_pages(contract):
-    """avwikidb 的取页器。补头像后继读单人作品页也用它：同一份缓存、同一套冷却。"""
+    """avwikidb 的取页器。补头像后继读单人作品页也用它：同一份缓存、同一套冷却。
+
+    主机间隔等 `library_processing.SOURCE_LIMITER`，与资料处理的作品页来源（`sources.avwikidb`，ADR-0205）
+    同一份：两条线同时跑时对 avwikidb.com 的合计速率仍是每 3 秒一页。
+    """
+    from .library_processing import SOURCE_LIMITER
     from .scraping_access import SourceTransport
 
     cooldown = alias._cooldown_root(contract)
     return alias.MinnanoPages(Path(contract.candidate_root) / "provider-cache" / "avwikidb-pages",
-                              cooldown, SourceTransport(cooldown), source=AVWIKIDB,
+                              cooldown, SourceTransport(cooldown), limiter=SOURCE_LIMITER, source=AVWIKIDB,
                               max_age=REFRESH)
 
 
@@ -685,28 +690,10 @@ def _visit_javdb(contract, pages, entity_id: int, names, batch: str, base: dict,
         reports[JAVDB] = _said("site.noSearchName")
         return
     mine = {alias.match_key(name) for name in [canonical, *aliases] if not alias.rejection(name)}
-    cards, notes, searched = [], [], 0
-    for key in keys:
-        url = javdb.SEARCH.format(quote(key))
-        try:
-            _final, html = pages.get(url)
-        except alias.Blocked as error:
-            reports.unfetched_at(JAVDB, error)
-            return
-        except alias.Unavailable as error:
-            notes.append(f"{key} {error}")
-            continue
-        if javdb.LOGIN.search(html):
-            # 回 200 的登入页不是「搜过、站上没有她」：丢掉缓存，按未取得等下一轮。
-            pages.forget(url)
-            notes.append(_said("note.loginPage", key=key))
-            continue
-        searched += 1
-        cards = [card for card in javdb.search_cards(html)
-                 if any(alias.match_key(name) in mine for name in card["names"])]
-        if cards:
-            break
-        notes.append(_said("note.notFound", key=key))
+    cards, notes, searched, url, blocked = _javdb_search(pages, keys, mine)
+    if blocked is not None:
+        reports.unfetched_at(JAVDB, blocked)
+        return
     if not cards:
         detail = _NOTES.join(notes)
         if not searched:
@@ -743,6 +730,32 @@ def _visit_javdb(contract, pages, entity_id: int, names, batch: str, base: dict,
         rows.append({**base, "site": JAVDB, "page": url, "action": verdict,
                      "batch": batch if verdict == BIND else "",
                      "detail": listed if verdict == BIND else _said("detail.cardTaken", id=card['id'])})
+
+
+def _javdb_search(pages, keys: list[str], mine: set[str]):
+    """逐个写法搜演员卡，直到有一个写法对上；返回 (卡, 说明, 搜成几个写法, 最后搜的地址, 被拒的异常或 None)。"""
+    cards, notes, searched, url = [], [], 0, ""
+    for key in keys:
+        url = javdb.SEARCH.format(quote(key))
+        try:
+            _final, html = pages.get(url)
+        except alias.Blocked as error:
+            return cards, notes, searched, url, error
+        except alias.Unavailable as error:
+            notes.append(f"{key} {error}")
+            continue
+        if javdb.LOGIN.search(html):
+            # 回 200 的登入页不是「搜过、站上没有她」：丢掉缓存，按未取得等下一轮。
+            pages.forget(url)
+            notes.append(_said("note.loginPage", key=key))
+            continue
+        searched += 1
+        cards = [card for card in javdb.search_cards(html)
+                 if any(alias.match_key(name) in mine for name in card["names"])]
+        if cards:
+            break
+        notes.append(_said("note.notFound", key=key))
+    return cards, notes, searched, url, None
 
 
 def _visit_javdb_actor(contract, pages, entity_id: int, names, ids: list[str], refs: list[dict],

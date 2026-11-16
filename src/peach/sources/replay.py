@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
+from .. import avwikidb
 from ..http import HttpRequest, HttpResponse
 
 #: 录制格式的版本。字段含义变了才升。
@@ -256,10 +257,10 @@ _HIDDEN_TOKEN = re.compile(
 
 
 def minimize(text: str) -> str:
-    """去掉网页里与解析无关的区块，压掉连续空行。只是候选：录制脚本核对解析结果不变才采用。"""
+    """去掉网页里与解析无关的区块，压掉连续空行；AVWikiDB 作品页再裁成解析读的那几个键。只是候选：录制脚本核对解析结果不变才采用。"""
     for pattern in _DROP_BLOCKS:
         text = pattern.sub("", text)
-    return _BLANK_LINES.sub("\n", text)
+    return avwikidb.compact_work_page(_BLANK_LINES.sub("\n", text))
 
 
 def secret_pieces(values: Iterable[str]) -> list[str]:

@@ -57,8 +57,8 @@ from .metadata_alias_resolve import (
     stage_name as _stage_name,
 )
 from .metadata_policy import (
-    CHAIN_OFFICIAL, FALLBACK_SOURCES, LOCAL_NFO_SOURCE, SOURCE_SPECS,
-    blacklisted, chain_rank, preferred_tag_source, source_tier,
+    CHAIN_OFFICIAL, FALLBACK_SOURCES, IDENTIFYING_SOURCES, LOCAL_NFO_SOURCE, SOURCE_SPECS,
+    blacklisted, chain_rank, independent_sources, preferred_tag_source, source_tier,
 )
 from .metadata_routes import classify
 from .review_csv import read_candidates
@@ -854,15 +854,46 @@ def _evidence_candidates(row: dict, field: str = "") -> list[dict]:
     黑名单（ADR-0038）排在最前面，和 amane 的 `field_blacklist` 同一个位置：被拉黑的
     来源在这个字段上连候选都不算，所以也不会因为「只剩它一家」而被采信。
     身份尚未确认的候选保留供人工处理，不参与自动补空（ADR-0150）。
+    站方自己认出的演员同样要有认人来源印证才算证据（`_without_unbacked_identification`，ADR-0205）。
     """
-    return [c for c in row.get("candidates") or []
-            if (str(c.get("source") or "").strip() in SOURCE_SPECS
-                or str(c.get("source") or "").strip() == LOCAL_NFO_SOURCE)
-            and not blacklisted(field, str(c.get("source") or "").strip())
-            and not c.get('requires_identity_review')
-            and (str(c.get('source') or '').strip() != 'javdb' or current_javdb_candidate(c))
-            and candidate_text_is_valid(c)
-            and _original_title_candidate(field, c, str(row.get('code') or ''))]
+    return _without_unbacked_identification(field, [
+        c for c in row.get("candidates") or []
+        if (str(c.get("source") or "").strip() in SOURCE_SPECS
+            or str(c.get("source") or "").strip() == LOCAL_NFO_SOURCE)
+        and not blacklisted(field, str(c.get("source") or "").strip())
+        and not c.get('requires_identity_review')
+        and (str(c.get('source') or '').strip() != 'javdb' or current_javdb_candidate(c))
+        and candidate_text_is_valid(c)
+        and _original_title_candidate(field, c, str(row.get('code') or ''))])
+
+
+def _cast_names(candidate: dict) -> frozenset[str]:
+    value = candidate.get("value")
+    people = value if isinstance(value, list) else []
+    return frozenset(name for name in (normalize_entity_name(str(person.get("name") or ""))
+                                       for person in people if isinstance(person, dict)) if name)
+
+
+def _without_unbacked_identification(field: str, evidence: list[dict]) -> list[dict]:
+    """站方认出的演员（`site_identified`）没有另一家认人来源给出同一批人时，不当补空证据。
+
+    AVWikiDB 的 `actorUnknown` 是站方按包装印字、同作别号与人工比对得出的结论，没有本机准确率数据
+    （ADR-0205），一家之言不自动落库：候选仍留在行里，由人工复核；素人系総合 Wiki、av_neme、av_name
+    之一给出同一批人时两家一致，才照常补空。
+
+    没有任何认人来源开过口时，这一行的演员整栏不自动落：留着 MGStage 的素人名义自动补空，
+    站方认出的艺名就再也进不了复核（栏位已经非空，采集不再生成候选）。有认人来源给了别的人时，
+    听认人来源（Wiki 在演员栏的优先序高于它），站方那份单独丢掉。
+    """
+    if field != "performers":
+        return evidence
+    named = [c for c in evidence if str(c.get("source") or "").strip() in IDENTIFYING_SOURCES]
+    backers = [_cast_names(c) for c in named]
+    alone = [c for c in evidence if c.get("site_identified")
+             and not (_cast_names(c) and _cast_names(c) in backers)]
+    if not alone:
+        return evidence
+    return [c for c in evidence if c not in alone] if named else []
 
 
 def _unmasked_titles(field: str, candidates: list[dict], current: str = "") -> list[dict]:
@@ -1504,7 +1535,7 @@ def metadata_auto_apply_candidate(connection, row: dict, *,
     return {**_normalised_candidate(field, candidate, resolve),
             **({"tag_policy": "censored-javdb"}
                if field == "tags" and candidate.get("source") == preferred_tag_source(code) else {}),
-            "agreed_sources": len(candidates),
+            "agreed_sources": independent_sources(field, candidates),
             **({"settled_by": settled_by} if settled_by else {}),
             **({"chain_winner": str(candidate.get("source") or "").strip(),
                 "overruled": overruled} if overruled else {}),

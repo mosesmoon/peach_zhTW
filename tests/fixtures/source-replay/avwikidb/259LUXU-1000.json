@@ -1,0 +1,49 @@
+{
+ "format": 1,
+ "source": "avwikidb",
+ "code": "259LUXU-1000",
+ "recorded": "2026-11-16",
+ "outcome": "ok",
+ "payload": {
+  "id": "259LUXU-1000",
+  "source_url": "https://avwikidb.com/work/259LUXU-1000/",
+  "title": "ラグジュTV 982",
+  "actresses": [
+   {
+    "japanese_name": "早見奈緒"
+   }
+  ],
+  "maker": "ラグジュTV",
+  "label": "",
+  "series": "ラグジュTV",
+  "director": "",
+  "release_date": "2018-08-06",
+  "runtime": 74.0,
+  "cover_urls": [],
+  "cover_url": "",
+  "genres": [
+   "顔射",
+   "スレンダー",
+   "素人",
+   "お姉さん",
+   "美乳",
+   "美脚",
+   "独占配信",
+   "美尻"
+  ],
+  "floor": "mgs",
+  "actor_unknown": true
+ },
+ "interactions": [
+  {
+   "method": "GET",
+   "url": "https://avwikidb.com/work/259LUXU-1000/",
+   "response": {
+    "status": 200,
+    "url": "https://avwikidb.com/work/259LUXU-1000/",
+    "content_type": "text/html; charset=utf-8",
+    "text": "<script id=\"__NEXT_DATA__\" type=\"application/json\">{\"props\": {\"pageProps\": {\"movie\": {\"adultVideoId\": \"LUXU-1000\", \"adultVideoAlias\": \"259LUXU-1000\", \"mgsProductCode\": \"259LUXU-1000\", \"fanzaContentId\": null, \"floor\": \"mgs\", \"title\": \"ラグジュTV 982\", \"durationMin\": 74, \"dateOfPublication\": \"2018-08-06T00:00:00.000Z\", \"actorUnknown\": true, \"_needsDisambiguation\": false, \"actor\": [{\"actor\": {\"name\": \"早見奈緒\"}}], \"maker\": [{\"maker\": {\"name\": \"ラグジュTV\"}}], \"label\": [], \"series\": [{\"series\": {\"name\": \"ラグジュTV\"}}], \"director\": [], \"genre\": [{\"genre\": {\"name\": \"顔射\"}}, {\"genre\": {\"name\": \"スレンダー\"}}, {\"genre\": {\"name\": \"素人\"}}, {\"genre\": {\"name\": \"お姉さん\"}}, {\"genre\": {\"name\": \"美乳\"}}, {\"genre\": {\"name\": \"美脚\"}}, {\"genre\": {\"name\": \"独占配信\"}}, {\"genre\": {\"name\": \"美尻\"}}]}}}}</script>"
+   }
+  }
+ ]
+}

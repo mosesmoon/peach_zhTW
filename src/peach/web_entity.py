@@ -301,15 +301,7 @@ def q_entity(contract: WebContract, args):
         d["metadata"] = metadata
         d.update(entity_classification.summaries(c, [d['id']])[d['id']])
         d['related_identities'] = entity_classification.related_identities(c, d['id'])
-        alias_rows = _entity_alias_rows(c, d["id"])
-        d["aliases"] = [row["alias"] for row in alias_rows]
-        # 罗马字仍是检索和旧链接的重要身份键，但中文/日文规范名下面再把英文全列一遍
-        # 只会像名称没有本地化。展示契约单独收窄，身份契约 `aliases` 保持完整。
-        d["display_aliases"] = _display_entity_aliases(
-            d["canonical_name"], [row["alias"] for row in alias_rows
-                                  if not performer_zh_tw.is_ours(row["source"])])
-        if kind in {'studio', 'agency'}:
-            d['display_aliases'] = [alias for alias in d['aliases'] if alias != d['canonical_name']]
+        alias_rows = _attach_entity_aliases(c, d, kind)
         # 自己敲进来的那几个单独报一遍：界面只在这些名字上给撤销，刮削和合并留下的
         # 是来源记录，不给一次点击删掉。
         d["user_aliases"] = [r[0] for r in c.execute(
@@ -597,6 +589,20 @@ def _entity_alias_rows(c, entity_id: int) -> list[dict]:
     return [dict(r) for r in c.execute(
         "SELECT alias,source,max(confidence) AS top FROM entity_alias WHERE entity_id=?"
         " GROUP BY normalized_alias ORDER BY top DESC,alias", (entity_id,))]
+
+
+def _attach_entity_aliases(c, d: dict, kind: str) -> list[dict]:
+    """别名与展示用别名写进 `d`，返回带来源的别名行。"""
+    alias_rows = _entity_alias_rows(c, d["id"])
+    d["aliases"] = [row["alias"] for row in alias_rows]
+    # 罗马字仍是检索和旧链接的重要身份键，但中文/日文规范名下面再把英文全列一遍
+    # 只会像名称没有本地化。展示契约单独收窄，身份契约 `aliases` 保持完整。
+    d["display_aliases"] = _display_entity_aliases(
+        d["canonical_name"], [row["alias"] for row in alias_rows
+                              if not performer_zh_tw.is_ours(row["source"])])
+    if kind in {'studio', 'agency'}:
+        d['display_aliases'] = [alias for alias in d['aliases'] if alias != d['canonical_name']]
+    return alias_rows
 
 
 def _display_entity_aliases(canonical_name: str, aliases: list[str]) -> list[str]:

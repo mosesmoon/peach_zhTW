@@ -1,0 +1,53 @@
+{
+ "format": 1,
+ "source": "avwikidb",
+ "code": "SSIS-001",
+ "recorded": "2026-11-16",
+ "outcome": "ok",
+ "payload": {
+  "id": "SSIS-001",
+  "source_url": "https://avwikidb.com/work/SSIS-001/",
+  "title": "一ヶ月間の禁欲の果てに彼女のルームメイト2人と浮気SEXだけに没頭した彼女不在の3日間。 葵つかさ 乙白さやか",
+  "actresses": [
+   {
+    "japanese_name": "葵つかさ"
+   },
+   {
+    "japanese_name": "乙白さやか"
+   }
+  ],
+  "maker": "エスワン ナンバーワンスタイル",
+  "label": "S1 NO.1 STYLE",
+  "series": "",
+  "director": "苺原",
+  "release_date": "2021-02-18",
+  "runtime": 147.0,
+  "cover_urls": [],
+  "cover_url": "",
+  "genres": [
+   "FANZA独占配信",
+   "3P・4P",
+   "美少女",
+   "美乳",
+   "ギリモザ",
+   "ドラマ",
+   "ハイビジョン",
+   "寝取り・寝取られ・NTR"
+  ],
+  "floor": "videoa",
+  "actor_unknown": false,
+  "content_id": "ssis00001"
+ },
+ "interactions": [
+  {
+   "method": "GET",
+   "url": "https://avwikidb.com/work/SSIS-001/",
+   "response": {
+    "status": 200,
+    "url": "https://avwikidb.com/work/SSIS-001/",
+    "content_type": "text/html; charset=utf-8",
+    "text": "<script id=\"__NEXT_DATA__\" type=\"application/json\">{\"props\": {\"pageProps\": {\"movie\": {\"adultVideoId\": \"SSIS-001\", \"adultVideoAlias\": null, \"mgsProductCode\": null, \"fanzaContentId\": \"ssis00001\", \"floor\": \"videoa\", \"title\": \"一ヶ月間の禁欲の果てに彼女のルームメイト2人と浮気SEXだけに没頭した彼女不在の3日間。 葵つかさ 乙白さやか\", \"durationMin\": 147, \"dateOfPublication\": \"2021-02-18T01:00:54.000Z\", \"actorUnknown\": false, \"_needsDisambiguation\": false, \"actor\": [{\"actor\": {\"name\": \"葵つかさ\"}}, {\"actor\": {\"name\": \"乙白さやか\"}}], \"maker\": [{\"maker\": {\"name\": \"エスワン ナンバーワンスタイル\"}}], \"label\": [{\"label\": {\"name\": \"S1 NO.1 STYLE\"}}], \"series\": [], \"director\": [{\"director\": {\"name\": \"苺原\"}}], \"genre\": [{\"genre\": {\"name\": \"FANZA独占配信\"}}, {\"genre\": {\"name\": \"3P・4P\"}}, {\"genre\": {\"name\": \"美少女\"}}, {\"genre\": {\"name\": \"美乳\"}}, {\"genre\": {\"name\": \"ギリモザ\"}}, {\"genre\": {\"name\": \"ドラマ\"}}, {\"genre\": {\"name\": \"ハイビジョン\"}}, {\"genre\": {\"name\": \"寝取り・寝取られ・NTR\"}}]}}}}</script>"
+   }
+  }
+ ]
+}

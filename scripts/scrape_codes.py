@@ -218,6 +218,9 @@ class ChainAdapter:
             elif stage in metadata_routes.WIKI_STAGE:
                 # 按链走到素人链上的认人 Wiki：没有点名就没有本批自己的 `WikiPages`，用正式链那一份。
                 pairs = self.inner.wiki(stage, code)
+            elif stage == "avwikidb":
+                # 单站一档的社区来源（ADR-0205），经契约问；不在 `WIKI_STAGE`，`wiki()` 取不到它。
+                pairs = [(stage, self.inner.site(stage, code))]
             else:
                 raise ValueError(t("scrape_codes.stageMissing", stage=stage))
         except Exception as error:  # noqa: BLE001 - 每种失败都翻成本脚本的分档
@@ -779,6 +782,8 @@ def _candidates_from(payload: dict, *, query: str, source: str, profile: str, sn
     return {field: {
         **({'javdb_rule': payload.get('javdb_rule'), 'source_id': payload.get('source_id')}
            if source == 'javdb' else {}),
+        # 站方认出的演员（AVWikiDB `actorUnknown`）：与采集任务同一个标记，落库那一道闸认它。
+        **({'site_identified': True} if field == 'performers' and payload.get('actor_unknown') else {}),
         "candidate_key": _candidate_key(query, field, source, extracted["value"]),
         "source": source,
         "provider": _provider_name(source),
@@ -882,13 +887,14 @@ def _collect_code_fields(*, code, query, variants, chain, profile, sources, adap
                 by_field.setdefault(field, []).append(candidate)
                 if candidate["value"]:
                     given.add(field)
-                    if field == "performers" and source in metadata_routes.WIKI_STAGE:
+                    if field == "performers" and source in metadata_routes.CAST_STAGE:
                         wants_cast = False
         # 本地快照不消耗网络限流窗口。
         if args.delay > 0 and used_network:
             time.sleep(args.delay + random.uniform(0, min(0.4, args.delay / 3)))
         if sources is None and metadata_routes.settles(
-                metadata_routes.SCALAR_FIELDS, given, wants_tags=True, wants_cast=wants_cast, then=then):
+                metadata_routes.SCALAR_FIELDS, given, wants_tags=True, wants_cast=wants_cast, then=then,
+                echo=metadata_routes.echoes(stage, chain)):
             scalar_settled = True
             if tag_source not in chain or tag_source in asked:
                 break

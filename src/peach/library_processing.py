@@ -105,7 +105,7 @@ MISS_TTL_SECONDS = 7 * 24 * 3600
 #: 每分钟 20 页）。参照面：每分钟 40～50 页实测会招来 3～7 天的封 IP，`harvest_directory_links`
 #: 那条批量线仍按 5 秒跑。撞上 403 不再是盲等 24 小时——`scraping_access.FIRST_BLOCKED_PAUSE`
 #: 先停 15 分钟，连着再撞才翻倍，所以这一档收紧的代价是有限且可观测的（docs/SOURCING.md）。
-SOURCE_INTERVALS = {'javdb.com': 3.0, 'jdbstatic.com': 3.0}
+SOURCE_INTERVALS = {'javdb.com': 3.0, 'jdbstatic.com': 3.0, 'avwikidb.com': 3.0}
 #: 按 `SOURCE_INTERVALS` 等的那一份间隔，整个进程共用。想要作品资料采集、新作资料采集、资料处理
 #: 各起各的 provider，间隔若各算各的，几条同时跑时问同一主机的请求就叠在一起，配额照样按
 #: 出口 IP 一份算。补女优资料的 javdb 女优页、详情页视频预告与订阅源取页也等这一份。
@@ -116,8 +116,8 @@ _NO_WAIT = HostLimiter({}, default_interval=0.0)
 #: 一个 provider 里每个认人 Wiki 的请求上限。一部片至多十几页，真正的闸门是动作预算与本趟预算；
 #: 这一条只挡住同一批里失控地翻页。
 WIKI_MAX_REQUESTS = 2000
-SOURCE_LABELS = {'r18dev': 'r18.dev', 'dmm': 'DMM / FANZA', 'avbase': 'AVBase', 'javbus': 'JavBus', 'javdb': 'javdb',
-                 'fc2': 'FC2', 'fc2cmadb': 'FC2CMADB', 'fc2ppvdb': 'FC2PPV-DB', 'javten': 'JAVten',
+SOURCE_LABELS = {'r18dev': 'r18.dev', 'dmm': 'DMM / FANZA', 'avbase': 'AVBase', 'avwikidb': 'AVWikiDB', 'javbus': 'JavBus',
+                 'javdb': 'javdb', 'fc2': 'FC2', 'fc2cmadb': 'FC2CMADB', 'fc2ppvdb': 'FC2PPV-DB', 'javten': 'JAVten',
                  'javarchive': 'JavArchive',
                  '1pondo': '一本道', 'local_nfo': '本地 NFO',
                  # 经 amane 桥问的几站（`metadata_amane.SITES`）。
@@ -134,7 +134,7 @@ SOURCE_NAME_CODES = {'1pondo': 'labels.libraryProcessing.source.onePondo',
                      'local_nfo': 'labels.libraryProcessing.source.localNfo',
                      'makers': 'labels.libraryProcessing.source.makers'}
 PROVIDER_NAMES = {'local_nfo': 'local-nfo', 'r18dev': 'r18-json', 'dmm': 'dmm-graphql', 'avbase': 'avbase-search',
-                  'javbus': 'javbus-page', 'javdb': 'javdb-api', 'fc2': 'fc2-article',
+                  'avwikidb': 'avwikidb-work', 'javbus': 'javbus-page', 'javdb': 'javdb-api', 'fc2': 'fc2-article',
                   'fc2cmadb': 'fc2cmadb-article', 'fc2ppvdb': 'fc2ppvdb-page', 'javten': 'javten-page',
                   'javarchive': 'javarchive-page',
                   '1pondo': '1pondo-json',
@@ -1381,6 +1381,10 @@ def _merge_candidates(groups, row, code, source, document, evidence_path, genre_
                 and not _confirmed_cast(database, value['value'])):
             mode = 'identity-review'
         candidate = _source_candidate(source, document, value, evidence_path, mode)
+        if field == 'performers' and document.get('actor_unknown'):
+            # 官方没署名、站方认出的演员（AVWikiDB `actorUnknown`）：单独不自动落库，见
+            # `metadata_auto_apply._without_unbacked_identification`。
+            candidate['site_identified'] = True
         group = groups.get(key, dict(item_key=key, code=code or '', query=code or row['name'],
             asset_id=row['id'], asset_path=row['path'], field=field,
             field_label=LABELS[field], current_value=row.get(COLUMN_OF.get(field, field)) or '',
@@ -1896,6 +1900,9 @@ class _RemoteSession:
             return provider.amane(code, deadline=deadline, route=members)
         if source in metadata_routes.WIKI_STAGE:
             return provider.wiki(source, code, deadline=deadline)
+        if source == 'avwikidb':
+            # 单站一档，不属于综合索引：落到下面的 `community` 分支会被当成综合索引成员而问不到（ADR-0205）。
+            return [(source, provider.site(source, code, deadline=deadline))]
         route = metadata_routes.community_route(code, *evidence, overrides=self._routes)
         return provider.community(code, deadline=deadline,
                                   route=tuple(name for name in route if name in members), received=received)
@@ -1946,10 +1953,11 @@ class _RemoteSession:
             cached = self._cached_evidence(members, code)
             if cached:
                 results.cached(cached)
-                if source in metadata_routes.WIKI_STAGE and any(entry[1].get('actresses') for entry in cached):
+                if source in metadata_routes.CAST_STAGE and any(entry[1].get('actresses') for entry in cached):
                     wants_cast = False
                 if metadata_routes.settles(required, self._provided(code, entries),
-                                           wants_tags=wants_tags, wants_cast=wants_cast, then=then):
+                                           wants_tags=wants_tags, wants_cast=wants_cast, then=then,
+                                           echo=metadata_routes.echoes(source, chain)):
                     break
                 # FC2 那一档缓存里只有官方那页时，缺的演员还得去镜像站问（见 `fc2()`）。
                 if source != 'fc2':
@@ -1981,7 +1989,7 @@ class _RemoteSession:
                     failures.append(_source_failure_details(error, code, action, source=source))
                     held.append(source_paused(error))
                 # 认人 Wiki 没给出演员时，MGStage 给的字段够停手就停，不为它落到综合索引那条 3 秒的队。
-                if source in metadata_routes.WIKI_STAGE and metadata_routes.settles(
+                if source in metadata_routes.CAST_STAGE and metadata_routes.settles(
                         required, self._provided(code, entries), wants_tags=wants_tags,
                         wants_cast=wants_cast, then=then):
                     break
@@ -1989,10 +1997,11 @@ class _RemoteSession:
             update(**stage_fields('library.saveCandidates'))
             results.save(found)
             # 来源快照的演员栏键名是 `actresses`（`SiteRecord.payload`）。
-            if source in metadata_routes.WIKI_STAGE and any(payload.get('actresses') for _, payload in found):
+            if source in metadata_routes.CAST_STAGE and any(payload.get('actresses') for _, payload in found):
                 wants_cast = False
             if metadata_routes.settles(required, self._provided(code, entries),
-                                       wants_tags=wants_tags, wants_cast=wants_cast, then=then):
+                                       wants_tags=wants_tags, wants_cast=wants_cast, then=then,
+                                       echo=metadata_routes.echoes(source, chain)):
                 break
         tag_entries = self._preferred_tags(row, code, missing, chain, entries, attempted,
             update=update, issue=issue, deadline=_extended(deadline, _excused(self._provider) - mark))
@@ -2055,7 +2064,9 @@ class _RemoteSession:
     def _cover(self, row, code, cover_root, *, update, issue, snapshots=(), absent=()):
         action = 'fetching_cover'
         # 「封面没有」是这条链上各站合起来的答复：链上有一站是记下之后才接入的，就再问一遍。
-        lineup = metadata_routes.route_for_code(code, *_studio_evidence(row), overrides=self._routes)
+        # 不给封面的来源（AVWikiDB）不算：接上它时，压着「封面没有」的番号没有多出一个能问封面的人。
+        lineup = tuple(name for name in metadata_routes.route_for_code(code, *_studio_evidence(row), overrides=self._routes)
+                       if name not in metadata_routes.COVERLESS_SOURCES)
         if self._fresh_miss('cover', code, lineup):
             # 已经有一张小图的不算问题项：卡片上有封面，只是还没换到更大的。
             if measure_image_file(cover_root / (code + '.jpg')) is None:

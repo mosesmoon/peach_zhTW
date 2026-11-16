@@ -93,9 +93,9 @@ MAX_WORKS = 3
 #: minnano-av 的间隔与超时：与链接采集那一趟同一档，再放宽一点，这条后继不赶时间。
 MINNANO_INTERVAL, TIMEOUT = 3.0, 25.0
 #: 进程内共用：一轮里几十条后继一条接一条跑，每条各起一个限速器等于没有间隔。
-#: avwikidb 与 minnano-av 同一档（补女优资料后继，ADR-0067）。
+#: avwikidb 不在这里：它的取页器等 `library_processing.SOURCE_LIMITER`，与作品页来源共一份（ADR-0205）。
 _LIMITER = HostLimiter({"minnano-av.com": MINNANO_INTERVAL, "seesaawiki.jp": 2.0,
-                        "fc2cmadb.com": 2.0, "avwikidb.com": MINNANO_INTERVAL})
+                        "fc2cmadb.com": 2.0})
 
 #: av_neme 搜索结果里明显不是人物页的页名：月份归档、番号页、厂牌与一览。
 _NOT_A_PERSON = re.compile(r"\d{4}年|[A-Za-z]+-?\d{3,}|一覧|レーベル|メーカー")

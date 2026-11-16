@@ -25,7 +25,7 @@ from typing import Iterable, Mapping, Sequence
 
 from .catalog_rules import is_amateur_code, is_korean_mib_code, is_uncensored_code, is_uncensored_label_code
 from .content_words import OTHER_SYSTEM_MARKS
-from .metadata_policy import SOURCE_SPECS
+from .metadata_policy import REPUBLISHING_SOURCES, SOURCE_SPECS
 from .user_messages import UserValueError
 
 
@@ -66,9 +66,12 @@ ROUTES: dict[str, tuple[str, ...]] = {
     # 它是 r18.dev 镜像的源头，2026-09-24 实测当月新片与 FKOS、FNS、SUKE 这些小厂 r18.dev 都是
     # 404 而 DMM 有，一部片一到三次请求、不需要日本出口；再落空才到三家综合索引。AVBase 与
     # JavBus 各一次请求，javdb 两次且按出口 IP 计配额（`SOURCE_INTERVALS` 里 3 秒一页），所以 javdb 排最后。
+    # AVWikiDB 作品页（ADR-0205）排在 dmm 之后、综合索引之前，自成一档：它的标量字段转载 DMM／FANZA，与前两家
+    # 同源，只在它们都落空时补空，不当第二家印证；一档的位置让 `settles` 在前面已齐时不问它。
     # 不进这条链：1pondo（无码片商，有码番号一律 404）、fc2（商品号体系不同）、mgstage
     # （它同时卖有码号，但对有码号它是转售店，标题缀着店铺特典，片商官网才是发行方）。
-    "censored": ("prestige", "faleno", "dahlia", "makers", "r18dev", "dmm", "avbase", "javbus", "javdb"),
+    "censored": ("prestige", "faleno", "dahlia", "makers", "r18dev", "dmm", "avwikidb", "avbase", "javbus",
+                 "javdb"),
     # 素人：MGStage 先问。MGS 素人系（`259LUXU`、`300MIUM`、`SIRO`……）由 MGS 自己发行，
     # mgstage 那一页就是发行方口径；amane 同样把 MGS 放素人第一源、不让它进有码默认表
     # （否则 MIDV 也会去问 MGS），Peach 的等价做法是把素人单列成一种类型。
@@ -79,7 +82,9 @@ ROUTES: dict[str, tuple[str, ...]] = {
     # 不在它的目录上，多问一家只多两次白请求。
     # MGStage 之后是两个认人 Wiki（`WIKI_STAGE`，ADR-0145）：MGS 只给素人名义（`まいな`、`七○舞`），
     # Wiki 给出背后的艺名。排在综合索引前面，是因为它们与 javdb 不共一条 3 秒的队。
-    "amateur": ("mgstage", "sougouwiki", "av_neme", "avbase", "javbus", "javdb", "r18dev"),
+    # AVWikiDB 排在两个 Wiki 之后（ADR-0205）：站方认人的准确率尚无本机抽样，Wiki 有 2026-11-05 的 29 部样本；
+    # 它与 Wiki 同属 `CAST_STAGE`，缺演员时接着问，沿用 ADR-0145 的短路。
+    "amateur": ("mgstage", "sougouwiki", "av_neme", "avwikidb", "avbase", "javbus", "javdb", "r18dev"),
     # 无码：发行方自己那份作品 JSON 先问，但只在本机证据指着一本道时才问
     # （见 `route_for_code`）——日期式番号不带片商，カリビアンコム 与一本道同形，
     # 问错一家答回来的是同一天发行的另一部片。
@@ -154,6 +159,11 @@ AMANE_STAGE = ("fc2club", "freejavbt", "airav", "avsox")
 #: 不一致的几条是账本记着素人名义、Wiki 给出艺名。av_name 只给 12 部，唯一一条与账本对不上的
 #: 也出自它，且它的厂牌页只挂最新约 1100 件，不进链，仍可由 `scrape_codes --sources` 点名。
 WIKI_STAGE = ("sougouwiki", "av_neme")
+#: 链上不给封面的来源：「封面没有」的记忆以当时能给封面的几站为前提，接上这类来源不让它作废（`library_processing._cover`）。
+COVERLESS_SOURCES = ("avwikidb",)
+#: 缺演员时接着问的几站：两个认人 Wiki，再加素人链上排在它们之后的 AVWikiDB（ADR-0205）。比 `WIKI_STAGE`
+#: 多这一家是因为 `provider.wiki()` 以 `WIKI_SOURCES[source]` 取站，AVWikiDB 不在其中，不能并进 `WIKI_STAGE`。
+CAST_STAGE = (*WIKI_STAGE, "avwikidb")
 
 #: 必填标量字段。一档把这几项（在这一行还缺的范围内）都给全了就不问下一档。
 SCALAR_FIELDS = ("title", "performers", "studio", "release_date")
@@ -364,8 +374,16 @@ def required_scalars(missing: Iterable[str], *, code: str | None = None):
     return tuple(field for field in SCALAR_FIELDS if field in wanted)
 
 
+def echoes(source: str, chain: Sequence[str]) -> bool:
+    """这一档只是转述官方目录：转载来源（`REPUBLISHING_SOURCES`）在没有认人 Wiki 的链上（有码链）。
+
+    素人链上它是认人来源之一，不在此列（ADR-0205）。
+    """
+    return source in REPUBLISHING_SOURCES and not any(name in WIKI_STAGE for name in chain)
+
+
 def settles(required: Sequence[str], provided: Iterable[str], *,
-            wants_tags: bool = False, wants_cast: bool = False, then: str = "") -> bool:
+            wants_tags: bool = False, wants_cast: bool = False, then: str = "", echo: bool = False) -> bool:
     """这一档给的字段够不够停手。
 
     `required` 空时任何一档只要给出资料就停——这一行要的本来就不是标量字段，
@@ -378,11 +396,15 @@ def settles(required: Sequence[str], provided: Iterable[str], *,
 
     `wants_cast` 是这一行缺演员、还没有 Wiki 给过（ADR-0145）：MGStage 给的演员是素人名义，
     给了也不停，下一档是认人 Wiki 时接着问它。
+
+    `echo` 是这一档只转述官方目录（`echoes`）：给得再全也不停，综合索引照问，不让同源的转述顶替它们的表态。
     """
+    if echo:
+        return False
     given = set(str(field) for field in provided)
     if wants_tags and "tags" not in given and then in OFFICIAL_STAGE_NAMES:
         return False
-    if wants_cast and then in WIKI_STAGE:
+    if wants_cast and then in CAST_STAGE:
         return False
     if not required:
         return True

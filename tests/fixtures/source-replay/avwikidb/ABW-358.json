@@ -1,0 +1,49 @@
+{
+ "format": 1,
+ "source": "avwikidb",
+ "code": "ABW-358",
+ "recorded": "2026-11-16",
+ "outcome": "ok",
+ "payload": {
+  "id": "ABW-358",
+  "source_url": "https://avwikidb.com/work/ABW-358/",
+  "title": "",
+  "actresses": [
+   {
+    "japanese_name": "涼森れむ"
+   }
+  ],
+  "maker": "プレステージ",
+  "label": "",
+  "series": "絶対セイキョウイク",
+  "director": "",
+  "release_date": "",
+  "runtime": 210.0,
+  "cover_urls": [],
+  "cover_url": "",
+  "genres": [
+   "単体作品",
+   "巨乳",
+   "スレンダー",
+   "主観",
+   "フルハイビジョン(FHD)",
+   "MGSだけのおまけ映像付き",
+   "性教育"
+  ],
+  "floor": "mgs",
+  "actor_unknown": false,
+  "delivery_date": "2023-05-23"
+ },
+ "interactions": [
+  {
+   "method": "GET",
+   "url": "https://avwikidb.com/work/ABW-358/",
+   "response": {
+    "status": 200,
+    "url": "https://avwikidb.com/work/ABW-358/",
+    "content_type": "text/html; charset=utf-8",
+    "text": "<script id=\"__NEXT_DATA__\" type=\"application/json\">{\"props\": {\"pageProps\": {\"movie\": {\"adultVideoId\": \"ABW-358\", \"adultVideoAlias\": null, \"mgsProductCode\": \"ABW-358\", \"fanzaContentId\": null, \"floor\": \"mgs\", \"title\": \"涼森れむ流 HOW TO SEX！！ 保健室の先生が身体を使って性指導！絶対セイキョウイク【MGSだけのおまけ映像付き+15分】\", \"durationMin\": 210, \"dateOfPublication\": \"2023-05-23T00:00:00.000Z\", \"actorUnknown\": false, \"_needsDisambiguation\": false, \"actor\": [{\"actor\": {\"name\": \"涼森れむ\"}}], \"maker\": [{\"maker\": {\"name\": \"プレステージ\"}}], \"label\": [], \"series\": [{\"series\": {\"name\": \"絶対セイキョウイク\"}}], \"director\": [], \"genre\": [{\"genre\": {\"name\": \"単体作品\"}}, {\"genre\": {\"name\": \"巨乳\"}}, {\"genre\": {\"name\": \"スレンダー\"}}, {\"genre\": {\"name\": \"主観\"}}, {\"genre\": {\"name\": \"フルハイビジョン(FHD)\"}}, {\"genre\": {\"name\": \"MGSだけのおまけ映像付き\"}}, {\"genre\": {\"name\": \"性教育\"}}]}}}}</script>"
+   }
+  }
+ ]
+}

@@ -2469,6 +2469,11 @@
       "unrecognized": "AVBase 頁面結構未辨識，可能在驗證存取",
       "notFound": "AVBase 沒有這個番號"
     },
+    "avwikidb": {
+      "unrecognized": "AVWikiDB 頁面結構未辨識，可能在驗證存取",
+      "notFound": "AVWikiDB 沒有這個番號",
+      "ambiguous": "AVWikiDB 上這個番號對應多個作品"
+    },
     "dmm": {
       "unrecognizedCode": "認不出可以問 DMM 的番號",
       "notFound": "DMM 沒有這個番號",

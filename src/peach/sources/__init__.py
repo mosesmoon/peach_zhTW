@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from .avbase import AVBASE, AVBaseSource
+from .avwikidb import AVWIKIDB, AVWikiDBSource
 from .base import (COOLDOWN_ACTIONS, PERMANENT_REASONS, REASON_KINDS, FailureReason, Page, Session,
                    SiteConfig, SiteRecord, SiteSource, SourceFailure, http_failure)
 from .dmm import DMM, DmmSource
@@ -30,6 +31,7 @@ SITE_SOURCES: dict[str, type[SiteSource]] = {
     JAVTEN.name: JavtenSource,
     JAVARCHIVE.name: JavArchiveSource,
     AVBASE.name: AVBaseSource,
+    AVWIKIDB.name: AVWikiDBSource,
     JAVBUS.name: JavBusSource,
     # 刮削走匿名接口（ADR-0144）；详情页那一路的 `JavDBSource` 由视频预览直接取。
     JAVDB.name: JavDBPublicSource,
@@ -38,7 +40,7 @@ SITE_SOURCES: dict[str, type[SiteSource]] = {
 
 __all__ = ["COOLDOWN_ACTIONS", "PERMANENT_REASONS", "REASON_KINDS", "SITE_SOURCES", "FailureReason", "Page",
            "Session", "SiteConfig", "SiteRecord", "SiteSource", "SourceFailure", "http_failure",
-           "AVBASE", "DMM", "FC2", "FC2CMADB", "FC2PPVDB", "JAVARCHIVE", "JAVBUS", "JAVDB", "JAVTEN", "ONEPONDO",
+           "AVBASE", "AVWIKIDB", "DMM", "FC2", "FC2CMADB", "FC2PPVDB", "JAVARCHIVE", "JAVBUS", "JAVDB", "JAVTEN", "ONEPONDO",
            "R18DEV", "SEESAA",
-           "AVBaseSource", "DmmSource", "Fc2Source", "Fc2cmadbSource", "Fc2ppvdbSource", "JavArchiveSource",
+           "AVBaseSource", "AVWikiDBSource", "DmmSource", "Fc2Source", "Fc2cmadbSource", "Fc2ppvdbSource", "JavArchiveSource",
            "JavBusSource", "JavDBPublicSource", "JavDBSource", "JavtenSource", "OnePondoSource", "R18DevSource", "SeesaaSource"]

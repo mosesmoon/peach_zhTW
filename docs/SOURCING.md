@@ -162,8 +162,8 @@ Wiki 与视频作品资料无关。
 
 | 类型 | 判据 | 链（从左到右） | 这条链为什么不含 |
 | --- | --- | --- | --- |
-| censored | 其余厂牌番号 | （本机证据认得时）prestige／faleno／dahlia，都不认时 makers → r18dev → dmm → avbase → javbus → javdb | 1pondo（无码片商）、fc2（另一套商品号）、mgstage（对有码号是转售店） |
-| amateur | `300MIUM-1239` 这类三位数字前缀，加 `SIRO`／`STP`／`STN`；本机证据写着带三位前缀的同一个号（`LUXU-688` 的文件是 `259LUXU-688.mp4`） | mgstage → sougouwiki → av_neme → avbase → javbus → javdb → r18dev | makers 与三家片商站（素人号不归它们）；dmm（搜 `MIUM 1239`、`LUXU 1475` 零结果）；av_name（厂牌页只挂最新约 1100 件）。r18dev 垫底：本机快照里它一份素人号都没给过 |
+| censored | 其余厂牌番号 | （本机证据认得时）prestige／faleno／dahlia，都不认时 makers → r18dev → dmm → avwikidb → avbase → javbus → javdb | 1pondo（无码片商）、fc2（另一套商品号）、mgstage（对有码号是转售店） |
+| amateur | `300MIUM-1239` 这类三位数字前缀，加 `SIRO`／`STP`／`STN`；本机证据写着带三位前缀的同一个号（`LUXU-688` 的文件是 `259LUXU-688.mp4`） | mgstage → sougouwiki → av_neme → avwikidb → avbase → javbus → javdb → r18dev | makers 与三家片商站（素人号不归它们）；dmm（搜 `MIUM 1239`、`LUXU 1475` 零结果）；av_name（厂牌页只挂最新约 1100 件）。r18dev 垫底：本机快照里它一份素人号都没给过 |
 | uncensored | 日期式番号、`HEYZO-1380`、Tokyo-Hot 的 `n0780` | （证据指着一本道时）1pondo → avbase → javbus → javdb → avsox | r18dev：无码番号在它上面没有 |
 | fc2 | `FC2` 开头的商品号，与没归一的 `FC-43768` 这种短写法 | javdb → fc2 → fc2cmadb → fc2ppvdb → javten → javarchive | r18dev、avbase 与 javbus 对 FC2 没有有效产出；fc2club 仍可由用户点名 |
 | kmib | `KOREAN_MIB_PREFIXES` 里的前缀 | 一家都不问 | 全部：番号与日本片同形，问回来的是别的作品 |
@@ -195,6 +195,12 @@ Wiki 与视频作品资料无关。
 - 素人片缺演员时，MGStage 给齐了也接着问认人 Wiki：MGS 写的是片中称呼或干脆不写（ADR-0145）。素人系総合 Wiki
   给出演员就不问 av_neme；两站都没给，MGStage 给的字段够了就停，不落到综合索引。已有演员的行不问 Wiki。
   演员栏上两个 Wiki 排在官方档前面（`FIELD_SOURCE_PRIORITY`），标题与日期仍听 MGStage。
+- AVWikiDB 作品页（ADR-0205）自成一档：素人链排在两个 Wiki 之后，两个 Wiki 都没给演员时接着问（同属
+  `metadata_routes.CAST_STAGE`，不进 `WIKI_STAGE`，`provider.wiki()` 取不到它）；有码链排在 dmm 之后、综合索引之前，
+  前面的档给齐必填标量就不问它；它答完不短路（它与 dmm 同源，只是转述），综合索引照问。无码、FC2、MIB、`other`、`unsure` 都不问。它的标量字段转载 DMM／MGS，
+  只补空，不当第二家印证（`metadata_policy.independent_sources`）；站方认出的素人演员（`actorUnknown`）要有
+  认人 Wiki 给出同一批人才自动落库；没有任何认人 Wiki 开口时，这一行的演员整栏进人工复核（含 MGStage 的素人名义），
+  有 Wiki 给了别的人则听 Wiki。
 - 唯一例外：FALENO、DAHLIA 官网不给类别，缺标签的行在片商站答完标量后再问一次 r18.dev；下一档是综合索引
   就照样停。r18.dev 答了就不再为标签问 dmm，两家是同一份目录。
 
@@ -283,7 +289,7 @@ Wiki 与视频作品资料无关。
 - 同一站在配置、`SOURCE_SPECS`、`SOURCE_LABELS`、`PROVIDER_NAMES`、`scraping_access.SOURCES`、
   `SOURCE_INTERVALS` 里的几行必须一致，由 `tests/test_metadata_sources.py` 守住。
 
-下表各站全部已套契约：自写的十二站登记在 `sources.SITE_SOURCES`，经桥的九站在 `metadata_amane`。
+下表各站全部已套契约：自写的十三站登记在 `sources.SITE_SOURCES`，经桥的九站在 `metadata_amane`。
 
 | 站 | 状态 | 位置 | 说明 |
 | --- | --- | --- | --- |
@@ -292,6 +298,7 @@ Wiki 与视频作品资料无关。
 | fc2club、freejavbt、airav、avsox | 已套契约（经桥） | `metadata_amane.py` | amane 的十六档 reason 经 `AMANE_REASONS` 一对一翻成契约细档，先套进 `SiteRecord` 再投影；`SITE_CONFIGS` 只持有站名、界面名与档位，主域与 Cookie 由 amane 管 |
 | makers、prestige、faleno、dahlia、mgstage | 已套契约（经桥） | `metadata_amane.py` | 档位 `official`（`OFFICIAL_SITES`）；`http_error` 带 401/403 经 `contract_reason` 归 `auth_required`；prestige 的 `release` 进 `extra['delivery_date']` |
 | AVBase | 已套契约 | `sources/avbase.py` | 搜索页一跳，从 `__NEXT_DATA__` 里挑出本作与它自己的商品条目；搜索无命中归 `not_found`，Cloudflare 验证页归 `cloudflare_challenge`，别的结构对不上归 `parse_error`；不给时长，`runtime` 留空 |
+| AVWikiDB | 已套契约 | `sources/avwikidb.py` | 作品页一跳 `/work/<番号大写>/`，只读 `__NEXT_DATA__` 的 `pageProps.movie`（不回退 JSON-LD）；标题、发行日只在 `floor` 为 `videoa`／`videoc` 或素人番号时填（日期按 UTC 转日本时间取日），MGS 版有码作品（ABW-358）两项留空、日期进 `extra['delivery_date']`；片长、厂牌、系列、导演、类别都读；`actorUnknown` 进 `extra['actor_unknown']` 并给候选标 `site_identified`；不带演员编号、不给封面、不取 `summary`／`reviewSummary`、样片与 `/mgsimg/`；404 与番号对不上归 `not_found`，验证页归 `cloudflare_challenge`，结构对不上与 `_needsDisambiguation` 归 `parse_error`；档位 `community`，主机间隔 3 秒，与补女优资料、补头像后继共用 `SOURCE_LIMITER` 与 `avwikidb` 冷却键 |
 | r18.dev | 已套契约 | `sources/r18dev.py` | 作品 JSON 与 combined 页两跳，日文写法、女优头像模板与 genre 取日文原词都在这一站里；`content_id` 对不上归 `parse_error`；档位 `official_mirror`，页面上限 2 MiB |
 | DMM / FANZA | 已套契约 | `sources/dmm.py` | GraphQL 接口经 `Session.post` 一到三跳（猜 cid → 搜索 → 详情）；`ppvContent` 为 null 与搜索无命中归 `not_found`，回的不是 JSON 或接口拒绝查询（只有 `errors`）归 `parse_error`；档位 `official`，页面上限 1 MiB |
 | 一本道 | 已套契约 | `sources/onepondo.py` | 作品 JSON 一跳；认不出作品号、404 与 `MovieID` 对不上归 `not_found`，回的不是 JSON 归 `parse_error`；档位 `official`，页面上限 1 MiB |
@@ -640,6 +647,9 @@ Instagram 的独立用户登录会话未取得，自动适配器不进正式依�
     从这里取。女优页 JSON-LD `Person.alternateName` 前两项是读音与罗马字，后面混着站上归并的其他名义（含男优
     名），不收。三围只在正文「身長・スリーサイズ」一格（`T148 B83(B) W55 H85`）。女优图是 DMM `actjpgs` 的
     125×125，不作头像；站内搜索是 `⌘K` 弹层，地址形态未取得。
+  - avwikidb 作品页也是采集链上的一个来源（ADR-0205，上文「站点解析器契约」表）：读 `pageProps.movie`，不读 JSON-LD；
+    robots.txt 对 `/api/`、`/go/` 一律禁止、对 AI 相关爬虫另禁 `/mgsimg/`，三处都不取。2026-11-16 的录制样本
+    （SSIS-001、259LUXU-1000、ABW-358、一个不存在的番号）共 5 次请求均为 200 或 404，没有验证页。
   - 出生日期与身高和资料表那一行（minnano-av 或 avbase 写的）不一致时，只记进外部编号的 `metadata_json.conflicts`。
 
 ## 番号目录、创作者与水印

@@ -2469,6 +2469,11 @@
       "unrecognized": "AVBase 页面结构未识别，可能在验证访问",
       "notFound": "AVBase 没有这个番号"
     },
+    "avwikidb": {
+      "unrecognized": "AVWikiDB 页面结构未识别，可能在验证访问",
+      "notFound": "AVWikiDB 没有这个番号",
+      "ambiguous": "AVWikiDB 上这个番号对应多个作品"
+    },
     "dmm": {
       "unrecognizedCode": "认不出可以问 DMM 的番号",
       "notFound": "DMM 没有这个番号",

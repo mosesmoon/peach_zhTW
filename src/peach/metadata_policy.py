@@ -63,6 +63,9 @@ SOURCE_SPECS = {
         # AVBase 汇总各店铺的商品条目，采集任务在官方渠道落空时直接请求它
         # （`peach.sources.avbase`）。
         "avbase": "community",
+        # AVWikiDB 作品页（`peach.sources.avwikidb`，ADR-0205）。标量字段转载 DMM／MGS，
+        # 站方认出的素人演员是它独有的；按社区来源对待。
+        "avwikidb": "community",
         # 韩国 MIB 的官网（scripts/harvest_kmib.py）。登记在这里是为了复核与自动批准
         # 按官方来源对待它。
         "kmib": "official",
@@ -114,6 +117,14 @@ LOCAL_NFO_SOURCE = "local_nfo"
 CHAIN_LOCAL_NFO, CHAIN_OFFICIAL, CHAIN_PREFERRED = 0, 1, 2
 CHAIN_COMMUNITY, CHAIN_FALLBACK, CHAIN_UNKNOWN = 3, 4, 5
 
+#: 转载官方目录数据的来源：标量字段与 DMM、r18.dev、MGStage 同一份底层数据，互相一致不是第二个独立
+#: 声音（ADR-0205）。AVWikiDB 站方认出的演员例外，那是它独有的判断（`independent_sources`）。
+REPUBLISHING_SOURCES = frozenset({"avwikidb"})
+
+#: 认人来源：把素人作品对到艺名的名鉴。站方自己认出的演员（候选的 `site_identified`）要有其中另一家
+#: 给出同一批人才自动落库（`metadata_auto_apply._without_unbacked_identification`）。
+IDENTIFYING_SOURCES = ("sougouwiki", "av_neme", "av_name")
+
 #: 稀疏例外：某个字段上把几家来源提到链首，顺序就是这里写的顺序（对应 amane 的
 #: `field_priority`）。整条链已经按「谁更接近发行方」排好，这张表只用来记录逐条
 #: 核对后发现的反例，不是第二份来源顺序表——每加一行都要能说出是哪个番号上看出来的。
@@ -153,6 +164,19 @@ def source_tier(source: str) -> int:
     if name == PREFERRED_COMMUNITY_SOURCE:
         return CHAIN_PREFERRED
     return CHAIN_COMMUNITY
+
+
+def republishes(field: str, candidate: Mapping[str, object]) -> bool:
+    """这条候选是不是转载官方数据：它的取值与官方来源同源，不构成独立印证。"""
+    if str(candidate.get("source") or "").strip() not in REPUBLISHING_SOURCES:
+        return False
+    return not (field == "performers" and candidate.get("site_identified"))
+
+
+def independent_sources(field: str, candidates: Iterable[Mapping[str, object]]) -> int:
+    """给出同一取值的候选里，互相独立的来源数；转载官方数据的不计，至少算 1。"""
+    rows = list(candidates)
+    return max(1, sum(1 for candidate in rows if not republishes(field, candidate)))
 
 
 def preferred_tag_source(code: str | None) -> str | None:
@@ -195,27 +219,27 @@ MAKER_SOURCES = ("makers", "prestige", "faleno", "dahlia")
 FIELD_SOURCE_ORDER = {
     "title": (
         *MAKER_SOURCES, "dmm", "libredmm", "r18dev", "mgstage", "aventertainment",
-        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "javlibrary",
+        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "avwikidb", "javlibrary",
         "javbus", "javstash", "jav321", "dlgetchu",
     ),
     "original_title": (
         *MAKER_SOURCES, "dmm", "libredmm", "r18dev", "mgstage", "aventertainment",
-        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "javlibrary",
+        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "avwikidb", "javlibrary",
         "javbus", "javstash", "jav321", "dlgetchu",
     ),
     "performers": (
         *MAKER_SOURCES, "dmm", "libredmm", "r18dev", "mgstage", "aventertainment",
-        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "javbus",
+        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "avwikidb", "javbus",
         "javlibrary", "javstash", "jav321", "dlgetchu",
     ),
     "studio": (
         *MAKER_SOURCES, "dmm", "libredmm", "r18dev", "mgstage", "aventertainment",
-        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "javbus",
+        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "avwikidb", "javbus",
         "javlibrary", "javstash", "jav321", "dlgetchu",
     ),
     "series": (
         *MAKER_SOURCES, "dmm", "libredmm", "r18dev", "mgstage", "aventertainment",
-        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "javlibrary",
+        "caribbeancom", "1pondo", "tokyohot", "fc2", "javdb", "avwikidb", "javlibrary",
         "javbus", "javstash", "jav321", "dlgetchu",
     ),
     # aventertainment 是面向海外的转售商，不是发行方，它给的是自己的上架日期：
@@ -226,7 +250,7 @@ FIELD_SOURCE_ORDER = {
     # 不当发行日候选（`metadata_amane.DELIVERY_DATE_SITES`）。
     "release_date": (
         "makers", "faleno", "dahlia", "dmm", "libredmm", "mgstage", "tokyohot", "caribbeancom", "1pondo",
-        "aventertainment", "dlgetchu", "fc2", "r18dev", "javdb",
+        "aventertainment", "dlgetchu", "fc2", "r18dev", "javdb", "avwikidb",
         "javlibrary", "javbus", "jav321", "javstash",
     ),
     # tag 单独把 mgstage 提到 dmm 之前。ABW-220 实测：mgstage 商品页给
@@ -237,7 +261,7 @@ FIELD_SOURCE_ORDER = {
     "tags": (
         "mgstage", "makers", "prestige", "dmm", "libredmm", "tokyohot", "caribbeancom", "1pondo",
         "aventertainment", "dlgetchu", "fc2", "r18dev", "javstash",
-        "javdb", "javlibrary", "javbus", "jav321",
+        "javdb", "avwikidb", "javlibrary", "javbus", "jav321",
     ),
 }
 

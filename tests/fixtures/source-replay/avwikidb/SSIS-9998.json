@@ -1,0 +1,23 @@
+{
+ "format": 1,
+ "source": "avwikidb",
+ "code": "SSIS-9998",
+ "recorded": "2026-11-16",
+ "outcome": "not_found",
+ "failure": {
+  "reason": "not_found",
+  "message": "HTTP 404"
+ },
+ "interactions": [
+  {
+   "method": "GET",
+   "url": "https://avwikidb.com/work/SSIS-9998/",
+   "response": {
+    "status": 404,
+    "url": "https://avwikidb.com/work/SSIS-9998/",
+    "content_type": "text/html; charset=utf-8",
+    "text": "<!DOCTYPE html><html data-dpl-id=\"dpl_Hhi6QDvJfGWYbUFa4qcQQDW6TQ1D\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><meta name=\"robots\" content=\"noindex\"/><title>404: This page could not be found.</title></head><body><div hidden=\"\"></div><div style=\"font-family:system-ui,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;height:100vh;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center\"><div><h1 class=\"next-error-h1\" style=\"display:inline-block;margin:0 20px 0 0;padding:0 23px 0 0;font-size:24px;font-weight:500;vertical-align:top;line-height:49px\">404</h1><div style=\"display:inline-block\"><h2 style=\"font-size:14px;font-weight:400;line-height:49px;margin:0\">This page could not be found.</h2></div></div></div><script src=\"/_next/static/immutable/chunks/1kbt14nefgsiq.js\" id=\"_R_\" async=\"\"></script></body></html>"
+   }
+  }
+ ]
+}
