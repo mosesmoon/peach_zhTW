@@ -4,7 +4,8 @@ name: Release
 # `release_tag.py --ship` 等这次演练通过才打标签，标签上才发布（ADR-0121）。
 on:
   push:
-    branches: [master]
+    # `zhtw-build/**` 是本 fork 的构建分支：推上去就跑一遍演练，产出 Windows 与 macOS 测试包，不发布。
+    branches: [master, 'zhtw-build/**']
     tags: ["v*.*.*"]
   workflow_dispatch:
 
@@ -26,7 +27,7 @@ jobs:
   validate:
     name: 核对发布提交与版本
     # 其余作业都依赖它：普通的 master 推送在这里就结束，只有版本提交、标签与手动运行往下走。
-    if: "${{ github.ref_type == 'tag' || github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'chore(release): 版本 ') }}"
+    if: "${{ github.ref_type == 'tag' || github.event_name == 'workflow_dispatch' || startsWith(github.ref_name, 'zhtw-build/') || startsWith(github.event.head_commit.message, 'chore(release): 版本 ') }}"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
