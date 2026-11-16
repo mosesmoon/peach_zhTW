@@ -169,7 +169,8 @@ jobs:
           Copy-Item scripts/smoke_desktop.py release/smoke_desktop.py
           Copy-Item scripts/smoke_update_tasks.py release/smoke_update_tasks.py
           Copy-Item scripts/smoke_split_update.py release/smoke_split_update.py
-          python scripts/changelog.py --notes '${{ steps.version.outputs.version }}' --to release/RELEASE_NOTES.md
+          # 繁體中文段要用 OpenCC，它只装在构建环境里（可选依赖 naming）。
+          & ./.venv/Scripts/python.exe scripts/changelog.py --notes '${{ steps.version.outputs.version }}' --to release/RELEASE_NOTES.md
           if ($LASTEXITCODE -ne 0) { throw 'CHANGELOG.md 缺这一版的一节，不发没有说明的版本' }
       - uses: actions/upload-artifact@v7
         with:
@@ -550,7 +551,8 @@ jobs:
   docker:
     name: Linux ${{ matrix.arch }} 镜像构建与验收
     needs: validate
-    if: github.ref_type != 'tag'
+    # 本 fork 不发布 Docker 镜像（ADR-0202），演练只在上游仓库构建镜像。
+    if: github.ref_type != 'tag' && github.repository == 'peach-mitao/peach'
     strategy:
       fail-fast: false
       matrix:
