@@ -1,0 +1,8 @@
+#!/bin/sh
+# Keep a copy of the settings file before the program files are replaced. Data in var is retained by DSM.
+PKG="${SYNOPKG_PKGNAME:-PeachZhTW}"
+PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/$PKG/var}"
+if [ -f "$PKG_VAR/data/config.toml" ]; then
+    cp -p "$PKG_VAR/data/config.toml" "$PKG_VAR/data/config.toml.preupgrade" 2>/dev/null
+fi
+exit 0

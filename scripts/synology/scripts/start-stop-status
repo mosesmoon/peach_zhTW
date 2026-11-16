@@ -1,0 +1,96 @@
+#!/bin/sh
+# Peach service control for DSM 7. Runs as the package user (conf/privilege).
+PKG="${SYNOPKG_PKGNAME:-PeachZhTW}"
+PKG_DEST="${SYNOPKG_PKGDEST:-/var/packages/$PKG/target}"
+PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/$PKG/var}"
+PYTHON="$PKG_DEST/python/bin/python3"
+CONF="$PKG_VAR/peach.conf"
+PIDFILE="$PKG_VAR/peach.pid"
+LOGFILE="$PKG_VAR/log/peach.log"
+LOG_LIMIT=10485760
+STOP_WAIT=45
+
+conf_value() {
+    # Read KEY=value from peach.conf without sourcing it.
+    [ -f "$CONF" ] && sed -n "s/^$1=//p" "$CONF" | head -n 1
+}
+
+is_running() {
+    [ -f "$PIDFILE" ] || return 1
+    pid=$(cat "$PIDFILE" 2>/dev/null)
+    case "$pid" in ''|*[!0-9]*) return 1 ;; esac
+    kill -0 "$pid" 2>/dev/null || return 1
+    # Guard against a recycled PID: the command line must be the Peach server.
+    tr '\0' ' ' < "/proc/$pid/cmdline" 2>/dev/null | grep -q 'peach.server'
+}
+
+rotate_log() {
+    [ -f "$LOGFILE" ] || return 0
+    size=$(wc -c < "$LOGFILE" 2>/dev/null || echo 0)
+    if [ "$size" -gt "$LOG_LIMIT" ]; then
+        mv -f "$LOGFILE" "$LOGFILE.1"
+    fi
+}
+
+start_service() {
+    is_running && return 0
+    port=$(conf_value PEACH_PORT)
+    case "$port" in ''|*[!0-9]*) echo "peach.conf has no valid PEACH_PORT" >&2; return 1 ;; esac
+    mkdir -p "$PKG_VAR/data" "$PKG_VAR/tmp" "$PKG_VAR/home" "$PKG_VAR/log" || return 1
+    rotate_log
+    export PEACH_DATA_ROOT="$PKG_VAR/data"
+    export HOME="$PKG_VAR/home"
+    export TMPDIR="$PKG_VAR/tmp"
+    export PYTHONUTF8=1 PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+    ffmpeg_path=$(conf_value PEACH_FFMPEG)
+    ffprobe_path=$(conf_value PEACH_FFPROBE)
+    [ -n "$ffmpeg_path" ] && export PEACH_FFMPEG="$ffmpeg_path"
+    [ -n "$ffprobe_path" ] && export PEACH_FFPROBE="$ffprobe_path"
+    cd "$PKG_VAR" || return 1
+    nohup "$PYTHON" -m peach.server --host 0.0.0.0 --port "$port" >> "$LOGFILE" 2>&1 < /dev/null &
+    echo $! > "$PIDFILE"
+    sleep 3
+    if is_running; then
+        return 0
+    fi
+    rm -f "$PIDFILE"
+    echo "Peach exited during startup; see $LOGFILE" >&2
+    return 1
+}
+
+stop_service() {
+    is_running || { rm -f "$PIDFILE"; return 0; }
+    pid=$(cat "$PIDFILE")
+    kill -TERM "$pid" 2>/dev/null
+    waited=0
+    while kill -0 "$pid" 2>/dev/null && [ "$waited" -lt "$STOP_WAIT" ]; do
+        sleep 1
+        waited=$((waited + 1))
+    done
+    kill -0 "$pid" 2>/dev/null && kill -KILL "$pid" 2>/dev/null
+    rm -f "$PIDFILE"
+    return 0
+}
+
+case "$1" in
+    start)
+        start_service
+        exit $?
+        ;;
+    stop)
+        stop_service
+        exit $?
+        ;;
+    status)
+        is_running && exit 0
+        exit 3
+        ;;
+    log)
+        echo "$LOGFILE"
+        exit 0
+        ;;
+    *)
+        echo "usage: $0 {start|stop|status|log}" >&2
+        exit 1
+        ;;
+esac

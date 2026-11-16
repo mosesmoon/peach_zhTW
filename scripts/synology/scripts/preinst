@@ -1,0 +1,32 @@
+#!/bin/sh
+# Refuse to install where the bundled native libraries cannot load, and validate wizard values.
+MIN_GLIBC="@MIN_GLIBC@"
+
+fail() {
+    echo "$1" >&2
+    [ -n "$SYNOPKG_TEMP_LOGFILE" ] && echo "$1" > "$SYNOPKG_TEMP_LOGFILE"
+    exit 1
+}
+
+glibc=$(getconf GNU_LIBC_VERSION 2>/dev/null | sed -n 's/^glibc //p')
+[ -z "$glibc" ] && glibc=$(ldd --version 2>&1 | head -n 1 | sed -n 's/.* \([0-9][0-9]*\.[0-9][0-9]*\)$/\1/p')
+if [ -n "$glibc" ]; then
+    have_major=${glibc%%.*}; have_minor=${glibc#*.}; have_minor=${have_minor%%.*}
+    need_major=${MIN_GLIBC%%.*}; need_minor=${MIN_GLIBC#*.}
+    if [ "$have_major" -lt "$need_major" ] || { [ "$have_major" -eq "$need_major" ] && [ "$have_minor" -lt "$need_minor" ]; }; then
+        fail "This package needs glibc $MIN_GLIBC or newer; this DSM has glibc $glibc."
+    fi
+else
+    echo "Could not determine the glibc version; continuing." >&2
+fi
+
+# Wizard values exist on a fresh install only; an upgrade keeps var/peach.conf.
+if [ -n "$wizard_port" ]; then
+    case "$wizard_port" in ''|*[!0-9]*) fail "The port must be a number." ;; esac
+    { [ "$wizard_port" -ge 1024 ] && [ "$wizard_port" -le 65535 ]; } || fail "The port must be between 1024 and 65535."
+fi
+if [ -n "$wizard_media_path" ]; then
+    case "$wizard_media_path" in /*) ;; *) fail "The media path must be an absolute path." ;; esac
+    case "$wizard_media_path" in *..*|*[[:cntrl:]]*) fail "The media path must not contain '..' or control characters." ;; esac
+fi
+exit 0

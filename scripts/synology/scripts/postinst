@@ -1,0 +1,47 @@
+#!/bin/sh
+# First install: record wizard values and provision the Peach settings. Upgrade: keep everything.
+PKG="${SYNOPKG_PKGNAME:-PeachZhTW}"
+PKG_DEST="${SYNOPKG_PKGDEST:-/var/packages/$PKG/target}"
+PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/$PKG/var}"
+PYTHON="$PKG_DEST/python/bin/python3"
+CONF="$PKG_VAR/peach.conf"
+
+fail() {
+    echo "$1" >&2
+    [ -n "$SYNOPKG_TEMP_LOGFILE" ] && echo "$1" > "$SYNOPKG_TEMP_LOGFILE"
+    exit 1
+}
+
+mkdir -p "$PKG_VAR/data" "$PKG_VAR/tmp" "$PKG_VAR/home" "$PKG_VAR/log" || fail "Cannot create the data directories."
+
+if [ ! -f "$CONF" ]; then
+    [ -n "$wizard_port" ] && [ -n "$wizard_media_path" ] || fail "Missing wizard values."
+    case "$wizard_port$wizard_media_path$wizard_ffmpeg_dir" in *[[:cntrl:]]*) fail "Wizard values must not contain control characters." ;; esac
+    ffmpeg_line=""
+    ffprobe_line=""
+    if [ -n "$wizard_ffmpeg_dir" ]; then
+        case "$wizard_ffmpeg_dir" in /*) ;; *) fail "The FFmpeg directory must be an absolute path." ;; esac
+        ffmpeg_line="$wizard_ffmpeg_dir/ffmpeg"
+        ffprobe_line="$wizard_ffmpeg_dir/ffprobe"
+    fi
+    (
+        umask 077
+        {
+            echo "PEACH_PORT=$wizard_port"
+            echo "PEACH_MEDIA_PATH=$wizard_media_path"
+            echo "PEACH_FFMPEG=$ffmpeg_line"
+            echo "PEACH_FFPROBE=$ffprobe_line"
+        } > "$CONF"
+    ) || fail "Cannot write $CONF."
+    PEACH_DATA_ROOT="$PKG_VAR/data" HOME="$PKG_VAR/home" TMPDIR="$PKG_VAR/tmp" \
+    PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1 \
+    PEACH_SYNOLOGY_MEDIA="$wizard_media_path" PEACH_SYNOLOGY_PORT="$wizard_port" \
+    PEACH_SYNOLOGY_PASSWORD="$wizard_access_password" \
+        "$PYTHON" "$PKG_DEST/bin/provision.py" >> "$PKG_VAR/log/provision.log" 2>&1 \
+        || fail "Provisioning failed; see $PKG_VAR/log/provision.log."
+    # Make the desktop shortcut follow the chosen port; the packaged default is 8900.
+    if [ "$wizard_port" != "8900" ] && [ -f "$PKG_DEST/ui/config" ]; then
+        sed -i "s/\"port\": \"8900\"/\"port\": \"$wizard_port\"/" "$PKG_DEST/ui/config" 2>/dev/null
+    fi
+fi
+exit 0

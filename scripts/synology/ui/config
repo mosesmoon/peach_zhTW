@@ -1,0 +1,17 @@
+{
+    ".url": {
+        "SYNO.SDS.PeachZhTW.Application": {
+            "type": "url",
+            "title": "Peach",
+            "desc": "Peach media library",
+            "icon": "images/icon_{0}.png",
+            "protocol": "http",
+            "port": "8900",
+            "url": "/",
+            "allUsers": true,
+            "grantPrivilege": "local",
+            "advanceGrantPrivilege": true,
+            "allowRelay": false
+        }
+    }
+}
