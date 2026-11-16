@@ -11,7 +11,7 @@
 | 处理器 | 只支持 x86-64 机型。INFO 的 `arch` 写 `x86_64` 加上 pkgscripts-ng 归入 x86_64 家族的全部平台代号（apollolake、geminilake、denverton、broadwell、v1000、r1000、epyc7002 等），不含任何 ARM 平台 |
 | DSM 版本 | DSM 7.2 及以上（INFO 声明 `os_min_ver="7.2-64561"`）；不支持 DSM 7.0、7.1 与 DSM 6，原因见下一节 |
 | 运行环境 | 套件自带 CPython 3.14（python-build-standalone）与锁定的 Python 依赖，不依赖系统 Python |
-| FFmpeg | 套件不含 FFmpeg，需自备并在安装向导指定，见 [FFmpeg](#ffmpeg) |
+| FFmpeg | 套件不含 FFmpeg，搭配 SynoCommunity 的 FFmpeg 套件使用，见 [FFmpeg](#ffmpeg) |
 | 应用内更新 | 不可用。更新靠安装新版 SPK |
 
 ### glibc 下限
@@ -65,6 +65,8 @@ DSM 7 的套件不以 root 运行，套件用户 `PeachZhTW` 默认读不到任�
 ## FFmpeg
 
 套件不含 FFmpeg。缩略图、预览与转码需要 `ffmpeg` 与 `ffprobe`；MP4 等浏览器可直接播放的格式不受影响。
+
+推荐做法是安装 SynoCommunity 的 FFmpeg 套件：在套件中心的「设置 → 套件来源」加入 SynoCommunity 的来源，安装它的 FFmpeg 套件（`ffmpeg7` 等），向导里的「FFmpeg 文件夹」留空。Peach 启动时依次查找 `/var/packages/ffmpeg8`、`ffmpeg7`、`ffmpeg6`、`ffmpeg5`、`ffmpeg4`、`ffmpeg` 的 `target/bin`，取第一个同时有 `ffmpeg` 与 `ffprobe` 的，并在 `var/log/peach.log` 记一行用了哪一个。先装 Peach、后装 FFmpeg 套件时，重新启动 Peach 套件即可生效。这些路径按 SynoCommunity 套件的惯例写出，未在实机验证。
 
 - 在向导第二页填「FFmpeg 文件夹」，套件把 `<文件夹>/ffmpeg` 与 `<文件夹>/ffprobe` 写入数据目录旁的 `peach.conf`，启动时作为 `PEACH_FFMPEG`、`PEACH_FFPROBE`（见 `src/peach/ffmpeg.py`）。
 - 之后要改，编辑 `/var/packages/PeachZhTW/var/peach.conf` 的 `PEACH_FFMPEG`、`PEACH_FFPROBE` 两行（需要 root 或 DSM 提供的方式），再重新启动套件。

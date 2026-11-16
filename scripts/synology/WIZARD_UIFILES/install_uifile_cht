@@ -65,7 +65,7 @@
                 ]
             },
             {
-                "desc": "選填：包含 ffmpeg 與 ffprobe 程式的資料夾完整路徑。沒有的話可留空；MP4 等瀏覽器可直接播放的格式仍能播放，但縮圖與轉碼需要 FFmpeg。"
+                "desc": "建議安裝 SynoCommunity 的 FFmpeg 套件後把這一欄留空，Peach 啟動時會自動找到它。要使用其他 FFmpeg 時，才填入包含 ffmpeg 與 ffprobe 程式的資料夾完整路徑。沒有 FFmpeg 時，MP4 等瀏覽器可直接播放的格式仍能播放，但縮圖與轉碼無法使用。"
             },
             {
                 "type": "textfield",

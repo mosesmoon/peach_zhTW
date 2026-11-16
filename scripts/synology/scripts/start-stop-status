@@ -44,6 +44,18 @@ start_service() {
     export PYTHONUTF8=1 PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
     ffmpeg_path=$(conf_value PEACH_FFMPEG)
     ffprobe_path=$(conf_value PEACH_FFPROBE)
+    # No folder given in the wizard: use the newest SynoCommunity FFmpeg package that is installed.
+    if [ -z "$ffmpeg_path" ] && [ -z "$ffprobe_path" ]; then
+        for community in ffmpeg8 ffmpeg7 ffmpeg6 ffmpeg5 ffmpeg4 ffmpeg; do
+            community_bin="/var/packages/$community/target/bin"
+            if [ -x "$community_bin/ffmpeg" ] && [ -x "$community_bin/ffprobe" ]; then
+                ffmpeg_path="$community_bin/ffmpeg"
+                ffprobe_path="$community_bin/ffprobe"
+                echo "$(date '+%Y-%m-%d %H:%M:%S') using FFmpeg from $community_bin" >> "$LOGFILE"
+                break
+            fi
+        done
+    fi
     [ -n "$ffmpeg_path" ] && export PEACH_FFMPEG="$ffmpeg_path"
     [ -n "$ffprobe_path" ] && export PEACH_FFPROBE="$ffprobe_path"
     cd "$PKG_VAR" || return 1

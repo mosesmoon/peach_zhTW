@@ -65,7 +65,7 @@
                 ]
             },
             {
-                "desc": "Optional: the absolute path of a folder that contains the ffmpeg and ffprobe programs. Leave it empty if you have none; browsable formats such as MP4 still play, but thumbnails and transcoding need FFmpeg."
+                "desc": "Recommended: install the SynoCommunity FFmpeg package and leave this empty; Peach finds it at startup. To use another FFmpeg, enter the absolute path of a folder that contains the ffmpeg and ffprobe programs. Without FFmpeg, browsable formats such as MP4 still play, but thumbnails and transcoding are unavailable."
             },
             {
                 "type": "textfield",
