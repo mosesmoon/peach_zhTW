@@ -20,6 +20,8 @@ concurrency:
 env:
   PEACH_SENTRY_DSN: ${{ vars.PEACH_SENTRY_DSN }}
   PEACH_LIBRARY_SENTRY_DSN: ${{ vars.PEACH_LIBRARY_SENTRY_DSN }}
+  # 媒体工具固定源码的可选缓存入口（docs/OPERATIONS.md）：上游站点不给 runner 原样字节时从这里取，哈希照常核对。
+  PEACH_SOURCE_CACHE_BASE: ${{ vars.PEACH_SOURCE_CACHE_BASE }}
   PYTHONUTF8: "1"
   PYTHONIOENCODING: "utf-8"
 
