@@ -271,8 +271,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # 本 fork 的 macos-15 arm64 runner 连续排不到，改用 macos-14 的机器池（同为 Apple Silicon）。
           - arch: arm64
-            runner: macos-15
+            runner: macos-14
           - arch: x86_64
             runner: macos-15-intel
     runs-on: ${{ matrix.runner }}
@@ -349,8 +350,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # 本 fork 的 macos-15 arm64 runner 连续排不到，改用 macos-14 的机器池（同为 Apple Silicon）。
           - arch: arm64
-            runner: macos-15
+            runner: macos-14
           - arch: x86_64
             runner: macos-15-intel
     runs-on: ${{ matrix.runner }}
