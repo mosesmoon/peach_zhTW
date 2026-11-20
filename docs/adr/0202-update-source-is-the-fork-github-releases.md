@@ -35,3 +35,11 @@
 - fork 没有 Release 时，更新检查显示「暂未找到」，不会指向上游。
 - 上游发布流程（R2 镜像、appcast、Docker 推送）与 fork 无关；fork 自行发布时须调整 `release.yml` 等，本 ADR 不改发布流程。
 - README 的下载链接与徽章、设置页写死的官网与 GitHub 链接、问题回报与遥测端点仍指向上游，另行决定。
+
+## 2026-11-21 修订（合并上游 0.60.0）
+
+合并上游 0.60.0 后核对本 ADR，来源与下载的决策不变，补记三点：
+
+- **第六条的签名现状再次确认：fork 仍不签名。** 上游 0.60.0 起把自己的 Ed25519 公钥写进了 `release_signing.PUBLIC_KEYS`，并让发布作业缺私钥即失败。本 fork 没有对应的私钥，合并时把 `PUBLIC_KEYS` 改回空元组（见该文件里的注释）：留着上游公钥，fork 自己的 Release 永远验不过，发布作业也会因缺私钥失败。因此 fork 的更新器仍不要求签名，Windows 摘要仍取 GitHub 资产的 `digest`，第六条原样成立。fork 要启用签名，仍须自己生成密钥、写入公钥并让发布流程产生 `SHA256SUMS.txt.sig`。上游 `docs/OPERATIONS.md` 里「内置公钥、带公钥的客户端只装验得过的版本」的描述指上游的发行，不适用于本 fork。
+- **检查更新只显示重点。** 上游 0.60.0 起，更新检查只列每个新版本的「重点」分组（`release_updates._highlights`、`release_words`），完整变更留在 Release 页。条目数据结构为三份语言（`en`、`zh-CN`、`zh-TW`）各一个 `{title, text}` 列表，`zh-TW` 的来源与回落见 ADR-0201 的同日修订；`LISTING_RULE` 为 `source-aware-v4`。正文格式一节所说「折叠的繁體中文段」须含「重點」分组才会在应用里显示繁体条目，否则回落简体。
+- **发布流程的 fork 差异（`.github/workflows/release.yml`）。** `zhtw-build/**` 分支推送即跑一遍演练、产出 Windows 与 macOS 测试包而不发布；`PEACH_SOURCE_CACHE_BASE` 取自仓库变量；Docker 镜像只在 `peach-mitao/peach` 仓库构建（本 fork 不发布镜像，第五条）；macOS arm64 用 `macos-26` runner；凡运行 `scripts/changelog.py --notes` 的作业都以 `--extra naming` 装上 OpenCC。这些是对「正文格式」一节「须安装 opencc」要求的落实，不改变本 ADR 的决策。

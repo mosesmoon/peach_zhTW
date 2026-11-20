@@ -43,3 +43,12 @@
 - 日文名全是汉字的女优，现名栏常有两个全汉字值（日本字形与繁体），按第三条第 2 点会回落日文；日后若要处理，需要可靠的繁简判别，另立决定。
 - 规范名与日文名在账本里对不上的女优（没有保留日文原名）不写繁体，同样回落。
 - `GET /api/settings` 的 `performerNameLanguage` 可能是 `null`，调用方要自己取默认。
+
+## 2026-11-21 修订（合并上游 0.60.0）
+
+上游 0.59.0（#682）把「女优名称」扩成五种显示方式，合并后本 ADR 的第一、二、五条按下面改读；第三、四、六条（数据来源、保存位置、补齐存量）与后果不变。
+
+- **取值现为六个**（`web_settings.NAME_LANGUAGE_CHOICES`、`frontend/src/core/entity-names.ts` 的 `NameLanguage`）：`zh-CN`（中文化译名）、`zh-TW`（繁体中文，本 fork 新增）、`ja`（日语原文）、`en`（英文罗马音）、`ja-local`（日语原文（本地语言））、`local-ja`（本地语言（日语原文））。`ja-local` 与 `local-ja` 把两种写法并排，相同或取不到时只留一种，中文界面用全角括号。第一条里选 `zh-TW` 的结果不变：有 JavDB 繁体写法显示繁体，没有显示日文原文，不拿简体名逐字转繁体。
+- **「本地语言」跟界面语言走**（`entity-names.ts` 的 `local()`）：简体中文界面是译名，日文界面是原文，其余界面是罗马音；**繁体中文界面是 JavDB 的繁体写法（`zh_tw`），没有繁体写法时退回日文原文**，同样不做简转繁。这是上游「本地语言」规则在 zh-TW 界面下的 fork 版本。
+- **默认值（第二条）仍按设备决定。** 没存过时 `GET /api/settings` 回 `null`，前端 `effectiveNameLanguage` 按页面界面语言取：zh-TW 界面用 `zh-TW`，其余用 `zh-CN`；存过的值一律不改。
+- **第五条的分组读法已变。** 演员页标头的「中文名／日文名」分组现在读 `name_display.groups[nameScript()]`，`nameScript()` 只返回 `zh-CN` 或 `ja` 两套（`entity-hero-page.tsx`）：`zh-CN` 与简体界面下的 `local-ja` 读中文那套，其余（包含选 `zh-TW` 与繁体界面的 `local-ja`）读日文那套。因此「选 `zh-TW` 时分组读 `groups['zh-TW']`」不再成立；`groups` 里仍有 `zh-TW` 键（`performer_name_display.py`），只是标头不读它。名称投影的 `choices` 与 `name_variants.zh_tw` 不变。

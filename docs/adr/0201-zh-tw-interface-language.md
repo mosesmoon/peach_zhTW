@@ -38,3 +38,11 @@ ADR-0156 只登记了 zh-CN 与 en，所有中文标签（`zh-TW`、`zh-Hant-HK`
 - 繁体中文的浏览器与系统自动得到 zh-TW，托盘、命令行与服务端页面同样。
 - 地区是 `CN`、`SG`、`MY` 的繁体用户若没有 `Hant` 标签，仍得到简体，可以在设置里固定。
 - 字型与安装程序不在本 ADR 范围。
+
+## 2026-11-21 修订（合并上游 0.60.0）
+
+合并上游 0.60.0（自 0.58.0）后核对本 ADR，决策不变，补记三点现状：
+
+- **登记的界面语言仍是 `zh-CN`、`zh-TW`、`en`。** 前端 `INTERFACE_LANGUAGES`（`frontend/src/i18n/index.ts`）与后端 `web_settings.INTERFACE_LANGUAGES` 没有因合并而增减。
+- **上游新增的占位语言目录不接入。** 上游在 `resources/locales/` 下建了 `zh-Hant`、`ja`、`ko`、`es`、`vi`（Hosted Weblate 建立，各命名空间文件内容都是空对象 `{}`），0.60.0 的应用没有登记也没有读取它们。本 fork 的 `zh-TW` 仍由 `scripts/build_zh_tw_locales.py` 自 `zh-CN` 生成，**不使用 `zh-Hant`**，也不把 `zh-TW` 改名或并入它：`zh-Hant` 目前是空的，没有可用译文；改走 Weblate 也意味着放弃本 ADR 第三条的脚本生成与逐键覆写。将来上游的 `zh-Hant` 有了译文并登记为界面语言时，另立 ADR 决定与本 fork 的 `zh-TW` 如何取舍，不在这次合并里预先处理。
+- **第五条「更新说明」随上游改动而收窄。** 上游 0.60.0 起检查更新只显示每版的「重点」分组，不再显示完整变更。`release_updates.changelog_notes` 仍解出 `en`、`zh-CN`、`zh-TW` 三份，每份是 `{title, text}` 列表；`zh-TW` 取自 Release 正文里折叠「繁體中文」段中的「重點」分组，没有该段或该分组时与 `zh-CN` 相同。上游的 `LISTING_RULE` 是 `source-aware-v3`（`notes` 只含每版重点、两份语言），本 fork 的 `notes` 多了 `zh-TW` 第三份，规则值记为 `source-aware-v4`（`release_updates.py`）。`scripts/changelog.py` 把简体中文段整段转成繁體后折叠，「重点」分组标题随之变成「重點」（`release_words.TRADITIONAL_HIGHLIGHTS`），`changelog_notes` 靠这个标题取出繁体条目。
