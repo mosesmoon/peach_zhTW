@@ -337,7 +337,9 @@ def add_peach(packer: Packer, root: Path, site: str) -> None:
     for src, target in module.data_files(root):
         if src.is_dir():
             for path in sorted(src.rglob("*")):
-                if path.is_file() and "__pycache__" not in path.parts:
+                # Windows-only helpers shipped as resources (resources/ocr/windows.ps1) have no use on DSM.
+                if (path.is_file() and "__pycache__" not in path.parts
+                        and not path.name.lower().endswith(WINDOWS_SUFFIXES)):
                     packer.file(f"{resources}/{target}/{path.relative_to(src).as_posix()}", path.read_bytes(), 0o644)
         else:
             packer.file(f"{resources}/{target}/{src.name}", src.read_bytes(), 0o644)

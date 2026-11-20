@@ -137,8 +137,10 @@ class PackagingTests(unittest.TestCase):
         (root / "src" / "peach" / "__init__.py").write_text('__version__ = "9.9.9"\n', encoding="utf-8")
         (root / "src" / "peach" / "__pycache__").mkdir()
         (root / "src" / "peach" / "__pycache__" / "x.pyc").write_bytes(b"junk")
-        for directory in ("web", "migrations", "resources/seed", "tools/amane-bridge"):
+        for directory in ("web", "migrations", "resources/seed", "resources/ocr", "tools/amane-bridge"):
             (root / directory).mkdir(parents=True)
+        (root / "resources" / "ocr" / "worker.py").write_text("x", encoding="utf-8")
+        (root / "resources" / "ocr" / "windows.ps1").write_text("x", encoding="utf-8")
         (root / "web" / "index.html").write_text("<html></html>", encoding="utf-8")
         (root / "migrations" / "001.sql").write_text("select 1;", encoding="utf-8")
         for pack in ("entities.json", "metadata.json"):
@@ -178,6 +180,7 @@ class PackagingTests(unittest.TestCase):
         names = set(self.payload())
         self.assertFalse([n for n in names if "__pycache__" in n or n.endswith(".pyc")])
         self.assertFalse([n for n in names if n.lower().endswith(self.builder.WINDOWS_SUFFIXES)])
+        self.assertTrue([n for n in names if n.endswith("/_resources/resources/ocr/worker.py")])
         self.assertNotIn("python/bin/pip3", names)
         self.assertFalse([n for n in names if n.endswith("/demo-1.0.data/scripts/demo") or "/scripts/demo" in n])
 
