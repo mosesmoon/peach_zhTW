@@ -300,8 +300,8 @@
     "source": "恢复"
   },
   "tagOperations.blockConfirm": {
-    "text": "封鎖帶有{{names}}任一標籤的內容及其其他版本，涉及 {{count, number}} 個資源。可在「已封鎖內容」中解除封鎖。",
-    "source": "屏蔽带有{{names}}任一标签的内容及其其它版本，涉及 {{count, number}} 个资源。可在「已屏蔽内容」中恢复。"
+    "text": "封鎖帶有{{names}}任一標籤的內容及其其他版本，涉及 {{count, number}} 個資源。",
+    "source": "屏蔽带有{{names}}任一标签的内容及其其它版本，涉及 {{count, number}} 个资源。"
   },
   "tagOperations.doneUnblock": {
     "text": "已解除封鎖",
@@ -312,8 +312,8 @@
     "source": "已恢复标签"
   },
   "tagOperations.hideConfirm": {
-    "text": "隱藏 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源。可在「已隱藏」中取消隱藏。",
-    "source": "隐藏 {{count, number}} 个标签，涉及 {{assets, number}} 个资源。可在“已隐藏”中恢复。"
+    "text": "隱藏 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源。",
+    "source": "隐藏 {{count, number}} 个标签，涉及 {{assets, number}} 个资源。"
   },
   "tagOperations.unhideConfirm": {
     "text": "取消隱藏 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源。",
@@ -342,5 +342,57 @@
   "shared.back": {
     "text": "返回",
     "source": "返回"
+  },
+  "columnFilter.applied": {
+    "text": "已啟用的欄位篩選",
+    "source": "已启用的列筛选"
+  },
+  "itemEdit.undoRestore": {
+    "text": "復原",
+    "source": "撤销"
+  },
+  "rangeFilter.apply": {
+    "text": "套用範圍",
+    "source": "应用范围"
+  },
+  "sortControls.reset": {
+    "text": "還原預設排序項",
+    "source": "恢复默认排序项"
+  },
+  "rosterActions.deleteConfirm": {
+    "text": "所選 {{count, number}} 項個人檔案，名下共有 {{assets, number}} 個館藏檔案，佔用 {{size}}。請選擇刪除範圍。",
+    "source": "所选 {{count, number}} 项档案，名下共有 {{assets, number}} 个馆藏文件，占用 {{size}}。请选择删除范围。"
+  },
+  "rosterActions.deleteShared": {
+    "text": "其中 {{count, number}} 個檔案也關聯其他個人檔案，永久刪除後會同時從這些個人檔案下消失。",
+    "source": "其中 {{count, number}} 个文件也关联其他档案，永久删除后会同时从这些档案下消失。"
+  },
+  "rosterActions.deleteDescription.profile": {
+    "text": "刪除個人檔案、別名和身分關聯，館藏作品與媒體檔案保留。再次掃描或擷取可能重新建立個人檔案。",
+    "source": "删除档案、别名和身份关联，馆藏作品与媒体文件保留。再次扫描或刮削可能重新建立档案。"
+  },
+  "rosterActions.deleteDescription.trash": {
+    "text": "刪除個人檔案，名下館藏移至資源回收筒，媒體檔案保留。之後可從資源回收筒還原作品。",
+    "source": "删除档案，名下馆藏移入回收站，媒体文件保留。之后可从回收站还原作品。"
+  },
+  "rosterActions.deleteDescription.purge": {
+    "text": "刪除個人檔案及其名下館藏，包括媒體檔案和對應觀看紀錄。刪除失敗的檔案及其個人檔案保留，並顯示原因。",
+    "source": "删除档案及其名下馆藏，包括媒体文件和对应观看记录。删除失败的文件及其档案保留，并显示原因。"
+  },
+  "rosterActions.deleteDone.profile": {
+    "text": "已刪除 {{count, number}} 項個人檔案",
+    "source": "已删除 {{count, number}} 项档案"
+  },
+  "rosterActions.deleteDone.trash": {
+    "text": "已刪除 {{count, number}} 項個人檔案，{{assets, number}} 個館藏檔案已移至資源回收筒",
+    "source": "已删除 {{count, number}} 项档案，{{assets, number}} 个馆藏文件已移入回收站"
+  },
+  "rosterActions.deleteDone.purge": {
+    "text": "已刪除 {{count, number}} 項個人檔案及 {{assets, number}} 個館藏檔案",
+    "source": "已删除 {{count, number}} 项档案及 {{assets, number}} 个馆藏文件"
+  },
+  "rosterActions.deleteBlocked": {
+    "text": "已刪除 {{profiles, number}} 項個人檔案及 {{assets, number}} 個館藏檔案，{{retained, number}} 項個人檔案仍有未刪除檔案，已保留。請關閉此彈出視窗後重新選擇刪除範圍。\n{{failures}}",
+    "source": "已删除 {{profiles, number}} 项档案及 {{assets, number}} 个馆藏文件，{{retained, number}} 项档案仍有未删除文件，已保留。请关闭此弹窗后重新选择删除范围。\n{{failures}}"
   }
 }

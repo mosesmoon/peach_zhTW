@@ -525,10 +525,9 @@
     "windowsOnly": "無控制台 runner 啟動器僅用於 Windows"
   },
   "machine_lock": {
-    "description": "拿著整機的重負載鎖執行一條命令，結束後釋放。\n\n本機 CI runner 的建置、冒煙與鏡像作業用它和本機測試排同一把鎖（`test_evidence.machine_lock_path`）；\n測試入口自己會拿這把鎖，經測試入口的作業不要再套一層，否則會自己等自己。\n\n用法：python scripts/machine_lock.py [--wait 秒] -- 命令 參數...\n",
+    "description": "佔滿整機測試名額執行一條命令，結束後釋放。\n\n本機 CI runner 的建置、冒煙與鏡像作業用它和本機測試排同一組名額（`scripts/test_slots.py`，ADR-0172），像全量一樣取滿全部名額；\n命令裡再呼叫測試入口時，入口看到名額已被父處理程序持有，不會再排一次。\n\n用法：python scripts/machine_lock.py [--wait 秒] -- 命令 參數...\n",
     "waitHelp": "最多等多少秒；CI 作業時限內足夠讓本機一輪全量跑完",
-    "commandMissing": "缺少要執行的命令",
-    "timedOut": "等了 {{seconds}} 秒仍拿不到整機重負載鎖（{{holder}}）。"
+    "commandMissing": "缺少要執行的命令"
   },
   "commit_subject": {
     "badForm": "提交主題「{{subject}}」須為 type(scope): 描述，如 {{example}}",
@@ -727,6 +726,11 @@
   "upgrade_audited_covers": {
     "description": "按核查清單重探官方高畫質候選，逐番號保留備份和處理結果。",
     "liveHelp": "通過現有官方鏈線上補查，無需已有快照"
+  },
+  "judge_cover_portraits": {
+    "description": "取 DMM 隨附豎版圖，給已裝的封面補判是不是封套，獨立海報裝成豎版正封。",
+    "allHelp": "標準封套比例上已找到摺痕的也一起補判",
+    "coversHelp": "改判這個目錄裡的封面（預設是資料根的 generated/covers），先在副本上試用"
   },
   "sync_brand_marks": {
     "description": "把本機已取得的廠牌識別碼收進 `resources/marks/`，隨儲存庫分發（ADR-0026）。"
@@ -1843,6 +1847,7 @@
     "description": "取 YuNet 與 SFace 兩個人臉模型及其授權條款，逐個驗證 SHA-256 後放進發行包的模型目錄。\n\nWindows 建置放進程式目錄的 `tools/face-models`，macOS 放 `Peach.app/Contents/Resources/tools/face-models`，\n執行時由 `peach.face_detect.bundled_model` 認這一份；Docker 映像檔在 Dockerfile 裡按同一組位址與雜湊取。\n下載先落到快取目錄，快取裡雜湊對得上的檔案不再連網。\n"
   },
   "adopt_dependency_bump": {
+    "ocrRuntime": "OCR 獨立 Python 依賴",
     "stepPreflight": "提交後預檢（工作樹根目錄，PowerShell 7）：{{command}}",
     "stepTest": "測試：{{command}}",
     "stepDeliver": "交付：推送工作者分支並建立交付 PR，核對目前提交的 CI；ready 後由協調者 integrate",
@@ -2385,15 +2390,18 @@
     "uvMissing": "未取得 uv：PATH 與 WinGet 安裝目錄裡都沒有。",
     "syncing": "按 uv.lock 同步測試環境：{{path}}",
     "syncFailed": "測試依賴同步失敗（結束代碼 {{code}}）；未啟動測試。",
+    "frontendDrift": "前端依賴與 frontend/package-lock.json 不一致（{{package}}）；未啟動測試。先執行：{{command}}",
     "description": "正式測試入口的依賴準備，只在隔離工作樹自動同步環境。"
   },
   "test_evidence": {
     "snapshotFailed": "無法為檔案產生驗證快照：{{name}}",
     "queueAhead": "；前面還有 {{count}} 個在排隊",
-    "waiting": "等待 {{lock}}（{{holder}}{{place}}），最長 {{seconds}} 秒。",
+    "waiting": "等待 {{lock}}（{{holder}}{{place}}），{{limit}}。",
     "holderUnknown": "持有者資訊暫未取得",
     "holderGone": "持有者剛退出或沒留紀錄",
-    "holderSince": "{{time}} 起"
+    "holderSince": "{{time}} 起",
+    "waitLimit": "最長 {{seconds}} 秒",
+    "waitQueued": "按到達先後一直排隊"
   },
   "test_focus": {
     "browserOutside": "瀏覽器用例不存在或超出 e2e 目錄：{{selector}}",
@@ -2469,12 +2477,12 @@
     "helpResume": "正式驗證續跑，full 也複用有效的完成證明",
     "helpFocus": "定向除錯指定 Python/瀏覽器用例，不簽發紀錄",
     "helpRerunFailures": "定向執行失敗後把失敗檔案單獨重跑一次，通過的記為偶發（CI 瀏覽器分片用）",
-    "helpLockTimeout": "全量鎖等待秒數；0 表示鎖忙時立即回傳",
+    "helpLockTimeout": "全量鎖等待秒數；預設按到達先後一直排隊，0 表示鎖忙時立即回傳",
     "helpBase": "CI 選測的已驗證 Git 基線",
     "helpTimings": "分片子處理程序把成敗與逐用例耗時寫到這個檔案，供父處理程序彙總",
     "helpShardPlan": "父處理程序按耗時劃好的逐片檔名；不給時按檔名輪轉",
     "helpJobs": "本機同時跑幾個分片子處理程序；auto 按核數定。預設序列，正式入口傳 auto",
-    "lockTimeoutRange": "鎖等待時間必須在 0～1800 秒之間",
+    "lockTimeoutRange": "鎖等待時間不能為負數",
     "shardRange": "分片總數必須為正數，編號從 0 開始且小於總數",
     "resumePlanParentOnly": "恢復計畫僅供正式父執行的分片使用",
     "rerunFailuresFocusOnly": "--rerun-failures 只用於定向執行；正式入口本來就會單獨重跑失敗檔案",
@@ -2492,7 +2500,16 @@
     "coverage": "單項覆蓋：複用 {{reused}} 項，待驗證 {{pending}} 項。",
     "phaseTimings": "分階段耗時（測試執行包含各測試階段）：{{phases}}",
     "slowTest": "慢測試 {{seconds}}s：{{name}}",
-    "inputsChanged": "驗證期間輸入改變；保留 {{kept}} 項未受影響的結果，請執行 auto 補齊。"
+    "inputsChanged": "驗證期間輸入改變；保留 {{kept}} 項未受影響的結果，請執行 auto 補齊。",
+    "unknownScope": "未知測試域：{{scope}}"
+  },
+  "test_slots": {
+    "waiting": "等待整機測試名額（本次要 {{need}} 個，共 {{total}} 個{{place}}），按到達先後排隊，每分鐘報告一次佔用",
+    "holder": "名額 {{slot}}：{{scope}}，pid {{pid}}，{{root}}，{{since}} 起，已執行 {{minutes}} 分鐘",
+    "holdersUnknown": "佔用者資訊暫未取得（剛退出或還沒寫紀錄）",
+    "timedOut": "等了 {{minutes}} 分鐘仍沒有空閒的整機測試名額，本次沒有執行測試。",
+    "badCount": "{{variable}} 必須是不小於 1 的整數，目前為 {{value}}",
+    "waitLimit": "；最長再等 {{minutes}} 分鐘"
   },
   "test_shard_results": {
     "badFields": "分片報告欄位無效",

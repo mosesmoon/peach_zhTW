@@ -42,7 +42,8 @@ if not Path(peach.__file__).resolve().is_relative_to(Path(sys.argv[1]).resolve()
 from peach import release_updates, update_packages
 payload = json.load(sys.stdin)
 def transport(request, *_):
-    if request.url == release_updates.DOWNLOADS_API:
+    # 上游旧版先问下载站的 `releases.json`；本 fork 的客户端只问 GitHub Release 清单（ADR-0202），没有下载站。
+    if request.url in (getattr(release_updates, "DOWNLOADS_API", None), release_updates.API_URL):
         return SimpleNamespace(status=200, headers={}, body=json.dumps(payload["rows"]).encode(), url=request.url)
     return SimpleNamespace(status=404, headers={}, body=b"", url=request.url)
 # 这道核对针对 Windows 更新包。0.53.0 起检查按本机平台选包，在 macOS 上只认 DMG，所以明确按

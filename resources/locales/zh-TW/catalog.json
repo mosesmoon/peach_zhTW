@@ -1,4 +1,34 @@
 {
+  "seedName": {
+    "title": "貢獻中文名",
+    "save": "提交候選",
+    "description": "帶 * 的項目為必填。",
+    "original": "來源中的日文藝名",
+    "originalPlaceholder": "選擇日文藝名",
+    "originalRequired": "請選擇日文藝名。",
+    "identity": "檢視人物來源編號",
+    "chinese": "中文名",
+    "nameRequired": "請填寫中文名。",
+    "nameInvalid": "請輸入包含漢字的中文名。",
+    "traditional": "這是繁體中文寫法",
+    "evidence": "公開參考連結（選填）",
+    "evidenceHelp": "有出處時，可附上能核對這兩個名字的公開頁面。",
+    "evidenceInvalid": "請輸入有效的 HTTPS 連結。",
+    "noIdentity": "尚未取得可核對的來源編號與原文藝名。補齊人物資料後再貢獻。",
+    "loading": "正在讀取人物身分…",
+    "delivery": "候選先儲存在本機。開啟「公共資料貢獻」後才會隨每週快照傳送複核。",
+    "saved": "中文名候選已儲存，分享與採納狀態請在公共資料貢獻中檢視"
+  },
+  "mediaActions": {
+    "label": "作品操作",
+    "open": "開啟詳情",
+    "select": "選擇作品",
+    "deselect": "取消選擇",
+    "removeLater": "移出稍後看",
+    "delete": "刪除",
+    "restore": "還原作品",
+    "failed": "作品操作未完成"
+  },
   "avatarPicker": {
     "backToChoices": "返回備選圖片",
     "baseImage": "底圖",
@@ -48,6 +78,7 @@
   "catalogFilter": {
     "filterAndSort": "篩選與排序",
     "readout": "{{count, number}} 個符合 · 顯示 {{shown, number}}",
+    "showAll": "顯示全部",
     "views": "檢視",
     "viewsAndTags": "檢視與標籤"
   },
@@ -76,6 +107,15 @@
     "treeTitle": "資料夾",
     "tryAnotherName": "換個目錄名稱試試。",
     "viewConflicts": "檢視歸屬衝突"
+  },
+  "columnFilter": {
+    "applied": "已啟用的欄位篩選",
+    "emptySelection": "無",
+    "excludedValues": "排除 {{values}}",
+    "removeApplied": "清除篩選 {{filter}}",
+    "label": "篩選{{column}}",
+    "search": "搜尋{{column}}",
+    "noOptions": "沒有符合的篩選項"
   },
   "catalogList": {
     "climaxCount": "高潮計數",
@@ -215,6 +255,10 @@
   "detailSource": {
     "checkingDirectory": "正在核對目錄…",
     "locating": "正在定位",
+    "recollect": "重新抓取資料",
+    "recollectBusy": "另一趟處理正在進行，等它結束後再重新抓取",
+    "recollectStarted": "已開始重新抓取，進度見任務",
+    "recollectTip": "不用快取，向各來源重新取這部片的資料；你改過或批准過的欄位不會被覆蓋",
     "reveal": "定位來源檔案",
     "revealTip": "在檔案管理員裡開啟來源檔案所在目錄",
     "syncDeletions": "同步刪除",
@@ -224,17 +268,50 @@
     "openRegion": "開啟同產地的作品",
     "regionInferred": "{{region}}（推斷）"
   },
-  "detailTags": {
-    "add": "新增標籤",
-    "added": "已新增標籤「{{tag}}」",
-    "alreadyTagged": "標籤「{{tag}}」已存在",
-    "notRemoved": "標籤未刪除",
-    "remove": "刪除標籤",
-    "removed": "已刪除標籤「{{tag}}」"
-  },
   "detailTrace": {
     "actuallyWatched": "真實觀看",
     "leftOffAt": "離開位置"
+  },
+  "itemEdit": {
+    "open": "編輯資料",
+    "title": "編輯資料",
+    "save": "儲存",
+    "saved": "資料已儲存",
+    "nothingChanged": "沒有改動",
+    "sectionCover": "封面",
+    "coverUpload": "上傳圖片",
+    "coverFrame": "用播放器目前畫面",
+    "coverSample": "從樣張選",
+    "coverRestore": "恢復擷取封面",
+    "coverPending": "儲存後換上這張",
+    "coverRestorePending": "儲存後換回擷取封面",
+    "coverNone": "還沒有封面",
+    "coverNoFrame": "播放器還沒有畫面，先播放到想要的位置再取",
+    "sectionBasic": "基本",
+    "sectionCredits": "歸屬",
+    "sectionTags": "標籤",
+    "fieldTitle": "標題",
+    "fieldOriginalTitle": "原題",
+    "fieldCode": "番號",
+    "fieldReleaseDate": "發行日期",
+    "fieldRegion": "產地",
+    "fieldStudio": "廠牌",
+    "fieldSeries": "系列",
+    "datePlaceholder": "2025-11-04",
+    "sourceUser": "你改過",
+    "sourceScan": "檔名",
+    "sourceReview": "複核：{{source}}",
+    "sourceScript": "腳本：{{source}}",
+    "restore": "恢復",
+    "restoreTip": "交回自動抓取，下次抓取時重新填寫",
+    "restorePending": "儲存後交回自動抓取",
+    "undoRestore": "復原",
+    "searchOrCreate": "搜尋或建立",
+    "createNamed": "建立「{{name}}」",
+    "searching": "正在搜尋",
+    "removeNamed": "移除 {{name}}",
+    "clearNamed": "清空 {{field}}",
+    "userCreated": "自建"
   },
   "entityFacts": {
     "age": "· {{age}} 歲",
@@ -338,10 +415,12 @@
     "siteSamples": "{{site}} 樣張"
   },
   "externalPlayback": {
+    "androidChooser": "系統選擇播放器",
     "externalPlayer": "外部播放器",
     "m3uPlaylist": "M3U 播放清單",
     "openInPlayer": "使用外部播放器開啟",
     "redetect": "重新偵測播放器",
+    "schemeHint": "沒有反應說明這台裝置沒裝該播放器，可複製位址改用其他播放器；連結 6 小時內有效。",
     "streamUrl": "串流網址",
     "streamUrlHint": "連結 6 小時內有效，播放裝置需要能存取目前 Peach 位址。",
     "streamUrlVr": "串流網址 / VR"
@@ -398,7 +477,9 @@
     "markDisliked": "標為不喜歡",
     "markWatched": "標為看過",
     "markWatchedShort": "看過",
+    "detailFailed": "影片詳情未讀取",
     "nothingPlayable": "目前篩選下沒有可直接播放的內容",
+    "videoFailed": "無法在沉浸模式開啟影片",
     "openOwner": "開啟資料",
     "switching": "切換中",
     "untitled": "未命名影片",
@@ -426,6 +507,7 @@
     "performers": "出演者",
     "releaseDate": "發行日期",
     "resources": "資源",
+    "retryPreview": "重新取影片預覽：{{reason}}",
     "sampleVideo": "影片預覽",
     "sampleVideoFailed": "影片預覽未取得"
   },
@@ -506,6 +588,7 @@
     "selectPage": "全選本頁",
     "selectedCount": "已選 {{count, number}} 部",
     "wantAdded": "已加入想要 {{count, number}} 部",
+    "wantConfirm": "將選取的 {{count, number}} 部加入想要。",
     "wantPartialFailed": "已加入 {{count, number}} 部；{{code}} 未完成：{{error}}"
   },
   "javSort": {
@@ -665,6 +748,17 @@
     "speedUp": "播放速度加 {{step}}",
     "stream": "串流 {{number}}"
   },
+  "playerGestures": {
+    "backward": "快退 {{delta}}　{{to}} / {{total}} · 鬆手跳轉",
+    "deviceVolume": "此瀏覽器請用裝置音量鍵",
+    "durationUnknown": "時長尚未取得，暫時無法跳轉",
+    "forward": "快進 {{delta}}　{{to}} / {{total}} · 鬆手跳轉",
+    "holdKey": "{{rate}}× 快進",
+    "holdTouch": "{{rate}}× 倍速 · 鬆手恢復",
+    "seekFailed": "暫時無法跳轉，請稍後重試",
+    "seekTo": "跳轉到 {{time}}",
+    "volume": "音量 {{percent}}%"
+  },
   "playerShell": {
     "buffering": "正在緩衝",
     "cannotPlay": "影片暫時無法播放",
@@ -727,6 +821,32 @@
     "saveName": "儲存名稱",
     "savedFromMix": "由 Mix 儲存",
     "untitled": "未命名播放清單"
+  },
+  "rangeFilter": {
+    "apply": "套用範圍",
+    "atLeast": "至少 {{value}}",
+    "atMost": "最多 {{value}}",
+    "chooseDate": "選定",
+    "clear": "清除範圍",
+    "clearDate": "清除{{label}}",
+    "date": "日期",
+    "end": "結束日期",
+    "invalid": "請輸入有效範圍，起點不得大於終點。",
+    "lastDays": "最近 {{count, number}} 天",
+    "max": "最大值",
+    "maxWithUnit": "最大值（{{unit}}）",
+    "min": "最小值",
+    "minWithUnit": "最小值（{{unit}}）",
+    "minutes": "{{count, number}} 分鐘",
+    "minutesUnit": "分鐘",
+    "minuteSpan": "{{min, number}}–{{max, number}} 分鐘",
+    "noLimit": "不限",
+    "presets": "快捷範圍",
+    "sizeUnit": "大小單位",
+    "start": "開始日期",
+    "thisYear": "今年",
+    "year": "年",
+    "yearOption": "{{year}}年"
   },
   "ratingControl": {
     "rated": "評分 {{score}} / 5",
@@ -900,6 +1020,12 @@
     "turnOff": "關閉字幕",
     "turnOn": "開啟字幕"
   },
+  "sortControls": {
+    "customize": "自訂排序項",
+    "reset": "還原預設排序項",
+    "syncFailed": "已在本機儲存，同步未完成。{{error}}",
+    "title": "排序項"
+  },
   "tagCategories": {
     "appearance": "外貌身材",
     "locations": "情境場所",
@@ -916,9 +1042,11 @@
   },
   "tagFilters": {
     "blockedContent": "已封鎖內容",
+    "blockedCount": "已封鎖內容 {{count, number}}",
     "clearSelection": "清空",
     "editTag": "編輯標籤 {{name}}",
     "hidden": "已隱藏",
+    "hiddenCount": "已隱藏 {{count, number}}",
     "inUse": "使用中",
     "jumpToLetter": "依首字跳轉",
     "label": "標籤篩選",
@@ -933,8 +1061,11 @@
   },
   "tagManager": {
     "actions": "標籤管理操作",
+    "blockByName": "新增封鎖標籤",
     "blockContent": "封鎖內容",
     "clearSelection": "清空選擇",
+    "deleteContent": "刪除標籤下的作品",
+    "deleteTag": "刪除標籤",
     "filterTags": "篩選標籤",
     "hide": "隱藏",
     "label": "標籤管理",
@@ -946,18 +1077,21 @@
     "unhide": "取消隱藏"
   },
   "tagOperations": {
-    "blockConfirm": "封鎖帶有{{names}}任一標籤的內容及其其他版本，涉及 {{count, number}} 個資源。可在「已封鎖內容」中解除封鎖。",
+    "blockConfirm": "封鎖帶有{{names}}任一標籤的內容及其其他版本，涉及 {{count, number}} 個資源。",
+    "blockNameConfirm": "封鎖帶有{{names}}標籤的內容，現有 {{count, number}} 個資源，以後抓到的也不顯示。",
+    "deleteConfirm": "刪除 {{count, number}} 個標籤及其在 {{assets, number}} 部作品上的關聯，作品保留。",
     "doneBlock": "已封鎖內容",
+    "doneDelete": "已刪除標籤",
     "doneHide": "已隱藏標籤",
     "doneMerge": "已合併標籤",
     "doneRename": "已重新命名標籤",
     "doneRepair": "已整理重複標籤",
     "doneUnblock": "已解除封鎖",
     "doneUnhide": "已取消隱藏標籤",
-    "hideConfirm": "隱藏 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源。可在「已隱藏」中取消隱藏。",
+    "hideConfirm": "隱藏 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源。",
     "hideTags": "隱藏標籤",
     "keep": "保留",
-    "mergeConfirm": "合併 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源（重疊關聯 {{overlap, number}} 個）。舊名稱保留為別名，無法直接復原。",
+    "mergeConfirm": "合併 {{count, number}} 個標籤，涉及 {{assets, number}} 個資源（重疊關聯 {{overlap, number}} 個），舊名稱保留為別名。",
     "mergeTags": "合併標籤",
     "previewImpact": "預覽影響範圍",
     "renameConfirm": "{{names}}將更名為{{newName}}，涉及 {{count, number}} 個資源。舊名稱保留為別名。",
@@ -1028,7 +1162,7 @@
     "listedDate": "收錄日期",
     "moreLinks": "更多資源（{{count, number}} 條）",
     "noneYet": "暫未找到資源連結。",
-    "notFound": "資源連結未取得",
+    "notFound": "資源查詢失敗",
     "partialComments": "來源只回傳了部分評論，資源連結可能不完整。",
     "protocolMagnet": "磁力連結",
     "protocolWeb": "網頁連結",
@@ -1048,6 +1182,7 @@
     "backToSearching": "{{name}} 回到待找",
     "cloudPrimaryOnly": "雲端下載只在寫入端可用。",
     "codePlaceholder": "輸入番號，例如 SSIS-950",
+    "dockLabel": "所選想要的操作",
     "downloadSettingsFailed": "下載設定未取得",
     "empty": "還沒有想要的作品",
     "emptyHint": "輸入番號，新增想看的作品。",
@@ -1074,11 +1209,63 @@
     "phaseSearching": "待找",
     "phaseUnreleased": "未發售",
     "releaseDate": "{{date}} 發售",
+    "removeMany": "移除所選想要",
+    "removeManyBody": "將從想要裡移除選取的 {{count, number}} 部，已入庫的作品不受影響。",
     "removed": "已移除：{{name}}",
+    "removedMany": "已從想要裡移除 {{count, number}} 部",
     "searchAgain": "重新搜尋",
+    "searchAgainDone": "已放回待找 {{count, number}} 部",
+    "searchAgainMany": "重新查詢所選",
+    "searchAgainManyBody": "將把選取的 {{count, number}} 部已放棄的想要放回待找，查詢次數清零。",
     "searchCount": "查過 {{count, number}} 次",
     "searchingResources": "正在給待找的作品查資源。",
+    "selectAll": "全選",
+    "selectRow": "選擇 {{name}}",
     "sourcePage": "來源頁",
     "tryOtherSearch": "試試其他番號、女優或標題。"
+  },
+  "rosterActions": {
+    "delete": "刪除",
+    "deleteMenu": "刪除…",
+    "deleteConfirm": "所選 {{count, number}} 項個人檔案，名下共有 {{assets, number}} 個館藏檔案，佔用 {{size}}。請選擇刪除範圍。",
+    "deleteShared": "其中 {{count, number}} 個檔案也關聯其他個人檔案，永久刪除後會同時從這些個人檔案下消失。",
+    "deleteChoice": {
+      "profile": "僅刪資料",
+      "trash": "館藏移至資源回收筒",
+      "purge": "永久刪除全部"
+    },
+    "deleteDescription": {
+      "profile": "刪除個人檔案、別名和身分關聯，館藏作品與媒體檔案保留。再次掃描或擷取可能重新建立個人檔案。",
+      "trash": "刪除個人檔案，名下館藏移至資源回收筒，媒體檔案保留。之後可從資源回收筒還原作品。",
+      "purge": "刪除個人檔案及其名下館藏，包括媒體檔案和對應觀看紀錄。刪除失敗的檔案及其個人檔案保留，並顯示原因。"
+    },
+    "deleteDone": {
+      "profile": "已刪除 {{count, number}} 項個人檔案",
+      "trash": "已刪除 {{count, number}} 項個人檔案，{{assets, number}} 個館藏檔案已移至資源回收筒",
+      "purge": "已刪除 {{count, number}} 項個人檔案及 {{assets, number}} 個館藏檔案"
+    },
+    "deleteBlocked": "已刪除 {{profiles, number}} 項個人檔案及 {{assets, number}} 個館藏檔案，{{retained, number}} 項個人檔案仍有未刪除檔案，已保留。請關閉此彈出視窗後重新選擇刪除範圍。\n{{failures}}",
+    "deselectAll": "取消全選",
+    "dockLabel": "名冊批次操作",
+    "exit": "取消選擇",
+    "followConfirm": "為 {{count, number}} 位訂閱新作，已訂閱的不變。",
+    "followDone": "已為 {{count, number}} 位訂閱新作",
+    "followDonePartly": "已為 {{count, number}} 位訂閱新作，{{skipped, number}} 位沒有站上編號、訂不了",
+    "hiddenView": "已隱藏 {{count, number}}",
+    "hide": "從名冊隱藏",
+    "hideConfirm": "從名冊隱藏 {{count, number}} 項，作品與資料保留。",
+    "hideDone": "已從名冊隱藏 {{count, number}} 項",
+    "selectAll": "全選",
+    "selectedCount": "已選 {{count, number}} 項",
+    "tagTrashConfirm": "把 {{count, number}} 個標籤下的 {{assets, number}} 部作品移至資源回收筒，標籤保留。",
+    "trash": "刪除作品",
+    "trashConfirm": "把 {{count, number}} 項名下的 {{assets, number}} 部作品移至資源回收筒，名冊與資料保留。",
+    "trashDone": "已把 {{count, number}} 部作品移至資源回收筒",
+    "trashRecovery": "完成後可在回執裡復原，也能從資源回收筒還原。",
+    "unfollowConfirm": "取消 {{count, number}} 位的新作訂閱，已發現的新作保留。",
+    "unfollowDone": "已取消 {{count, number}} 位的新作訂閱",
+    "unhide": "恢復顯示",
+    "unhideConfirm": "{{count, number}} 項回到名冊。",
+    "unhideDone": "已恢復顯示 {{count, number}} 項"
   }
 }

@@ -19,7 +19,8 @@
   },
   "autoLandings": {
     "backupDone": "撤回前的帳本已備份為 {{path}}。",
-    "columnRuleTime": "規則與時間",
+    "columnRule": "規則",
+    "columnTime": "寫入時間",
     "columnWritten": "寫入",
     "deletedAsset": "#{{id}}（已刪除）",
     "description": "依明確的判斷依據自動寫入的標題、發行日期與標籤。撤回會改回寫入前的值，之後被修改過的作品保留現值。",
@@ -100,6 +101,7 @@
   "completionPrompt": {
     "afterCurrentTask": "目前任務結束後可單獨補齊。",
     "allMetered": "這批影片中有 {{count, number}} 部暫無預覽，都在流量保護目錄，同步時不擷取影格，{{tail}}",
+    "dismiss": "不再提示",
     "done": "補齊完成：取得 {{count, number}} 張封面，產生 {{previews}} 部影片預覽。",
     "failed": "補齊未完成",
     "fillMetered": "補齊流量保護的 {{count, number}} 部",
@@ -124,7 +126,7 @@
     "doneAllReachable": "檢查完成，全部可連線",
     "doneWithFailures": "檢查完成，{{count, number}} 項未通過",
     "elapsed": "用時 {{seconds}} 秒",
-    "hdImages": "{{source}} 高畫質圖片",
+    "hdImages": "{{source}} 圖片",
     "help": "檢查各來源頁面與 DMM 高畫質圖片伺服器。可連線不代表登入有效。",
     "lastChecked": "上次檢查 {{time}}",
     "loadingStatus": "正在讀取連線檢查狀態",
@@ -135,6 +137,7 @@
     "seconds": "{{seconds}} 秒",
     "secondsSuffix": " · {{seconds}} 秒",
     "title": "連線檢查",
+    "uncheckedTarget": "{{target}}：未檢查",
     "unreachableTarget": "{{target}}：不能連線"
   },
   "customSources": {
@@ -276,12 +279,18 @@
     "title": "高畫質封面"
   },
   "hdUpgrades": {
+    "clearSelection": "取消選擇",
+    "dockLabel": "所選高畫質升級的操作",
     "emptyBody": "現有版本都已滿足條件，或還沒有加入追蹤。",
     "emptyTitle": "沒有標記中的高畫質版目標",
+    "listReason": "判定原因",
     "loadFailed": "高畫質版目標讀取失敗",
     "noPreview": "暫無預覽",
     "notFound": "未取得高畫質版目標，請重新整理頁面重試。",
     "openVideo": "開啟 {{title}}",
+    "selectAll": "全選",
+    "selectVideo": "選擇 {{title}}",
+    "selectedCount": "已選 {{count, number}} 部",
     "showingFirst": "顯示前 {{shown}} 部，共 {{count, number}} 部。",
     "summaryLabel": "待升級",
     "unknownSize": "大小未知",
@@ -291,6 +300,7 @@
   "healthList": {
     "copied": "已複製清單",
     "copyList": "複製目前清單",
+    "copyRow": "複製這條紀錄",
     "copySelected": "複製所選",
     "durationSeconds": "時長（秒）",
     "emptyBody": "沒有需要處理的作品。",
@@ -345,8 +355,7 @@
     "repairs": "修復與遷移",
     "review": "人工複核",
     "sources": "來源與憑證",
-    "trash": "資源回收筒",
-    "trashCount": "{{count, number}} 個符合 · 顯示 {{shown}}"
+    "trash": "資源回收筒"
   },
   "manageSkeleton": {
     "loadingLibraryTools": "正在讀取資料管理狀態",
@@ -538,7 +547,13 @@
     "selectGroup": "全選本組",
     "sourceChosen": "已選擇 {{source}}，按一下「通過所選」即可採用。",
     "switchCategoryHint": "可切換分類檢視其他待確認資料。",
-    "viewOtherCategories": "檢視其他分類"
+    "viewOtherCategories": "檢視其他分類",
+    "confirm": {
+      "approved": "將通過選取的 {{count, number}} 項，按所選來源寫入資料。",
+      "rejected": "將忽略選取的 {{count, number}} 項，移到「已忽略」。",
+      "restore": "將選取的 {{count, number}} 項放回待處理。",
+      "skipped": "將選取的 {{count, number}} 項移到稍後處理。"
+    }
   },
   "reviewQueue": {
     "approved": "已通過",
@@ -591,6 +606,7 @@
     "processingStatus": "處理狀態",
     "restoreSelected": "恢復所選",
     "reviewStatus": "複核狀態",
+    "selectAll": "全選全部 {{count, number}} 項",
     "selectGroup": "全選目前分類",
     "selectPage": "全選本頁",
     "selectedCount": "已選 {{count, number}} 項",
@@ -615,6 +631,8 @@
     "busyOrigin": "目前的掃描與抓取任務（{{origin}}）還沒結束，等它完成或取消後再開始新的同步",
     "canceledBody": "已取得的資料和預覽已保留，這一輪不會自動繼續，需要時重新同步。",
     "canceledTitle": "已取消上次任務",
+    "coversFetched": "已補上 {{count, number}} 張封面。",
+    "coversToast": "封面已補齊：{{count, number}} 張",
     "currentLibraryName": "目前任務媒體庫：{{name}}",
     "currentLine": "目前：{{file}} · {{action}}{{waited}}",
     "disconnected": "連線中斷，正在重新讀取處理進度",
@@ -678,6 +696,7 @@
     "waited": " · 已等待 {{elapsed}}"
   },
   "scrapingSources": {
+    "contents": "本頁目錄",
     "loadFailed": "讀取抓取來源失敗",
     "loadFailedTitle": "抓取來源讀取失敗",
     "loading": "正在讀取抓取來源",
@@ -768,6 +787,7 @@
     "setUpProxy": "設定 Peach 代理",
     "signInUnverified": "登入有效性待驗證。",
     "testConnection": "檢查連線",
+    "unchecked": "未檢查",
     "uploadFile": "匯入檔案"
   },
   "stats": {
@@ -850,6 +870,8 @@
     "spaceUsed": "使用空間"
   },
   "syncMenu": {
+    "coversOnly": "僅補齊封面",
+    "coversOnlyHint": "只找缺的封面，不查影片資料",
     "fillGroup": "補齊方式",
     "fillImportedTitle": "補齊已入庫影片",
     "fillMetadataHint": "補資料和影片屬性，產生預覽圖",
@@ -881,6 +903,7 @@
     "syncTheseVideos": "同步這些影片",
     "workCollect": "為已入庫影片補齊資料和影片屬性，並產生預覽圖",
     "workCollectNoPreviews": "為已入庫影片補齊資料和影片屬性",
+    "workCovers": "讀取隨附檔案，只為缺封面的影片找封面，不查影片資料",
     "workFindNew": "發現並登記未入庫的新檔案，保留已有影片資料",
     "workFull": "掃描目錄發現檔案，再補齊資料和影片屬性，並產生預覽圖",
     "workFullNoPreviews": "掃描目錄發現檔案，再補齊資料和影片屬性",

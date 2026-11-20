@@ -11,7 +11,7 @@ import { Button, ButtonLink } from '@/components/base/buttons/button';
 import { apiGet, apiSend, errorMessage } from '../../api';
 import { checkClientUpdates, useClientUpdates } from '../client-updates';
 import { codedText, jobText, serverLabel, serverText } from '../../core/server-text';
-import type { ReleaseNotes, ReleaseNotesPart, ReleaseState, UpdateJob } from '../bundle';
+import type { ReleaseHighlight, ReleaseNotes, ReleaseState, UpdateJob } from '../bundle';
 import { Note } from '../components/note';
 import { Progress } from '../components/progress';
 import { StatusLabel } from '../components/status-label';
@@ -26,51 +26,56 @@ const STOPS = [65, 75, 90];
 /** 横幅的快照连续这么多次没取得（按 2、4、8、16、30 秒退避，约 2 分钟）就说明连不上。 */
 const LOST_AFTER_FAILURES = 7;
 /** 服务端没给发布页时的去处；检查到新版本后服务端给的是那一版自己的发布页。 */
-const RELEASES_URL = 'https://github.com/peach-mitao/peach/releases';
+const RELEASES_URL = 'https://github.com/mosesmoon/peach_zhTW/releases';
 
-/** 条目文字里反引号包住的片段显示成代码，其余原样。 */
-function InlineText({ text }: { text: string }) {
-  return <>{text.split('`').map((part, index) => index % 2 ? <code key={index}>{part}</code> : part)}</>;
+/** 条目里的 issue 或 PR 编号：`#123` 指本仓库，`owner/repo#123` 指别的仓库。 */
+const REFERENCE = /((?:[\w.-]+\/[\w.-]+)?#\d+)/;
+
+function referenceUrl(reference: string): string {
+  const [repo, number] = reference.split('#');
+  return `https://github.com/${repo || 'peach-mitao/peach'}/issues/${number}`;
 }
 
-/** 一版更新说明按界面语言取哪一份：正体界面取正体段，没有（旧缓存、旧格式的服务端结果）就取简体段，
- *  其余中文界面取简体段，非中文界面取英文正文。 */
-export function releaseNotesPart(row: ReleaseNotes, language: string): ReleaseNotesPart {
+/** 条目文字里反引号包住的片段显示成代码，issue 与 PR 编号显示成链接（GitHub 会把 PR 的 issues 地址转到 PR）。 */
+function InlineText({ text }: { text: string }) {
+  return <>{text.split('`').map((part, index) => index % 2 ? <code key={index}>{part}</code>
+    : part.split(REFERENCE).map((piece, inner) => inner % 2
+      ? <a key={`${index}-${inner}`} href={referenceUrl(piece)} target="_blank" rel="noopener noreferrer"
+        className="text-accent-600 hover:underline">{piece}</a>
+      : piece))}</>;
+}
+
+/** 一版重点按界面语言取哪一份：繁体中文界面取繁体段（服务端保证有，旧缓存缺时退回简体段），
+ *  其余中文界面取简体段，非中文界面取英文。 */
+export function releaseNotesPart(row: ReleaseNotes, language: string): ReleaseHighlight[] {
   if (language === 'zh-TW') return row['zh-TW'] ?? row['zh-CN'];
   return language.startsWith('zh') ? row['zh-CN'] : row.en;
 }
 
-/** 新版本的更新说明，取自 GitHub Release 正文：正体界面读折叠的繁體中文段（没有就读简体段），简体界面读折叠的简体中文段，
- *  其余语言读英文正文。繁體中文段在发布时由简体段转换而来（安装包里没有 opencc，不能在用户机器上转），默认收起。 */
+/** 新版本的重点，取自 GitHub Release 正文的重点分组（即那一版的升级公告）：繁体中文界面读繁体段，简体中文界面读简体段，
+ * 其余语言读英文正文；完整变更去发布页看。默认收起。 */
 export function ReleaseChangelog({ notes }: { notes: ReleaseNotes[] }) {
   return (
     <Disclosure summary={t('settings:releaseUpdates.changelogTitle', { versions: joinList(notes.map(row => row.version)) })}>
       <div className="flex flex-col gap-5 pt-3">
-        {notes.map(row => {
-          const part = releaseNotesPart(row, interfaceLanguage);
-          return (
-            <section key={row.version} className="flex flex-col gap-3">
-              <div className="flex items-baseline justify-between gap-3">
-                <h3 className="text-body-2-medium text-text-primary">{row.version}</h3>
-                <ExternalLink href={row.url}>{t('settings:releaseUpdates.releasePage')}</ExternalLink>
-              </div>
-              {part.lead.map(line => <p key={line} className="text-body-2-regular text-text-secondary"><InlineText text={line} /></p>)}
-              {part.groups.map(group => (
-                <div key={group.title} className="flex flex-col gap-1.5">
-                  <h4 className="text-body-2-medium text-text-secondary">{group.title}</h4>
-                  <ul className="flex list-disc flex-col gap-1 ps-5 text-body-2-regular text-text-primary">
-                    {group.items.map((item, index) => (
-                      <li key={index}>
-                        {item.area ? <span className="text-text-secondary">{item.area} · </span> : null}
-                        <InlineText text={item.text} />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+        {notes.map(row => (
+          <section key={row.version} className="flex flex-col gap-2">
+            <div className="flex items-baseline justify-between gap-3">
+              <h3 className="text-body-2-medium text-text-primary">{row.version}</h3>
+              <ExternalLink href={row.url}>{t('settings:releaseUpdates.releasePage')}</ExternalLink>
+            </div>
+            <ul className="flex list-disc flex-col gap-1 ps-5 text-body-2-regular text-text-primary">
+              {releaseNotesPart(row, interfaceLanguage).map((item, index) => (
+                <li key={index}>
+                  {item.title
+                    ? <span className="text-body-2-medium">{t('settings:releaseUpdates.highlightTitle', { title: item.title })}</span>
+                    : null}
+                  <InlineText text={item.text} />
+                </li>
               ))}
-            </section>
-          );
-        })}
+            </ul>
+          </section>
+        ))}
       </div>
     </Disclosure>
   );

@@ -298,5 +298,25 @@
   "databaseBackups.restoring": {
     "text": "正在還原…",
     "source": "正在恢复…"
+  },
+  "retention.backupsHelp": {
+    "text": "寫入前留下的完整備份保留最近幾份，24 小時內的都留。",
+    "source": "写入前留下的整库备份保留最近几份，24 小时内的都留。"
+  },
+  "sourceBudget.requestsHelp": {
+    "text": "一趟掃描與抓取向外部來源要的總量，三項哪項先到就停在哪，剩下的下一趟接著抓。",
+    "source": "一趟扫描与采集向外部来源要的总量，三项哪项先到就停在哪，剩下的下一趟接着采。"
+  },
+  "repairCenter.startManyBody": {
+    "text": "依次開始。會更改帳本的項目先備份帳本，可從帳本備份還原。",
+    "source": "依次开始。改账本的项先备份账本，可从账本备份恢复。"
+  },
+  "repairCenter.startManyBodyDelete": {
+    "text": "依次開始。會更改帳本的項目先備份帳本，可從帳本備份還原；刪除的快照不能恢復。",
+    "source": "依次开始。改账本的项先备份账本，可从账本备份恢复；删除的快照不能恢复。"
+  },
+  "cloudDownload.resetEditionPreferences": {
+    "text": "還原預設排序",
+    "source": "恢复默认排序"
   }
 }

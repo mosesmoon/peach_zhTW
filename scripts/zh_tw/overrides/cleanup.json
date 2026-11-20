@@ -40,8 +40,8 @@
     "source": "站点返回 404 或 410，确认这个地址不存在。"
   },
   "links.deleteDeadBody": {
-    "text": "將刪除 {{count, number}} 個失效連結。刪除前會再次檢查，刪除後無法復原。",
-    "source": "将删除 {{count, number}} 条失效链接。删除前会再次检查，删除后无法恢复。"
+    "text": "將刪除 {{count, number}} 個失效連結，刪除前會再檢查一次。",
+    "source": "将删除 {{count, number}} 条失效链接，删除前会再检查一次。"
   },
   "links.deleteDeadCount": {
     "text": "刪除 {{count, number}} 個失效連結",
@@ -120,8 +120,8 @@
     "source": "路径示例："
   },
   "orphans.deleteSelectedBody": {
-    "text": "將刪除以下 {{count, number}} 筆作品紀錄及其全部個人紀錄。此操作不可復原。",
-    "source": "将删除以下 {{count, number}} 条作品记录及其全部个人记录。此操作不可撤销。"
+    "text": "將刪除以下 {{count, number}} 筆作品紀錄及其全部個人紀錄。",
+    "source": "将删除以下 {{count, number}} 条作品记录及其全部个人记录。"
   },
   "orphans.purged": {
     "text": "已刪除 {{count, number}} 筆作品紀錄及其個人紀錄",
@@ -176,8 +176,8 @@
     "source": "{{count, number}} 条记录没有删除（{{names}}）"
   },
   "performerDelete.bodyWarning": {
-    "text": "範圍包含全部來源和資源回收筒，不受目前篩選影響，刪除後無法復原。女優個人檔案和照片保留。",
-    "source": "范围包含全部来源和回收站，不受当前筛选影响，删除后无法恢复。女优档案和照片保留。"
+    "text": "範圍包含全部來源和資源回收筒，不受目前篩選影響。女優個人檔案和照片保留。",
+    "source": "范围包含全部来源和回收站，不受当前筛选影响。女优档案和照片保留。"
   },
   "performerDelete.description": {
     "text": "勾選女優，永久刪除她們的全部影片，包括資源回收筒裡的。女優個人檔案和照片保留。",

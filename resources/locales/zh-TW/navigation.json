@@ -8,8 +8,11 @@
     "network": "網路與存取"
   },
   "durationFilter": {
+    "invalid": "請輸入有效的非負時長，上限須大於 0",
     "maximum": "最長時長（分鐘）",
+    "maximumLabel": "最長（分）",
     "minimum": "最短時長（分鐘）",
+    "minimumLabel": "最短（分）",
     "minutes": "{{count, number}} 分鐘",
     "noLimit": "不限"
   },
@@ -98,6 +101,11 @@
     "releaseYear": "發行年份",
     "storage": "來源",
     "videoProperties": "影片屬性"
+  },
+  "sidebarWidth": {
+    "label": "調整側欄寬度，按兩下或按 Enter 鍵重設",
+    "pixels": "{{count}} px",
+    "resetHint": "按兩下重設"
   },
   "sidebarReorder": {
     "canceled": "已取消排序",

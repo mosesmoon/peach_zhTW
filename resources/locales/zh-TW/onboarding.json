@@ -180,8 +180,7 @@
     "settingsSummary": "先了解外觀與導覽，其餘設定按需要檢視。",
     "settingsTitle": "按習慣調整 Peach",
     "startQuickTour": "開始快速導覽",
-    "stepCount": "{{count, number}} 步",
-    "stepCountExitAnytime": "{{count, number}} 步 · 隨時可以離開"
+    "stepCount": "{{count, number}} 步"
   },
   "guideDownloads": {
     "browserBody": "安裝使用者腳本並配對 Peach。預設管道決定提交到哪裡；啟用開關控制功能，專用權杖可更新或關閉，腳本偵測幫助確認配對。",
@@ -313,7 +312,7 @@
     "imageTitle": "預設圖片",
     "limitBody": "控制新作區域一次展示的數量。",
     "limitTitle": "新作顯示數量",
-    "namesBody": "選擇中文或日文名稱。",
+    "namesBody": "選擇譯名、原文、羅馬音或兩種並列。",
     "namesTitle": "女優名稱",
     "scrollBody": "控制新作區域是否自動捲動。",
     "scrollTitle": "自動捲動",

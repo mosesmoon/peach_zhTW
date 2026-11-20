@@ -51,10 +51,6 @@
     "text": "沒有符合的教學",
     "source": "没有匹配的教程"
   },
-  "guideDirectory.stepCountExitAnytime": {
-    "text": "{{count, number}} 步 · 隨時可以離開",
-    "source": "{{count, number}} 步 · 随时可以退出"
-  },
   "guideDownloads.browserBody": {
     "text": "安裝使用者腳本並配對 Peach。預設管道決定提交到哪裡；啟用開關控制功能，專用權杖可更新或關閉，腳本偵測幫助確認配對。",
     "source": "安装用户脚本并配对 Peach。默认渠道决定提交到哪里；启用开关控制功能，专用令牌可更新或关闭，脚本检测帮助确认配对。"

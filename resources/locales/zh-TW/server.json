@@ -279,6 +279,36 @@
           "title": "完整英文介面"
         }
       }
+    },
+    "v0-60-0": {
+      "headline": "調整下載版本的優先順序",
+      "items": {
+        "download-edition-order": {
+          "body": "在下載設定裡拖動版本並儲存，一鍵入庫和「想要」都會按這個順序優先比對資源",
+          "title": "優先下載的版本"
+        }
+      }
+    },
+    "v0-59-0": {
+      "headline": "篩選館藏、編輯作品資料",
+      "items": {
+        "contribute-performer-names": {
+          "body": "可提交女優中文名供複核，也可在自願分享公開元資訊前預覽內容",
+          "title": "貢獻女優中文名"
+        },
+        "edit-work-details": {
+          "body": "在作品標題旁編輯資料，封面可上傳圖片、取播放器目前畫面或選樣張",
+          "title": "編輯作品資料與封面"
+        },
+        "library-filters": {
+          "body": "在清單欄位標題搜尋和多選篩選值，也可按評分與解析度篩選館藏",
+          "title": "館藏篩選"
+        },
+        "select-duplicates": {
+          "body": "勾選要回收的副本，確認前檢視會保留幾份，移至資源回收筒後可復原",
+          "title": "逐份處理重複檔案"
+        }
+      }
     }
   },
   "repairCenter": {
@@ -286,23 +316,47 @@
       "catalog": "資料與番號整理",
       "dangling-candidates": "失效的複核候選",
       "follow-evidence-reclaim": "清理追蹤抓取的舊快照",
+      "cover-artwork": "已裝封面的版式",
       "javdb-actor-records": "人物頁的 JavDB 入口",
       "quality-resolution": "畫質分檔",
       "source-resolution-tags": "來源的 4K 標籤",
       "video-medium": "改登記為影片",
+      "sidecar-assets": "移出館藏的 NFO 與海報",
+      "avatar-faces": "補測頭像人臉",
       "stale-filename-codes": "清除誤認的番號",
+      "label-suffix-codes": "補回番號尾字母",
       "studio-unbounded-misses": "廠牌查詢快取",
       "verification-settlement": "核查差異結算",
       "performer-spacing": "帶空格的演員名",
       "enhancement-suffix-names": "名字裡的影片增強代號",
       "fc2-seller-backfill": "補掛 FC2 賣家",
       "code-sibling-identity": "同番號副本補齊演員與創作者",
-      "interface-text-codes": "任務紀錄的介面文字"
+      "feed-overflow-discoveries": "補回超出單輪上限的新作",
+      "interface-text-codes": "任務紀錄的介面文字",
+      "entity-link-values": "資料頁連結",
+      "fc2-seller-studios": "FC2 賣家記成廠牌",
+      "scrape-mark-titles": "FC2 標題裡的混淆串",
+      "alias-flat-names": "廠牌與系列名",
+      "tag-vocabulary": "退役標籤",
+      "feed-bluray-duplicates": "重複的藍光版",
+      "want-image-acquired": "被封面標成已到手的想要",
+      "download-text-codes": "雲端下載說明",
+      "unconfirmed-fc2-cast": "FC2 作品上未核實的演員",
+      "descriptive-performers": "建成女優的描述稱呼",
+      "code-folder-creators": "當成創作者的番號目錄",
+      "case-duplicates": "同一檔案登記了兩次",
+      "r18-merges": "r18.dev 英文名建成的實體",
+      "rule34video-characters": "rule34video 的角色分類",
+      "rule34-details": "rule34.xxx 的標籤分類與上傳時間"
     },
     "items": {
       "catalog": {
         "summary": "按新規則修正番號、標題等自動寫入的資料，你手動改過的不動",
         "title": "資料與番號整理"
+      },
+      "cover-artwork": {
+        "summary": "升級後在背景按新規則重新切舊版本裝的封面，換用清晰度相近的 DVD 封套，原圖先備份",
+        "title": "已裝封面的版式"
       },
       "dangling-candidates": {
         "summary": "資產刪除後留下的候選改掛到同一檔案的新編號，對不上的撤下",
@@ -344,9 +398,77 @@
         "summary": "NAS 系統目錄裡的縮圖、macOS 的 ._ 附屬檔案等移出館藏，檔案本身不刪",
         "title": "系統附屬檔案"
       },
+      "sidecar-assets": {
+        "summary": "舊版當成作品登記的 NFO、海報、劇照和截圖縮圖移出館藏，檔案本身不動",
+        "title": "NFO 與海報"
+      },
+      "avatar-faces": {
+        "summary": "人臉模型不可用時裝上的頭像補測人臉，圓頭像按臉取景；唯讀本機圖片",
+        "title": "頭像人臉取景"
+      },
       "interface-text": {
         "title": "任務紀錄的介面文字",
         "summary": "舊任務紀錄裡的說明和結論改存 code，英文介面也能顯示；對不上的保留原文"
+      },
+      "entity-links": {
+        "title": "資料頁連結",
+        "summary": "網址裡帶 &amp; 的連結重新開啟到正確的頁面，通用連結名按介面語言顯示。"
+      },
+      "fc2-studios": {
+        "title": "FC2 賣家記成廠牌",
+        "summary": "廠牌寫成賣家的 FC2 作品改為 FC2-PPV，賣家保留為創作者。"
+      },
+      "scrape-mark-titles": {
+        "title": "FC2 標題裡的混淆串",
+        "summary": "去掉 JavDB 插進 FC2 標題的亂碼串。"
+      },
+      "alias-flat-names": {
+        "title": "廠牌與系列名",
+        "summary": "記成別名的廠牌和系列改用主名。"
+      },
+      "tag-vocabulary": {
+        "title": "退役標籤",
+        "summary": "退役與撤掉的標籤、舊版本機 NFO 匯入的標籤按現行標籤表改名或撤下。"
+      },
+      "bluray-duplicates": {
+        "title": "重複的藍光版",
+        "summary": "新作裡和 DMM 配信版同時列出的藍光版去掉。"
+      },
+      "want-acquired": {
+        "title": "被封面標成已到手的想要",
+        "summary": "因封面圖先到被標成已到手的想要，改指影片或回到待找。"
+      },
+      "download-text": {
+        "title": "雲端下載說明",
+        "summary": "舊雲端下載紀錄的說明按介面語言顯示。"
+      },
+      "unconfirmed-fc2-cast": {
+        "title": "FC2 作品上未核實的演員",
+        "summary": "JavDB 給 FC2 作品自動填入、身分沒有核實的演員解除關聯，回到複核。"
+      },
+      "descriptive-performers": {
+        "title": "建成女優的描述稱呼",
+        "summary": "把身高、人數這類標題描述建成的女優去掉。"
+      },
+      "code-folder-creators": {
+        "title": "當成創作者的番號目錄",
+        "summary": "由番號目錄或網站貼文目錄建成的創作者去掉，番號補給正片。"
+      },
+      "case-duplicates": {
+        "title": "同一檔案登記了兩次",
+        "summary": "路徑只差大小寫的同一檔案合成一行，個人紀錄保留。"
+      },
+      "r18-merges": {
+        "title": "r18.dev 英文名建成的實體",
+        "summary": "按 r18.dev 英文名建成的女優與系列，併入同一位、同一系列的日文名實體。"
+      },
+      "rule34video-characters": {
+        "title": "rule34video 的角色分類",
+        "summary": "逐條讀取詳情頁，把站方單列的角色從普通標籤改記為角色，每秒 1 條。"
+      },
+      "rule34-details": {
+        "title": "rule34.xxx 的標籤分類與上傳時間",
+        "summary": "逐條向 rule34.xxx 補問標籤分類、上傳時間和影片時長，只補缺的，約 2 秒 1 條。"
       }
     }
   },
@@ -439,6 +561,7 @@
     "amane-bridge": "amane 橋接重建",
     "batch": "批次操作",
     "code-samples": "番號樣張抓取",
+    "cover-artwork-repair": "封面版式補修",
     "creator-identity": "創作者身分查詢",
     "diagnostic-export": "診斷匯出",
     "download-postprocess": "雲端下載後續處理",
@@ -447,6 +570,7 @@
     "feed-check": "訂閱源抓取",
     "feed-cover": "新作封面抓取",
     "feed-scrape": "新作資料抓取",
+    "follow-backfill": "追蹤項目補填",
     "follow-check": "追蹤檢查",
     "follow-creator": "追蹤作者建檔",
     "follow-evidence-reclaim": "追蹤舊快照清理",
@@ -596,7 +720,10 @@
     "keep-duplicates": "重複組標記都保留",
     "reconsider-duplicates": "重複組重新列出",
     "region": "批次判定產地",
-    "performer-delete": "按女優永久刪除影片"
+    "performer-delete": "按女優永久刪除影片",
+    "revert-like": "復原批次喜歡",
+    "revert-seen": "復原批次看過",
+    "revert-later": "復原批次稍後看"
   },
   "outcome": {
     "semicolon": "；",
@@ -686,6 +813,7 @@
     "videoUpgraded": "影片升級補齊完成",
     "videosUpgraded": "影片升級補齊完成 {{count}} 部",
     "videosDeferred": "目錄讀不到或來源冷卻，延後 {{count}} 部",
+    "videosMalformed": "路徑寫法無法辨識，失敗 {{count}} 部",
     "dimensionsMeasured": "顯示尺寸補測完成",
     "deferredBy": "已延後：{{reason}}",
     "deferMountMedia": "影片所在目錄讀不到，掛載恢復後再補齊",
@@ -697,8 +825,13 @@
     "faceModelsReady": "人臉模型已就緒"
   },
   "api": {
+    "listening": {
+      "outsideLan": "這個位址只接受區域網路內的連線"
+    },
     "auth": {
       "invalidRememberDays": "請選擇有效的保持登入時間",
+      "loginFormInvalid": "登入表單欄位過多",
+      "loginFormTooLarge": "登入表單過大",
       "sessionNotSaved": "登入裝置未能記下，請檢查資料目錄能否寫入後重試",
       "submitFromSettings": "請從 Peach 組態頁提交",
       "tooManyAttempts": "嘗試次數較多，請一分鐘後重試",
@@ -750,7 +883,9 @@
       "qrExpired": "QR 碼已過期，請在設定頁重新掃碼",
       "relocateBusy": "遷移請求正在處理",
       "relocateRejected": "無法遷移到這個位置",
+      "repairUnknown": "沒有名為 {{item}} 的修復。",
       "restoreConfirmRequired": "還原會替換目前帳本，請先確認",
+      "retentionBusy": "保留期限正在儲存，請稍後再試",
       "serverManagedByLaunch": "存取範圍與名稱由服務啟動設定管理",
       "sessionsWriting": "裝置紀錄正在寫入，請稍後重試",
       "settingsChanged": "設定已變更，請重新整理後再儲存",
@@ -790,6 +925,7 @@
       "revealFailed": "開啟檔案管理員失敗，請重試",
       "revealMissing": "這個位置已經不在了",
       "revealOutsideDataRoot": "這個位置不歸 Peach 管，只能自己開啟",
+      "revealUnreachable": "這個位置所在的磁碟沒有及時回應，請稍後再試",
       "revealUnsupported": "這台電腦上打不開檔案管理員",
       "taskAlreadyRunning": "{{task}}已有一輪在進行，等它跑完再試",
       "taskCanceled": "任務已取消，已儲存的結果保留",
@@ -797,12 +933,14 @@
       "taskOnOtherHost": "請在執行這輪任務的寫入端操作"
     },
     "settings": {
+      "choiceInvalid": "{{key}} 只收 {{choices}}",
       "empty": "沒有要寫入的設定",
       "interfaceLanguageInvalid": "interfaceLanguage 只收 {{choices}}",
       "libraryOrderInvalid": "媒體庫順序須使用不重複的媒體庫 ID",
       "navigationOrderUnknownEntry": "導覽順序包含無效項目",
       "navigationOrdersInvalid": "導覽排序需要已知分組與順序陣列",
-      "performerNameLanguageInvalid": "performerNameLanguage 只收 zh-CN、zh-TW 或 ja",
+      "performerNameLanguageInvalid": "performerNameLanguage 只收 zh-CN、zh-TW、ja、en、ja-local 或 local-ja",
+      "sortControlsInvalid": "排序項設定需要有效分組、順序和隱藏項陣列",
       "profileMissing": "profile {{profile}} 不存在",
       "searchHistoryLimitInvalid": "searchHistoryLimit 只收 0 到 {{max}} 的整數",
       "switchNotBoolean": "{{key}} 只收 true 或 false",
@@ -876,6 +1014,8 @@
       "addMediaDirectory": "請先新增媒體目錄",
       "collectionConfigMismatch": "目前館藏與媒體設定不一致",
       "selectionInvalid": "請選擇有效的影片項目",
+      "recheckNotBoolean": "recheck 只能是 true 或 false",
+      "recheckSelectedOnly": "重新抓取只用於點名的至多 {{limit}} 部影片與資料階段",
       "selectionRetryExclusive": "選擇項目與失敗重試不能同時使用",
       "stageInvalid": "處理階段無效",
       "incrementalStageUnsupported": "新增檔案發現只支援掃描或同步",
@@ -893,7 +1033,8 @@
       "coverProcessingFailed": "封面處理失敗（{{errorType}}），未能完成比較；請檢視服務日誌。"
     },
     "resourceSync": {
-      "addMediaDirectory": "請先在設定頁新增媒體目錄"
+      "addMediaDirectory": "請先在設定頁新增媒體目錄",
+      "scanExpired": "清理確認已過期，請重新檢查"
     },
     "organize": {
       "sourceMissing": "不認識的來源：(空)",
@@ -924,6 +1065,15 @@
       "planRequired": "請先檢視影片刪除清單",
       "planChanged": "影片清單已變化，請關閉確認視窗後重新檢視",
       "nothingToDelete": "沒有可刪除的影片"
+    },
+    "entityBatch": {
+      "previewStale": "個人檔案或館藏已變化，請關閉確認框後重新選擇刪除範圍",
+      "selectionInvalid": "請選擇有效的項目",
+      "selectionChanged": "所選項目已變化，請重新整理後重試",
+      "operationInvalid": "不支援這項批次操作"
+    },
+    "entityMerge": {
+      "thirdParty": "這些名字還屬於另一份個人檔案：{{names}}；請先處理那份個人檔案"
     },
     "media": {
       "invalidPlaybackOrigin": "播放位址無效",
@@ -981,6 +1131,7 @@
     },
     "catalog": {
       "invalidReleaseYear": "發行年份須為四位年份或未知年份",
+      "invalidColumnFilters": "欄位篩選格式無效，請重新選擇",
       "tagNotInVocabulary": "該標籤不在目前詞彙表中"
     },
     "links": {
@@ -1041,6 +1192,9 @@
       "reorderIncomplete": "排序必須完整包含目前播放清單的所有影片",
       "progressOutsidePlaylist": "續播位置不在這個播放清單中"
     },
+    "tasteSignals": {
+      "chooseSubject": "請只給番號或女優 id 其中一個"
+    },
     "javBrowserPeople": {
       "snapshotTooLarge": "本機人物快照過大",
       "snapshotInvalid": "本機人物快照格式無效",
@@ -1086,6 +1240,19 @@
     }
   },
   "errors": {
+    "seedSharing": {
+      "invalidChoice": "請選擇是否開啟公共資料貢獻。",
+      "previewFirst": "請先預覽本機資料並確認分享範圍。",
+      "tooLarge": "資料超過單次傳送上限，未產生可傳送的預覽。",
+      "noPerformer": "未找到目前女優資料。",
+      "noIdentity": "缺少可核對的公開身分或日文原名。",
+      "invalidName": "請填寫有效的中文名。",
+      "invalidEvidence": "請使用公開的 HTTPS 連結，移除帳號或追蹤參數後再提交。"
+    },
+    "ledger": {
+      "writeBusy": "本機資料庫正忙：這次寫入排隊超過 {{seconds}} 秒，沒有儲存，請稍後重試。",
+      "writeCorrupt": "本機資料庫已損壞。請在「設定 → 應用與維護 → 帳本備份」還原經過驗證的備份。"
+    },
     "hardwareTranscode": {
       "backendInvalid": "PEACH_TRANSCODE_BACKEND 必須為 {{backends}}"
     },
@@ -1295,6 +1462,7 @@
       "authSampleMissing": "既有 CloudDrive 驗證樣本未取得",
       "tokenMissing": "既有 CloudDrive 權杖未取得",
       "webdavSourceMissing": "既有 PikPak WebDAV 來源未取得",
+      "tokenRootRestricted": "雲端硬碟整理要用根目錄為 / 的 CloudDrive2 權杖，目前權杖只能存取 {{root}}",
       "accountRootMissing": "CloudDrive 未回傳 WebDAV 帳號根目錄",
       "prefixOutsideAccountRoot": "CloudDrive 路徑前綴不屬於回傳的帳號根目錄",
       "webdavUnavailable": "WebDAV 暫時不可用：{{status}}",
@@ -1314,6 +1482,7 @@
       "addressPortInvalid": "CloudDrive2 位址的連接埠必須是 1–65535 的整數",
       "notPikpakRoot": "{{root}} 不是已宣告的 PikPak 媒體根；已知：{{known}}",
       "notPikpakRootNoneDeclared": "{{root}} 不是已宣告的 PikPak 媒體根；已知：（設定檔裡沒有 pikpak 來源）",
+      "invalidEditionPreferences": "下載版本順序有重複或包含不支援的版本",
       "waitHoursNotNumber": "等待上限要寫成小時數",
       "waitHoursOutOfRange": "等待上限在 1 到 {{max}} 小時之間",
       "writerOnly": "雲端下載只在允許修改資料庫的裝置上可用",
@@ -1451,7 +1620,12 @@
     "mediaProcessingPolicy": {
       "previewStateRequired": "請選擇影片預覽產生狀態",
       "accelerationModeRequired": "請選擇自動或僅軟體模式",
-      "choiceRequired": "請選擇媒體處理方式"
+      "choiceRequired": "請選擇媒體處理方式",
+      "qualityRequired": "畫質上限只收 {{choices}}"
+    },
+    "retentionSettings": {
+      "choiceInvalid": "{{key}} 只收 {{choices}}",
+      "empty": "沒有要儲存的保留期限"
     },
     "server": {
       "databaseMissing": "已有設定但缺少資料庫，請還原資料庫後啟動",
@@ -1533,16 +1707,21 @@
       "noValidCookie": "未找到該來源尚未過期的 Cookie",
       "redirectNotHttps": "抓取重新導向必須使用 HTTPS",
       "tooManyRedirects": "抓取重新導向次數超過上限",
+      "accountSuspended": "{{label}} 帳號被臨時停用（站方判定瀏覽太快），{{time}} 自動恢復；停的是帳號，換出口沒用，Peach 先暫停向它請求",
       "geoRestricted": "{{label}} 不對目前出口所在的地區開放，請在代理裡給它換一個它接受的地區的出口；暫停向它請求 {{minutes}} 分鐘",
       "ipBanned": "{{label}} 封禁了目前出口 IP，暫停向它請求一段時間，也可以在代理裡給它換一個出口",
       "requestBudgetSpent": "本趟抓取次數已用完，再跑一次接著抓取；已有圖片保留",
       "timeBudgetSpent": "本趟抓取時間已用完，再跑一次接著抓取；已有圖片保留",
       "downloadBudgetSpent": "本趟下載量已用完，再跑一次接著抓取；已有圖片保留",
       "coolingDown": "來源正在冷卻，請稍後重試；已有圖片保留",
-      "challengeTimedOut": "來源的人機驗證沒有在限時內通過，暫停向它請求一段時間；瀏覽器視窗再彈出時點一下驗證即可；已有圖片保留",
+      "challengeTimedOut": "來源的人機驗證沒有在限時內通過，暫停向它請求一段時間；下次可從工作列點開抓取瀏覽器點一下驗證；已有圖片保留",
       "rateLimited": "來源限流，已記錄冷卻時間；已有圖片保留",
-      "refusedUpdateCookie": "來源拒絕存取，暫停向它請求一段時間；請在抓取設定裡更新它的 Cookie；已有圖片保留",
-      "refused": "來源拒絕存取，暫停向它請求一段時間；已有圖片保留"
+      "coolingDownNamed": "{{label}} 暫停中，約 {{minutes}} 分鐘後再試",
+      "rateLimitedNamed": "{{label}} 限流，約 {{minutes}} 分鐘後再試",
+      "refusedNamed": "{{label}} 拒絕了目前出口的請求，多半是請求太頻繁或出口被攔；暫停約 {{minutes}} 分鐘，也可以在代理裡給它換一個出口",
+      "refusedCookieNamed": "{{label}} 拒絕了請求：可能是請求太頻繁、出口被攔，或貼過的 Cookie 已過期；暫停約 {{minutes}} 分鐘，可以換個出口或重貼 Cookie",
+      "refused": "來源拒絕存取，暫停向它請求一段時間；已有圖片保留",
+      "browserModeInvalid": "抓取瀏覽器模式只收 {{choices}}"
     },
     "downloadPostprocess": {
       "noLandingPath": "下載任務沒有落地路徑",
@@ -1606,6 +1785,9 @@
       "modelMissing": "文字偵測模型不在 {{path}}，且不允許下載",
       "downloadFailed": "無法取得文字偵測模型：{{error}}",
       "checksumMismatch": "文字偵測模型驗證不符：預期 {{expected}}，實際 {{actual}}"
+    },
+    "junkVisual": {
+      "ocrUnavailable": "畫面推廣辨識未取得結果（{{reason}}）"
     },
     "previewCache": {
       "playlistNotFetched": "播放清單未取得",
@@ -1693,7 +1875,9 @@
       "mediaRepairIncomplete": "影片升級補齊未完成，請在任務中心檢視後重試",
       "resumeAfterRestart": "服務重新啟動後繼續",
       "displayBackupNoSpace": "顯示尺寸補測備份空間不足，已暫停本批媒體",
-      "mediaPaused": "{{message}}"
+      "mediaPaused": "{{message}}",
+      "malformedPath": "影片路徑寫法無法辨識：{{path}}",
+      "malformedPathReason": "影片路徑寫法無法辨識（{{reason}}）：{{path}}"
     },
     "tunnel": {
       "standalonePortInvalid": "獨立包 Tunnel 的 HTTP 連接埠無效：{{port}}",
@@ -1823,6 +2007,28 @@
     "fieldOwners": {
       "revisionConflict": "資產已被改過：預期 revision {{expected}}，資料庫現值 {{current}}"
     },
+    "coverArtwork": {
+      "userCoverKept": "這部片用的是你換上的封面，自動抓取不替換"
+    },
+    "itemCover": {
+      "tooLarge": "圖片太大，最多 32 MB",
+      "empty": "沒有收到圖片",
+      "unreadable": "讀不出這張圖片，請換一張 JPEG、PNG 或 WebP",
+      "tooSmall": "圖片太小，至少要 200 × 200",
+      "nothingToRestore": "這部片用的不是換上的封面，沒有可恢復的"
+    },
+    "itemEdit": {
+      "assetMissing": "這部影片已經不在館藏裡",
+      "malformed": "提交的編輯內容格式不對",
+      "unknownField": "不能編輯這些欄位：{{fields}}",
+      "restoreAndEdit": "同一個欄位不能既修改又恢復自動：{{fields}}",
+      "controlCharacters": "內容裡不能有換行或控制字元",
+      "tooLong": "內容太長，最多 1000 個字",
+      "releaseDateFormat": "發行日期要寫成 2025-11-04 這樣的格式",
+      "regionUnknown": "認不出這個產地",
+      "entityMissing": "選取的個人檔案已經不在了，請重新選擇",
+      "entityNameInvalid": "名稱不能為空，也不能超過 200 個字"
+    },
     "folderPicker": {
       "busy": "已經有一個選擇資料夾的視窗開著",
       "cannotOpen": "這台電腦上打不開系統資料夾對話方塊",
@@ -1844,14 +2050,11 @@
       "deviceNotAllowed": "瀏覽器新增只在允許修改資料庫的裝置上可用",
       "invalidDismiss": "確認參數無效",
       "invalidEdition": "版本參數無效",
-      "invalidRetryAttempt": "瀏覽器新增重試次數無效",
-      "invalidRetryTime": "瀏覽器新增重試時間無效",
       "invalidSwitch": "換磁力參數無效",
       "manualRejectsSource": "手動新增不接受來源網頁網址",
       "notEnabled": "請先啟用瀏覽器新增",
       "nothingToRetry": "這個番號沒有失敗的整理可以重試",
       "queueFull": "新增佇列已滿，請等待目前任務結束",
-      "queueUnreadable": "瀏覽器新增佇列無法讀取",
       "unsupportedPage": "請從支援的 JAV 影片詳情頁新增",
       "searchUnavailable": "資源搜尋暫不可用，請在 Peach 檢查來源後重試"
     },
@@ -2018,7 +2221,9 @@
       "captureUnfetched": "影片擷取影格未取得，回報問題請匯出診斷報告",
       "previewTimeout": "產生預覽圖逾時，請重試",
       "previewFailed": "產生預覽圖失敗，請檢查 FFmpeg 與目錄權限後重試",
-      "toolsNotPrepared": "抓取工具準備失敗：{{error}}"
+      "toolsNotPrepared": "抓取工具準備失敗：{{error}}",
+      "someSourcesUnfetched": "已從其他來源取到資料；沒答上的來源：{{problems}}",
+      "someCoverSourcesUnfetched": "封面已有；沒答上的圖源：{{problems}}"
     },
     "followStream": {
       "coolingDown": "{{provider}} 限流冷卻中，{{seconds}} 秒後再試",
@@ -2402,6 +2607,7 @@
       "callFailed": "{{action}}失敗：{{details}}",
       "tokenMissing": "還沒有填 CloudDrive2 的 API 權杖",
       "folderMissing": "CloudDrive2 裡沒有 {{path}} 這個資料夾",
+      "outsideTokenRoot": "CloudDrive2 權杖只能存取 {{root}}，{{path}} 不在裡面；目標目錄要放在它下面",
       "folderNotCreated": "CloudDrive2 沒有建立 {{path}}：{{reason}}",
       "folderNotCreatedNoReason": "CloudDrive2 沒有建立 {{path}}：沒有給出原因",
       "cancelRefused": "CloudDrive2 沒有取消這個任務：{{reason}}",
@@ -2462,6 +2668,7 @@
     },
     "javOfficialPreview": {
       "dmmUnavailable": "DMM 影片預覽未取得，請稍後重試",
+      "dmmUnrecognized": "DMM 給出的影片預覽位址無法辨識（{{host}}），重試不會好轉",
       "javdbUnavailable": "JavDB 影片預覽未取得，請稍後重試",
       "officialUnavailable": "官方影片預覽未取得，請稍後重試"
     },
@@ -2599,7 +2806,8 @@
       "outsideMounts": "✗ {{path}} 不在來源 {{location}} 的掛載點 {{mounts}} 之下",
       "smbNotSaved": "SMB 目錄尚未儲存到媒體庫設定",
       "prefixWithoutMount": "✗ 媒體來源 {{location}} 的第 {{index}} 個資料庫路徑前綴沒有對應的本機目錄；請先在 [media.mounts] 中按相同順序設定媒體目錄",
-      "checkpointMismatch": "掃描目錄與儲存的斷點不一致，請核對掛載設定"
+      "checkpointMismatch": "掃描目錄與儲存的斷點不一致，請核對掛載設定",
+      "rootUnreadable": "✗ 無法列出掃描目錄 {{root}}（{{error}}）；本次沒有掃描，也沒有檔案被算作已消失"
     },
     "faceDetect": {
       "faceModelMissing": "缺少人臉模型：{{path}}",
@@ -2637,7 +2845,8 @@
     "webBatch": {
       "changedDuringQuarantine": "檔案在隔離備份期間發生變化",
       "pathUnmapped": "媒體路徑未對應到可存取的掛載目錄",
-      "storageOffline": "媒體來源未掛載或不可讀取"
+      "storageOffline": "媒體來源未掛載或不可讀取",
+      "purgingCannotRestore": "正在永久刪除的項目不能還原"
     },
     "webFeeds": {
       "checkStopped": "訂閱檢查已停止"
@@ -2710,15 +2919,16 @@
     "jobRecovery": {
       "unreadable": "任務恢復紀錄無法讀取，請重新發起任務。"
     },
-    "webJavDetail": {
-      "resourcesFailed": "磁力與評論裡的資源都沒有取到"
-    },
     "nasDirectories": {
       "invalidPurpose": "請選擇媒體目錄或資料目錄",
       "invalidOffset": "目錄分頁位置無效，請重新讀取目錄",
       "outsideRoots": "只能瀏覽已設定的媒體掛載目錄；新掛載路徑可在媒體目錄輸入欄位中填寫",
       "timedOut": "媒體目錄讀取逾時，請稍後重試或手動填寫路徑",
       "unreadable": "媒體目錄不可讀取，請檢查掛載與目錄權限"
+    },
+    "followBackfill": {
+      "credentialMissing": "先在追蹤來源裡填好 rule34.xxx 的 API 憑證",
+      "running": "正在補填，請等這一次做完"
     }
   },
   "jobMessage": {
@@ -2803,6 +3013,16 @@
   },
   "labels": {
     "listSeparator": "、",
+    "resumeAt": {
+      "earlyToday": "今天凌晨 {{clock}}",
+      "today": "今天 {{clock}}",
+      "tonight": "今晚 {{clock}}",
+      "earlyTomorrow": "明天凌晨 {{clock}}",
+      "tomorrow": "明天 {{clock}}",
+      "tomorrowNight": "明晚 {{clock}}",
+      "dayAfter": "後天 {{clock}}",
+      "date": "{{month}}月{{day}}日 {{clock}}"
+    },
     "runtimePrepare": {
       "writer": {
         "standalone": "replication.enabled = false，按獨立寫者",
@@ -2887,6 +3107,11 @@
         "pushDiscovery": "推送發現",
         "downloads": "下載設定"
       }
+    },
+    "coverRepair": {
+      "runLabel": "重判封面版式",
+      "stoppedByUser": "使用者停止任務",
+      "serviceStopped": "服務關閉，下次啟動接著做"
     },
     "followScheduler": {
       "runtimeUnavailable": "上次自動檢查的執行狀態未取得",
@@ -2974,6 +3199,7 @@
       "keptAfterDetails": "。已有圖片保留。",
       "keptLocalNoBetter": "本機封面 {{localWidth}} × {{localHeight}}，來源可用封面 {{width}} × {{height}}；保留本機封面。沒有找到更大或更合適的封面。",
       "keptLocalPartial": "本機封面 {{localWidth}} × {{localHeight}}，來源可用封面 {{width}} × {{height}}；保留本機封面。部分來源連線失敗，未能完成全部來源比較。",
+      "keptUserCover": "這部片用的是你換上的封面，沒有連網替換。要換回擷取封面，在編輯資料裡恢復。",
       "period": "。",
       "reusedCover": "重複使用 24 小時內經核心驗證過的本機封面（{{width}} × {{height}}），沒有再向來源請求。"
     },
@@ -3267,6 +3493,7 @@
         "renameFailed": "改名失敗：{{error}}",
         "ledgerRolledBack": "資料庫寫入失敗，已改回原名：{{error}}",
         "ledgerStuck": "資料庫寫入失敗且改不回原名，需要人工處理：{{error}}",
+        "moveUnverified": "移動中斷後無法確認檔案身分，請核對兩個路徑再重試",
         "assetGone": "資產已不在館藏，未執行整理"
       }
     },
@@ -3288,6 +3515,7 @@
       "internetShortcut": "網址捷徑",
       "pageArchive": "網頁存檔",
       "wholeNamePromo": "整個名字都是推廣語",
+      "visualPromotion": "{{total}} 影格中 {{matched}} 影格含推廣線索，{{claims}} 影格含推廣用語",
       "mostlyPromo": "推廣語佔了名字主體",
       "promoNeighbours": "同目錄另有 {{count}} 個同類推廣名",
       "promoCreator": "創作者位是推廣站網域名稱",
@@ -3392,7 +3620,8 @@
         "checkCompanions": "檢查隨附檔案",
         "makePreviews": "產生影片預覽",
         "checkPreviewSettings": "檢查媒體預覽設定",
-        "fetchMetadataAndCovers": "抓取外部資料與封面"
+        "fetchMetadataAndCovers": "抓取外部資料與封面",
+        "fetchCovers": "抓取缺失封面"
       },
       "source": {
         "onePondo": "一本道",
@@ -3897,6 +4126,7 @@
         "authRequired": "來源要求登入或拒絕目前出口",
         "challenge": "來源要求人機驗證",
         "blocked": "來源攔截目前出口",
+        "accountSuspended": "來源臨時停用了登入帳號",
         "geoRestricted": "來源限制目前地區",
         "rateLimited": "來源正在限流",
         "serverError": "來源服務異常",
@@ -4025,7 +4255,7 @@
       "mobileBroadbandHint": "中國移動寬頻直連 DMM 圖片主機常在握手後被斷開，請把 DMM / FANZA 的連線方式設成 Peach 代理。",
       "target": {
         "page": "來源頁面",
-        "cdn": "高畫質圖片 CDN"
+        "cdn": "圖片 CDN"
       },
       "cooldown": "來源正在冷卻，請稍後重試。",
       "proxy": "代理連線失敗，請檢查 Peach 代理。",
@@ -4038,7 +4268,8 @@
       "signIn": "來源要求登入或驗證，請在官網完成登入後重試。",
       "reason": "{{reason}}。",
       "unavailable": "來源暫不可用，請稍後重試。",
-      "needsCode": "片商官網按番號選擇，請輸入館藏番號檢查高畫質封面。"
+      "needsCode": "片商官網按番號選擇，請輸入館藏番號檢查高畫質封面。",
+      "noImageHost": "這個來源沒有固定的圖片主機，圖片這一跳未檢查。"
     },
     "sourcePreflight": {
       "outcome": {
@@ -4128,9 +4359,9 @@
       "allFailed": "所有索引器都未能完成搜尋"
     },
     "javdbPublic": {
-      "magnetsUnfetched": "磁力連結區資源未取得：{{error}}",
+      "magnetsUnfetched": "JavDB 磁力連結區查詢未完成：{{error}}",
       "reviewPagesQueried": "已查詢前 {{pages}} 頁評論資源。",
-      "commentsUnfetched": "評論資源未取得：{{error}}"
+      "commentsUnfetched": "JavDB 評論區查詢未完成：{{error}}"
     },
     "javdb": {
       "commentSource": "JavDB 評論"
@@ -4138,8 +4369,8 @@
     "magnetChain": {
       "staleReused": "已沿用上次結果：{{error}}",
       "sourceFailed": "{{source}}：{{error}}",
-      "sourceUnfetched": "{{source}}：未取得",
-      "incomplete": "部分來源未取得，請稍後重試或檢查來源連線。"
+      "sourceUnfetched": "{{source}}：查詢未完成",
+      "incomplete": "部分來源的查詢未完成，請稍後重新查詢。"
     },
     "wantsMagnets": {
       "linksUnfetched": "資源連結未取得，請稍後重試或檢查來源連線。",
@@ -4154,6 +4385,8 @@
       "owned": "館藏已有該番號影片",
       "failed": "新增失敗，可重試",
       "noMatch": "未找到可自動下載的磁力，可重試",
+      "noMatchSourcesPaused": "其餘來源沒找到；{{sources}} 暫時存取不了，恢復後自動補查",
+      "searchFailedWith": "資源搜尋失敗：{{error}}",
       "noOtherMagnet": "沒有其他可用磁力，可在 Peach 手動選擇資源",
       "disabled": "瀏覽器新增已關閉",
       "searchUnavailable": "資源搜尋暫不可用，請在 Peach 檢查來源後重試",
@@ -4161,6 +4394,8 @@
       "submitFailed": "搜尋或雲端下載提交失敗，請在 Peach 檢查來源和下載管道後重試",
       "retryWaiting": "暫時不可用，等待自動重試",
       "sourcesWaiting": "{{sources}} 未取得，等待自動重試",
+      "sourcesUnfetched": "{{sources}} 未取得",
+      "searchFailedWaiting": "資源搜尋失敗：{{error}}；等待自動重試",
       "sourcesExhausted": "{{sources}} 自動重試 {{attempts}} 次後仍未取得，請在 Peach 檢查來源後重試"
     },
     "followCreators": {
@@ -4190,6 +4425,10 @@
     },
     "browserTransport": {
       "trafficUnobserved": "瀏覽器抓取流量未觀測"
+    },
+    "followBackfill": {
+      "rule34-details": "補齊 rule34.xxx 細節",
+      "rule34video-characters": "補記 rule34video 角色"
     }
   },
   "taste": {
@@ -4209,6 +4448,7 @@
       "watched": "觀看與意見回饋",
       "collection": "館藏累積",
       "browsing": "瀏覽紀錄",
+      "downloads": "主動下載",
       "bookmarks": "瀏覽器書籤",
       "follows": "追蹤",
       "peach": "Peach"
@@ -4367,6 +4607,7 @@
       "external": "未同步：{{services}} 服務不歸本系統匣管理",
       "noOutput": "資料庫同步沒有輸出",
       "startFailed": "資料庫同步啟動失敗：{{error}}",
+      "timedOut": "資料庫同步超過 {{seconds}} 秒沒有結束，已終止",
       "notRecovered": "{{output}}；服務未能在 20 秒內恢復",
       "stoppingForSync": "正在安全停止服務並同步…",
       "stoppingForTakeover": "正在安全停止服務並接管寫入…",
@@ -4380,6 +4621,7 @@
     },
     "prepare": {
       "noOutput": "結束代碼 {{code}}，沒有輸出",
+      "timedOut": "{{command}} 超過 {{seconds}} 秒沒有結束，已終止",
       "frozen": "打包處理程序不載入專案 venv，依賴由重新啟動腳本核對",
       "noLock": "沒有 uv.lock：{{path}}",
       "noVenv": "沒有專案 venv：{{path}}",
@@ -4472,6 +4714,7 @@
       "noPowerShell": "程式碼已快進，但找不到 PowerShell，未執行測試或重新啟動服務。",
       "inputsKeptChanging": "測試期間程式碼或依賴持續變化，三次驗證均未取得有效紀錄；請稍後重試。",
       "testsFailed": "程式碼已快進，但完整測試失敗；服務與系統匣均未重新啟動，請檢視日誌。",
+      "testsTimedOut": "程式碼已快進，但完整測試逾時未結束，已終止；服務與系統匣均未重新啟動，請檢視日誌。",
       "testsPassed": "程式碼與完整測試已通過。",
       "manualTray": "程式碼與完整測試已通過；目前不是打包系統匣，系統匣處理程序需手動重開。",
       "trayExeMissing": "程式碼與測試已通過，但找不到目前系統匣 EXE，未執行替換。",

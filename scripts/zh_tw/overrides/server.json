@@ -1478,5 +1478,41 @@
   "ledgerBackup.purpose.restore": {
     "text": "還原前另存",
     "source": "恢复前另存"
+  },
+  "api.entityBatch.previewStale": {
+    "text": "個人檔案或館藏已變化，請關閉確認框後重新選擇刪除範圍",
+    "source": "档案或馆藏已变化，请关闭确认框后重新选择删除范围"
+  },
+  "api.entityMerge.thirdParty": {
+    "text": "這些名字還屬於另一份個人檔案：{{names}}；請先處理那份個人檔案",
+    "source": "这些名字还属于另一份档案：{{names}}；请先处理那份档案"
+  },
+  "errors.itemEdit.entityMissing": {
+    "text": "選取的個人檔案已經不在了，請重新選擇",
+    "source": "选中的档案已经不在了，请重新选择"
+  },
+  "api.catalog.invalidColumnFilters": {
+    "text": "欄位篩選格式無效，請重新選擇",
+    "source": "列筛选格式无效，请重新选择"
+  },
+  "api.routes.revealUnreachable": {
+    "text": "這個位置所在的磁碟沒有及時回應，請稍後再試",
+    "source": "这个位置所在的盘没有及时响应，请稍后再试"
+  },
+  "errors.seedSharing.invalidEvidence": {
+    "text": "請使用公開的 HTTPS 連結，移除帳號或追蹤參數後再提交。",
+    "source": "请使用公开的 HTTPS 链接，移除账号或跟踪参数后再提交。"
+  },
+  "errors.ledger.writeCorrupt": {
+    "text": "本機資料庫已損壞。請在「設定 → 應用與維護 → 帳本備份」還原經過驗證的備份。",
+    "source": "本地数据库已损坏。请在「设置 → 应用与维护 → 账本备份」恢复经过校验的备份。"
+  },
+  "releaseNotes.v0-59-0.items.library-filters.body": {
+    "text": "在清單欄位標題搜尋和多選篩選值，也可按評分與解析度篩選館藏",
+    "source": "在列表列头搜索和多选筛选值，也可按评分与分辨率筛选馆藏"
+  },
+  "repairCenter.items.entity-links.summary": {
+    "text": "網址裡帶 &amp; 的連結重新開啟到正確的頁面，通用連結名按介面語言顯示。",
+    "source": "地址里带 &amp; 的链接重新打开到正确的页面，通用链接名按界面语言显示。"
   }
 }

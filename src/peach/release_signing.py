@@ -11,6 +11,8 @@ import re
 
 #: 受信任的发布签名公钥（base64，32 字节 Ed25519）。为空时更新器不要求签名；随某一版发出后，
 #: 这一版起的客户端只装签名验得过的版本，发布作业缺私钥即失败。轮换见 ADR-0137。
+#: 本 fork 留空（ADR-0202 第六条）：上游 0.60.0 起写入的是上游的公钥，fork 没有对应私钥，
+#: 留着它 fork 自己的 Release 永远验不过、发布作业也会因缺私钥失败。fork 启用签名要写入自己的公钥。
 PUBLIC_KEYS: tuple[str, ...] = ()
 SUMS = "SHA256SUMS.txt"
 SIGNATURE = SUMS + ".sig"

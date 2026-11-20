@@ -313,6 +313,24 @@ class NotesTests(unittest.TestCase):
                 if saved is not None:
                     scripts.build_zh_tw_locales = saved
 
+    def test_the_upgrade_notice_features_lead_each_language_as_highlights(self):
+        """这一版公告的 features 写成重点，放在开头说明段之后，带 refs 的附编号；没有公告的版本不加。"""
+        notice = {"0.27.1": {"level": "notice", "features": [{"id": "subtitles", "refs": ["#9", "owner/other#3"]},
+                                                               {"id": "faster"}]}}
+        def text(key, language):
+            return f"{language} {key.rsplit('.', 2)[-2]} {key.rsplit('.', 1)[-1]}"
+        with mock.patch.dict(changelog.release_notices.NOTICES, notice, clear=True), \
+                mock.patch.object(changelog.interface_text, "text", side_effect=text):
+            body = changelog.notes(DOCUMENT, "0.27.1")
+        self.assertIn("> Fourth pre-release.\n\n### Highlights\n\n"
+                      "- **en subtitles title**: en subtitles body (#9, owner/other#3).\n"
+                      "- **en faster title**: en faster body.\n\n<details>", body)
+        self.assertIn("> 第四个预发布。\n\n### 重点\n\n"
+                      "- **zh-CN subtitles title**：zh-CN subtitles body（#9、owner/other#3）。\n"
+                      "- **zh-CN faster title**：zh-CN faster body。\n\n</details>", body)
+        with mock.patch.dict(changelog.release_notices.NOTICES, {}, clear=True):
+            self.assertNotIn("###", changelog.notes(DOCUMENT, "0.27.1"))
+
     def test_groups_and_entries_split_at_the_first_separator(self):
         """分组标题、条目、说明段都按第一个 ` / ` 拆开；中文里的全角斜杠留在中文那边。"""
         english, chinese = changelog.bilingual(

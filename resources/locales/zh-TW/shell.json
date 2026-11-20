@@ -1,4 +1,8 @@
 {
+  "holdToConfirm": {
+    "label": "按住{{action}}",
+    "instruction": "按住滑鼠、空白鍵或 Enter 鍵 2 秒確認，提前鬆開取消。"
+  },
   "accessSetup": {
     "enterWithoutPassword": "免登入進入",
     "lanPasswordHint": "區域網路存取建議設定密碼，否則同一網路中的裝置可直接進入。",
@@ -42,9 +46,12 @@
   },
   "batchCatalog": {
     "addToWatchLater": "加入稍後看",
-    "confirmBody": "將處理選取的 {{count, number}} 項。",
-    "confirmDelete": "將處理選取的 {{count, number}} 項。檔案和館藏紀錄會永久刪除，無法復原。",
-    "confirmDispose": "將處理選取的 {{count, number}} 項。館藏紀錄可在資源回收筒還原。",
+    "confirmDelete": "將永久刪除選取的 {{count, number}} 項檔案和館藏紀錄。",
+    "confirmDispose": "將選取的 {{count, number}} 項移至資源回收筒，檔案保留在原處。",
+    "confirmLater": "將選取的 {{count, number}} 項加入稍後看。",
+    "confirmLike": "將選取的 {{count, number}} 項標為喜歡，已寫的喜歡理由保留。",
+    "confirmRestore": "將選取的 {{count, number}} 項從資源回收筒還原到館藏。",
+    "confirmSeen": "將選取的 {{count, number}} 項標為看過。",
     "deleteSelected": "永久刪除所選項目",
     "doneDelete": "已徹底刪除 {{count, number}} 項",
     "doneDispose": "已移至資源回收筒 {{count, number}} 項",
@@ -57,20 +64,28 @@
     "restoreSelected": "還原所選項目"
   },
   "batchFollow": {
-    "confirmBody": "將處理選取的 {{count, number}} 項追蹤作品。",
+    "confirmIgnore": "將忽略選取的 {{count, number}} 項追蹤作品，已加入想要但未入庫的會移出想要。",
+    "confirmSave": "將選取的 {{count, number}} 項追蹤作品儲存到資料庫。",
+    "confirmSeen": "將選取的 {{count, number}} 項追蹤作品標為已看。",
     "doneIgnored": "已忽略 {{count, number}} 項",
     "doneSave": "已儲存到資料庫 {{count, number}} 項",
     "doneSeen": "已標為已看 {{count, number}} 項",
+    "ignoreRecovery": "完成後可復原，移出的想要不會加回。",
     "ignoreSelected": "忽略所選作品",
     "saveSelected": "儲存所選作品"
   },
   "batchJunk": {
-    "confirmBody": "將處理選取的 {{count, number}} 個檔案。",
+    "confirmDispose": "將選取的 {{count, number}} 個檔案移至資源回收筒，檔案保留在原處。",
+    "confirmDisposeAll": "將這一類待判斷的 {{count, number}} 個檔案全部移至資源回收筒，檔案保留在原處。",
+    "confirmNotJunk": "將選取的 {{count, number}} 個檔案標為不是垃圾，移出待判斷。",
+    "confirmRecheck": "將選取的 {{count, number}} 個檔案放回待判斷。",
     "dismissed": "已標記為不是垃圾",
+    "disposeAll": "全部移至資源回收筒",
     "doneDispose": "已批次移至資源回收筒：{{count, number}} 項",
     "doneNotJunk": "已批次標為不是垃圾：{{count, number}} 項",
     "doneRecheck": "已批次重新判斷：{{count, number}} 項",
     "markNotJunk": "標記為非垃圾",
+    "queueChanged": "待判斷的檔案剛有變化，已重新讀取，請再確認一次。",
     "recheckFiles": "重新檢查檔案",
     "reconsidered": "已重新加入垃圾判斷"
   },
@@ -150,6 +165,7 @@
   "dataTable": {
     "bulkActions": "{{label}}批次操作",
     "clearSelection": "取消選擇",
+    "contextActions": "快捷操作",
     "empty": "沒有紀錄",
     "recordUnit": "筆紀錄",
     "selectAll": "全選{{label}}",
@@ -159,14 +175,14 @@
     "spacerColumn": "列的空白區域",
     "toolbar": "{{label}}工具列"
   },
+  "detailFailure": {
+    "title": "詳情未取得"
+  },
   "detailTags": {
     "hideTag": "從此內容隱藏該標籤",
     "moreCount": "還有 {{count, number}} 個",
     "optionsLoadFailed": "無法讀取標籤候選",
-    "removeTagNamed": "刪除標籤 {{tag}}",
-    "renameTag": "修改標籤名稱",
-    "renameTagNamed": "修改標籤 {{tag}}",
-    "tagChanged": "標籤已變化，請重新開啟詳情"
+    "removeTagNamed": "刪除標籤 {{tag}}"
   },
   "documentTitle": {
     "fallback": "Peach · 蜜桃"
@@ -190,6 +206,18 @@
     "removeAction": "移除別名",
     "removeNamed": "移除別名 {{alias}}",
     "removed": "已移除別名 {{alias}}"
+  },
+  "entityMerge": {
+    "title": "合併重複個人檔案",
+    "menu": "合併重複個人檔案…",
+    "bodyTaken": "「{{alias}}」已是另一份個人檔案的名字。合併後保留「{{keep}}」（{{keepWorks}} 部作品），併入「{{absorb}}」（{{absorbWorks}} 部作品）的作品與別名；不能復原，合併前會備份帳本。",
+    "bodyShared": "已新增別名「{{alias}}」，它也是「{{other}}」的別名。兩份如果重複，合併後保留「{{keep}}」（{{keepWorks}} 部作品），併入「{{absorb}}」（{{absorbWorks}} 部作品）；不能復原，合併前會備份帳本。",
+    "summary": "合併後保留「{{keep}}」（{{keepWorks}} 部作品），併入「{{absorb}}」（{{absorbWorks}} 部作品）的作品與別名；不能復原，合併前會備份帳本。",
+    "pickLabel": "另一份個人檔案",
+    "pickPlaceholder": "搜尋名字或別名",
+    "pickFirst": "先選要合併的另一份個人檔案",
+    "confirm": "合併",
+    "done": "已把「{{source}}」合併到「{{target}}」"
   },
   "entityMissing": {
     "agency": "找不到這個事務所",
@@ -376,6 +404,7 @@
   },
   "networkBanner": {
     "checkProxy": "檢查 Peach 代理",
+    "dismiss": "關閉",
     "offline": "Peach 連不上外網，資料抓取、追蹤更新和線上來源暫不可用；本機媒體照常使用。"
   },
   "objectOrder": {
@@ -680,7 +709,19 @@
   },
   "sourceLink": {
     "blog": "部落格",
-    "officialSite": "官方網站"
+    "catalogList": "{{name}} 作品清單",
+    "catalogPage": "{{name}} 作品頁",
+    "fanCommunity": "粉絲社群 {{name}}",
+    "labelPage": "{{name}} 廠牌頁",
+    "linkHub": "連結集（{{name}}）",
+    "namedBlog": "部落格 {{name}}",
+    "officialArchive": "官網存檔（{{name}}）",
+    "officialBlog": "官方部落格",
+    "officialChannel": "官方頻道頁",
+    "officialShop": "官方商店",
+    "officialSite": "官方網站",
+    "recruiting": "{{name}}（招募）",
+    "seriesPage": "{{name}} 系列頁"
   },
   "sourcePicture": {
     "coverAlt": "{{code}} 封面",
@@ -773,7 +814,7 @@
   "trash": {
     "blockedItem": "{{path}}（{{reason}}）",
     "empty": "清空資源回收筒",
-    "emptyConfirm": "資源回收筒裡的檔案和館藏紀錄將永久刪除，無法復原。",
+    "emptyConfirm": "資源回收筒裡 {{count, number}} 項的檔案和館藏紀錄將永久刪除。",
     "emptyHint": "刪掉的內容會先放在這裡，清空後才真正刪除。",
     "emptyTitle": "資源回收筒是空的",
     "movedToTrash": "已移至資源回收筒",
@@ -824,5 +865,9 @@
     "locationField": "伺服器端檔案位置",
     "mediaRoot": "媒體目錄",
     "relativePath": "目錄內位置"
+  },
+  "bulkAction": {
+    "canUndo": "完成後可在回執裡復原。",
+    "cannotUndo": "不能復原。"
   }
 }

@@ -200,15 +200,43 @@
     "source": "文件位于运行 Peach 的服务器上，可以复制路径后在服务器中查找。"
   },
   "batchCatalog.confirmDelete": {
-    "text": "將處理選取的 {{count, number}} 項。檔案和館藏紀錄會永久刪除，無法復原。",
-    "source": "将处理选中的 {{count, number}} 项。文件和馆藏记录会永久删除，无法恢复。"
+    "text": "將永久刪除選取的 {{count, number}} 項檔案和館藏紀錄。",
+    "source": "将永久删除选中 {{count, number}} 项的文件和馆藏记录。"
   },
   "trash.emptyConfirm": {
-    "text": "資源回收筒裡的檔案和館藏紀錄將永久刪除，無法復原。",
-    "source": "回收站里的文件和馆藏记录将永久删除，无法恢复。"
+    "text": "資源回收筒裡 {{count, number}} 項的檔案和館藏紀錄將永久刪除。",
+    "source": "回收站里 {{count, number}} 项的文件和馆藏记录将永久删除。"
   },
   "shared.back": {
     "text": "返回",
     "source": "返回"
+  },
+  "entityMerge.title": {
+    "text": "合併重複個人檔案",
+    "source": "合并重复档案"
+  },
+  "entityMerge.menu": {
+    "text": "合併重複個人檔案…",
+    "source": "合并重复档案…"
+  },
+  "entityMerge.bodyTaken": {
+    "text": "「{{alias}}」已是另一份個人檔案的名字。合併後保留「{{keep}}」（{{keepWorks}} 部作品），併入「{{absorb}}」（{{absorbWorks}} 部作品）的作品與別名；不能復原，合併前會備份帳本。",
+    "source": "「{{alias}}」已是另一份档案的名字。合并后保留「{{keep}}」（{{keepWorks}} 部作品），并入「{{absorb}}」（{{absorbWorks}} 部作品）的作品与别名；不能撤销，合并前会备份账本。"
+  },
+  "entityMerge.bodyShared": {
+    "text": "已新增別名「{{alias}}」，它也是「{{other}}」的別名。兩份如果重複，合併後保留「{{keep}}」（{{keepWorks}} 部作品），併入「{{absorb}}」（{{absorbWorks}} 部作品）；不能復原，合併前會備份帳本。",
+    "source": "已添加别名「{{alias}}」，它也是「{{other}}」的别名。两份如果重复，合并后保留「{{keep}}」（{{keepWorks}} 部作品），并入「{{absorb}}」（{{absorbWorks}} 部作品）；不能撤销，合并前会备份账本。"
+  },
+  "entityMerge.pickLabel": {
+    "text": "另一份個人檔案",
+    "source": "另一份档案"
+  },
+  "entityMerge.pickFirst": {
+    "text": "先選要合併的另一份個人檔案",
+    "source": "先选要合并的另一份档案"
+  },
+  "holdToConfirm.instruction": {
+    "text": "按住滑鼠、空白鍵或 Enter 鍵 2 秒確認，提前鬆開取消。",
+    "source": "按住鼠标、空格键或回车键 2 秒确认，提前松开取消。"
   }
 }
