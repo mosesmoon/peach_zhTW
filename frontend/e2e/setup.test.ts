@@ -73,7 +73,15 @@ describe('首次运行页', { skip: origin && media && dataRoot ? false : '只�
       const paints = await page.locator('[data-library-colors] [data-accent-ball]').evaluateAll(elements =>
         elements.map(element => getComputedStyle(element).backgroundImage));
       assert.equal(new Set(paints).size, 12, '来源色板显示十二种独立颜色');
+      // 等面板入场过渡走完再关：React Aria 的退场只等关闭那一刻还在跑的动画，入场过渡被退场样式
+      // 顶替而取消时，`finished` 被拒绝并被吞掉，面板会以 data-exiting 卡在 DOM 里，之后窄屏下判成越界。
+      await page.locator('[data-library-colors]').evaluate(grid => new Promise<void>(resolve => {
+        const popover = grid.closest('[data-rac][data-placement]')!;
+        const settle = () => popover.getAnimations().length ? requestAnimationFrame(settle) : resolve();
+        requestAnimationFrame(settle);
+      }));
       await page.keyboard.press('Escape');
+      await page.locator('[data-library-colors]').waitFor({ state: 'detached' });
       assert.equal(await page.getByRole('textbox', { name: '数据库中的路径前缀' }).count(), 0,
         '普通首次设置不需要填写内部路径');
       await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'), undefined, { timeout: 15_000 });
