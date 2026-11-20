@@ -102,6 +102,9 @@ class ElfReport:
             self.glibcxx = max(self.glibcxx, int(match.group(1)))
 
 
+SEED_PACKS = ("resources/seed/entities.json", "resources/seed/metadata.json")
+
+
 def normalize(name: str) -> str:
     return re.sub(r"[-_.]+", "-", name).lower()
 
@@ -493,14 +496,22 @@ def _verify_info_fields(fields: dict) -> list[str]:
     return problems
 
 
+def _verify_seed_packs(names: set[str]) -> list[str]:
+    """The public seed packs the installed app reads from its bundled resources."""
+    found = {n.split("/_resources/", 1)[1] for n in names if "/peach/_resources/" in n}
+    return [f"missing seed pack {pack}" for pack in SEED_PACKS if pack not in found]
+
+
 def _verify_payload(data: bytes, facts: dict, personal: tuple[str, ...]) -> list[str]:
     problems: list[str] = []
     elf = ElfReport()
     total = 0
     tops: set[str] = set()
+    names: set[str] = set()
     with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as inner:
         for member in inner:
             name = member.name
+            names.add(name)
             if member.uid or member.gid:
                 problems.append(f"owner is not 0:0 for {name}")
             if name.startswith("/") or ".." in name.split("/"):
@@ -526,6 +537,7 @@ def _verify_payload(data: bytes, facts: dict, personal: tuple[str, ...]) -> list
             if name.startswith("bin/") and not member.mode & 0o100:
                 problems.append(f"{name} is not executable")
     problems += [f"ELF is not x86-64: {n}" for n in elf.wrong_machine]
+    problems += _verify_seed_packs(names)
     facts.update(elf_files=elf.count, glibc=elf.glibc, glibcxx=elf.glibcxx, size=total,
                  top_packages=sorted(t for t in tops if not t.endswith((".dist-info", ".libs")) and t != "__pycache__"))
     return problems

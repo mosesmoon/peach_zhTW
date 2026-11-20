@@ -141,7 +141,8 @@ class PackagingTests(unittest.TestCase):
             (root / directory).mkdir(parents=True)
         (root / "web" / "index.html").write_text("<html></html>", encoding="utf-8")
         (root / "migrations" / "001.sql").write_text("select 1;", encoding="utf-8")
-        (root / "resources" / "seed" / "entities.json").write_text("{}", encoding="utf-8")
+        for pack in ("entities.json", "metadata.json"):
+            (root / "resources" / "seed" / pack).write_text("{}", encoding="utf-8")
         for name in ("bridge.py", "pyproject.toml", "uv.lock"):
             (root / "tools" / "amane-bridge" / name).write_text("x", encoding="utf-8")
         (root / "LICENSE").write_text("license text", encoding="utf-8")
@@ -163,6 +164,8 @@ class PackagingTests(unittest.TestCase):
         self.assertIn(f"{site}/peach/__init__.py", members)
         self.assertIn(f"{site}/peach/_resources/web/index.html", members)
         self.assertIn(f"{site}/peach/_resources/migrations/001.sql", members)
+        self.assertIn(f"{site}/peach/_resources/resources/seed/entities.json", members)
+        self.assertIn(f"{site}/peach/_resources/resources/seed/metadata.json", members)
         self.assertIn(f"{site}/peach/_resources/tools/amane-bridge/bridge.py", members)
         self.assertEqual(members["bin/provision.py"].mode, 0o755)
         self.assertIn("ui/config", members)
@@ -220,6 +223,13 @@ class PackagingTests(unittest.TestCase):
                 target.addfile(member, data)
         problems, _facts = self.builder.verify_spk(broken)
         self.assertIn("missing scripts/postinst", problems)
+
+    def test_verification_flags_a_missing_seed_pack(self):
+        names = set(self.payload())
+        self.assertEqual(self.builder._verify_seed_packs(names), [])
+        names.discard("python/lib/python3.14/site-packages/peach/_resources/resources/seed/metadata.json")
+        self.assertEqual(self.builder._verify_seed_packs(names),
+                         ["missing seed pack resources/seed/metadata.json"])
 
     def test_crlf_skeleton_files_are_rejected(self):
         crlf = self.work / "crlf"
