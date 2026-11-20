@@ -398,8 +398,8 @@
     "menuLabel": "{{group}}排序設定",
     "moveDown": "下移 {{name}}",
     "moveUp": "上移 {{name}}",
-    "resetDone": "已恢復本組預設順序",
-    "resetGroup": "恢復本組預設順序",
+    "resetDone": "已還原本組預設順序",
+    "resetGroup": "還原本組預設順序",
     "syncFailed": "順序已儲存到本機，同步失敗。{{error}}"
   },
   "networkBanner": {
@@ -867,7 +867,7 @@
     "relativePath": "目錄內位置"
   },
   "bulkAction": {
-    "canUndo": "完成後可在回執裡復原。",
+    "canUndo": "完成後可在操作紀錄裡復原。",
     "cannotUndo": "不能復原。"
   }
 }

@@ -872,9 +872,9 @@
     "homePreviewOnly": "首頁只顯示有預覽圖的作品",
     "homeShorts": "首頁直向短片帶",
     "homeTiers": "首頁顯示女優與廠牌頭像",
-    "hoverDelay": "滑鼠停留預覽延遲",
+    "hoverDelay": "游標停留預覽延遲",
     "hoverDelaySfw": "SFW 模式下不預覽。",
-    "hoverPreview": "卡片懸停時播放影片預覽",
+    "hoverPreview": "游標停留在卡片上時播放影片預覽",
     "increaseContrast": "增加對比度",
     "ingestNotices": "入庫通知",
     "interfaceSounds": "介面音效",
@@ -896,7 +896,7 @@
     "seekStepInput": "快轉 / 倒轉",
     "settingsServerOnly": "請在執行 Peach 的裝置上開啟 Peach 組態",
     "sfwMode": "SFW 模式",
-    "sfwModeHelp": "隱藏敏感畫面，停止滑鼠停留預覽。",
+    "sfwModeHelp": "隱藏敏感畫面，停止游標停留預覽。",
     "sidebarGlow": "側欄光暈",
     "tasteAndHistory": "口味與紀錄",
     "theme": "主題",
@@ -998,7 +998,7 @@
     },
     "deferred": "已延後",
     "deferredNote": "延後 {{count, number}} 部：{{reason}}",
-    "deleteBody": "將刪除 {{amount}}，刪除後不能恢復。每個追蹤來源最近 3 份快照和項目引用的快照會保留。",
+    "deleteBody": "將刪除 {{amount}}，刪除後無法還原。每個追蹤來源最近 3 份快照和項目引用的快照會保留。",
     "deleteSnapshots": "刪除快照",
     "deleteTitle": "刪除{{title}}",
     "empty": "沒有要修復或遷移的內容。",
@@ -1033,7 +1033,7 @@
     "startGroup": "開始這一組",
     "startGroupTitle": "開始「{{group}}」裡等確認的修復",
     "startManyBody": "依次開始。會更改帳本的項目先備份帳本，可從帳本備份還原。",
-    "startManyBodyDelete": "依次開始。會更改帳本的項目先備份帳本，可從帳本備份還原；刪除的快照不能恢復。",
+    "startManyBodyDelete": "依次開始。會更改帳本的項目先備份帳本，可從帳本備份還原；刪除的快照不能還原。",
     "startManyItem": "{{title}}：{{amount}}",
     "waitingCount_one": "{{count, number}} 項修復等你確認",
     "waitingCount_other": "{{count, number}} 項修復等你確認"
@@ -1144,7 +1144,7 @@
     "moveItemUp": "上移 {{label}}",
     "moveUp": "上移",
     "pickPage": "選擇要新增的頁面",
-    "reset": "恢復側欄預設順序"
+    "reset": "還原側欄預設順序"
   },
   "signedInDevices": {
     "passwordChangeNotice": "修改存取密碼會讓全部裝置登出。",

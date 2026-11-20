@@ -48,7 +48,7 @@
     "source": "媒体未取回，多半是站点限流，过一阵再打开。"
   },
   "followFeed.imageLayout": {
-    "text": "圖片版面",
+    "text": "圖片版型",
     "source": "图片布局"
   },
   "followFeed.removeFilterChip": {
@@ -72,7 +72,7 @@
     "source": "检查失败项"
   },
   "sourceList.layout": {
-    "text": "追蹤清單版面",
+    "text": "追蹤清單版型",
     "source": "关注列表版式"
   }
 }

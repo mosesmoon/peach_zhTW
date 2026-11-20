@@ -111,7 +111,7 @@
     "glowIntensityTitle": "強度",
     "glowPresetsBody": "一次套用一組配色和參數，適合先挑選整體外觀。",
     "glowPresetsTitle": "配色預設",
-    "glowResetBody": "將光暈配色和參數恢復為預設設定。",
+    "glowResetBody": "將光暈配色和參數還原為預設值。",
     "glowSizeBody": "控制光暈覆蓋的面積。",
     "glowSoftnessBody": "控制光暈邊緣的柔和程度。",
     "glowSoftnessTitle": "柔化",
@@ -137,7 +137,7 @@
     "title": "認識介面"
   },
   "guideContent": {
-    "sfwBody": "隱藏敏感畫面並停止懸停預覽，適合需要遮擋畫面的環境。存取控制請另設存取密碼。",
+    "sfwBody": "隱藏敏感畫面並停止游標停留預覽，適合需要遮擋畫面的環境。存取控制請另設存取密碼。",
     "sfwTitle": "SFW 模式",
     "summary": "SFW 模式與畫面顯示。"
   },
@@ -151,7 +151,7 @@
     "tunnelTitle": "需要時啟用外部網路入口"
   },
   "guideDiagnostics": {
-    "attentionBody": "從需要留意的項目進入原因與復原入口；沒有異常時檢視館藏健康狀態。",
+    "attentionBody": "從需要留意的項目進入原因與恢復入口；沒有異常時檢視館藏健康狀態。",
     "attentionTitle": "需要留意的檢查項目",
     "reportBody": "處理原因後可以重新檢查。需要提供疑難排解資料時，請自行按一下下載診斷報告。",
     "reportTitle": "重新檢查與診斷報告",
@@ -435,8 +435,8 @@
     "autoplayTitle": "開啟詳情自動播放",
     "batchBody": "決定清單一次載入多少項。清單較慢時可調小。",
     "batchTitle": "每批作品",
-    "hoverBody": "滑鼠停留多久後開始預覽，單位為秒。容易誤觸時增加延遲。",
-    "hoverTitle": "懸停預覽延遲",
+    "hoverBody": "游標停留多久後開始預覽，單位為秒。容易誤觸時增加延遲。",
+    "hoverTitle": "游標停留預覽延遲",
     "miniplayerBody": "離開詳情時用小窗繼續觀看；需要專注瀏覽時關閉。",
     "miniplayerTitle": "離開詳情後小窗播放",
     "seekBody": "設定每次跳轉的秒數，按自己的觀看習慣調整。",
@@ -445,7 +445,7 @@
     "sizeTitle": "影片卡片大小",
     "sortBody": "決定進入清單時先看什麼；隨機排序不區分升遞減。",
     "sortTitle": "預設排序與方向",
-    "summary": "清單呈現、懸停預覽與播放行為。",
+    "summary": "清單呈現、游標停留預覽與播放行為。",
     "versionsBody": "將同一作品的分卷和版本集中顯示；播放時在詳情選擇。",
     "versionsTitle": "合併分卷與版本"
   },

@@ -148,8 +148,12 @@
     "source": "打开详情自动播放"
   },
   "preferencesPanel.hoverDelay": {
-    "text": "滑鼠停留預覽延遲",
+    "text": "游標停留預覽延遲",
     "source": "悬停预览延迟"
+  },
+  "preferencesPanel.hoverPreview": {
+    "text": "游標停留在卡片上時播放影片預覽",
+    "source": "卡片悬停时播放视频预览"
   },
   "preferencesPanel.miniPlayer": {
     "text": "離開詳細頁後以小視窗播放",
@@ -164,7 +168,7 @@
     "source": "快进 / 快退"
   },
   "preferencesPanel.sfwModeHelp": {
-    "text": "隱藏敏感畫面，停止滑鼠停留預覽。",
+    "text": "隱藏敏感畫面，停止游標停留預覽。",
     "source": "隐藏敏感画面，停止悬停预览。"
   },
   "pushDiscovery.needsLanUrl": {
@@ -215,6 +219,10 @@
     "text": "Cloudflare Zero Trust 裡指向執行 Peach 的電腦的主機名稱。",
     "source": "Cloudflare Zero Trust 里指向运行 Peach 的电脑的主机名。"
   },
+  "repairCenter.deleteBody": {
+    "text": "將刪除 {{amount}}，刪除後無法還原。每個追蹤來源最近 3 份快照和項目引用的快照會保留。",
+    "source": "将删除 {{amount}}，删除后不能恢复。每个关注来源最近 3 份快照和条目引用的快照会保留。"
+  },
   "shared.apply": {
     "text": "套用",
     "source": "应用"
@@ -222,6 +230,10 @@
   "shared.duration": {
     "text": "片長",
     "source": "时长"
+  },
+  "sidebarOrder.reset": {
+    "text": "還原側欄預設順序",
+    "source": "恢复侧栏默认顺序"
   },
   "signedInDevices.passwordChangeNotice": {
     "text": "修改存取密碼會讓全部裝置登出。",
@@ -312,7 +324,7 @@
     "source": "依次开始。改账本的项先备份账本，可从账本备份恢复。"
   },
   "repairCenter.startManyBodyDelete": {
-    "text": "依次開始。會更改帳本的項目先備份帳本，可從帳本備份還原；刪除的快照不能恢復。",
+    "text": "依次開始。會更改帳本的項目先備份帳本，可從帳本備份還原；刪除的快照不能還原。",
     "source": "依次开始。改账本的项先备份账本，可从账本备份恢复；删除的快照不能恢复。"
   },
   "cloudDownload.resetEditionPreferences": {

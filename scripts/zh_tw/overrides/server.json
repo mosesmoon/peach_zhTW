@@ -11,6 +11,10 @@
     "text": "模特兒",
     "source": "模特"
   },
+  "javBrowser.paused.quota.hint": {
+    "text": "額度重設後自動繼續",
+    "source": "额度恢复后自动继续"
+  },
   "javBrowser.paused.storage.hint": {
     "text": "擴充空間或清理後自動繼續",
     "source": "扩容或清理后自动继续"
@@ -579,6 +583,10 @@
     "text": "資產已被改過：預期 revision {{expected}}，資料庫現值 {{current}}",
     "source": "资产已被改过：期望 revision {{expected}}，数据库现值 {{current}}"
   },
+  "errors.itemCover.nothingToRestore": {
+    "text": "這部片用的不是換上的封面，沒有可還原的",
+    "source": "这部片用的不是换上的封面，没有可恢复的"
+  },
   "errors.javBrowser.manualRejectsSource": {
     "text": "手動新增不接受來源網頁網址",
     "source": "手动添加不接受来源网页地址"
@@ -622,6 +630,10 @@
   "errors.standaloneUpdate.expandedTooLarge": {
     "text": "更新包解壓縮後體積超限",
     "source": "更新包展开体积超限"
+  },
+  "errors.standaloneUpdate.recoveryPathOutside": {
+    "text": "任務復原路徑越界",
+    "source": "任务恢复路径越界"
   },
   "errors.standaloneUpdate.signatureFailed": {
     "text": "發布簽章驗證未通過，已停止更新；請到發布頁手動下載新版本",
@@ -943,6 +955,18 @@
     "text": "人臉比對模型驗證不符：預期 {{expected}}，實際 {{actual}}",
     "source": "人脸比对模型校验不符：期望 {{expected}}，实际 {{actual}}"
   },
+  "errors.webLibraryProcessing.recoveryFailed": {
+    "text": "任務未能自動繼續：{{reason}}",
+    "source": "任务未能自动恢复：{{reason}}"
+  },
+  "errors.webLibraryProcessing.recoveryFailedRestart": {
+    "text": "任務未能自動繼續：請重新發起任務",
+    "source": "任务未能自动恢复：请重新发起任务"
+  },
+  "errors.jobRecovery.unreadable": {
+    "text": "任務復原紀錄無法讀取，請重新發起任務。",
+    "source": "任务恢复记录无法读取，请重新发起任务。"
+  },
   "jobMessage.tasteHistory.readingProfile": {
     "text": "讀取瀏覽紀錄：第 {{index}} / {{total}} 個瀏覽器設定檔，已讀取 {{count}} 筆",
     "source": "读取浏览记录：第 {{index}} / {{total}} 个浏览器资料，已读取 {{count}} 条"
@@ -1046,6 +1070,10 @@
   "labels.webScraping.diagnosticProbeFailed": {
     "text": "圖片標頭請求失敗 {{count}} 張",
     "source": "图片头请求失败 {{count}} 张"
+  },
+  "labels.webScraping.keptUserCover": {
+    "text": "這部片用的是你換上的封面，沒有連網替換。要換回擷取封面，在編輯資料裡還原。",
+    "source": "这部片用的是你换上的封面，没有联网替换。要换回刮削封面，在编辑资料里恢复。"
   },
   "labels.webScraping.reusedCover": {
     "text": "重複使用 24 小時內經核心驗證過的本機封面（{{width}} × {{height}}），沒有再向來源請求。",
@@ -1416,11 +1444,11 @@
     "source": "项目 venv 与 uv.lock 不一致，要装 {{count}} 个包：{{packages}}等"
   },
   "tray.prepare.synced": {
-    "text": "已依 uv.lock 同步依賴（{{check}}，用時 {{seconds}} 秒）",
+    "text": "已依 uv.lock 同步相依套件（{{check}}，用時 {{seconds}} 秒）",
     "source": "已按 uv.lock 同步依赖（{{check}}，用时 {{seconds}} 秒）"
   },
   "tray.prepare.staleHint": {
-    "text": "{{message}}；按一下系統匣「重新啟動服務」會整體重新啟動系統匣並同步依賴",
+    "text": "{{message}}；按一下系統匣「重新啟動服務」會整體重新啟動系統匣並同步相依套件",
     "source": "{{message}}；点托盘「重启服务」会整体重启托盘并同步依赖"
   },
   "tray.restart.newTrayExited": {

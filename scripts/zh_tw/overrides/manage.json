@@ -103,6 +103,22 @@
     "text": "{{count, number}} 部作品還沒有可用預覽；批准後仍會按所選資料寫入標籤。",
     "source": "{{count, number}} 条作品还没有可用预览；批准后仍会按所选资料写入标签。"
   },
+  "reviewDecision.moveToPending": {
+    "text": "移回待處理",
+    "source": "恢复待处理"
+  },
+  "reviewPage.ignoredKeptHint": {
+    "text": "已忽略的資料會保留在這裡，可移回待處理。",
+    "source": "已忽略的资料会保留在这里，可恢复到待处理。"
+  },
+  "reviewPage.laterKeptHint": {
+    "text": "稍後處理的資料會保留在這裡，可移回待處理。",
+    "source": "稍后处理的资料会保留在这里，可恢复到待处理。"
+  },
+  "reviewPage.pendingCount": {
+    "text": "已移回待處理 {{count, number}} 項",
+    "source": "已恢复待处理 {{count, number}} 项"
+  },
   "reviewPage.sourceChosen": {
     "text": "已選擇 {{source}}，按一下「通過所選」即可採用。",
     "source": "已选择 {{source}}，点击通过所选采用。"
@@ -111,9 +127,17 @@
     "text": "寫入端暫時無法連線，顯示 {{time}} 的快取",
     "source": "写入端暂时不可达，显示 {{time}} 的缓存"
   },
+  "reviewQueue.receiptPending": {
+    "text": "已移回待處理",
+    "source": "已恢复待处理"
+  },
   "reviewQueue.videoEndcards": {
     "text": "片尾／出處證據",
     "source": "片尾/出处证据"
+  },
+  "reviewToolbar.restoreSelected": {
+    "text": "將所選移回待處理",
+    "source": "恢复所选"
   },
   "scanFetch.archivedBody": {
     "text": "已封存上一輪的問題提示，完整紀錄仍保留。",

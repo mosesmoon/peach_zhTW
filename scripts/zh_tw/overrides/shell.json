@@ -183,6 +183,14 @@
     "text": "其他檔案",
     "source": "其它文件"
   },
+  "navigationOrder.resetDone": {
+    "text": "已還原本組預設順序",
+    "source": "已恢复本组默认顺序"
+  },
+  "navigationOrder.resetGroup": {
+    "text": "還原本組預設順序",
+    "source": "恢复本组默认顺序"
+  },
   "serverPath.dataContainer": {
     "text": "容器資料位置由主機的資料磁碟區掛載決定，請在 NAS 容器管理器中設定。",
     "source": "容器数据位置由宿主机的数据卷挂载决定，请在 NAS 容器管理器中配置。"

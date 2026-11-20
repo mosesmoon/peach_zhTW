@@ -497,7 +497,7 @@
   "reviewDecision": {
     "approve": "通過",
     "later": "稍後處理",
-    "moveToPending": "恢復待處理"
+    "moveToPending": "移回待處理"
   },
   "reviewEvidence": {
     "assetSelected": "已選 {{name}}",
@@ -535,12 +535,12 @@
     "footerLabel": "複核",
     "goToPrimary": "前往寫入端複核",
     "ignoredCount": "已忽略 {{count, number}} 項",
-    "ignoredKeptHint": "已忽略的資料會保留在這裡，可恢復到待處理。",
+    "ignoredKeptHint": "已忽略的資料會保留在這裡，可移回待處理。",
     "itemNotAccepted": "伺服器端未採用該項",
     "laterCount": "已移至稍後處理 {{count, number}} 項",
-    "laterKeptHint": "稍後處理的資料會保留在這裡，可恢復到待處理。",
+    "laterKeptHint": "稍後處理的資料會保留在這裡，可移回待處理。",
     "notCompletedSuffix": "，{{count, number}} 項未完成",
-    "pendingCount": "已恢復待處理 {{count, number}} 項",
+    "pendingCount": "已移回待處理 {{count, number}} 項",
     "processingProgress": "正在處理 {{current}} / {{total}}",
     "queueLoadFailed": "複核佇列讀取失敗",
     "readOnly": "本機只能瀏覽",
@@ -578,7 +578,7 @@
     "receiptApproved": "已通過資料",
     "receiptIgnored": "已忽略資料",
     "receiptLater": "已移至稍後處理",
-    "receiptPending": "已恢復待處理",
+    "receiptPending": "已移回待處理",
     "singleSource": "單一來源",
     "studioLogos": "廠牌 Logo",
     "unspecifiedField": "未標註欄位",
@@ -604,7 +604,7 @@
     "laterSelected": "稍後處理所選",
     "noCommonSource": "所選項目無共同來源",
     "processingStatus": "處理狀態",
-    "restoreSelected": "恢復所選",
+    "restoreSelected": "將所選移回待處理",
     "reviewStatus": "複核狀態",
     "selectAll": "全選全部 {{count, number}} 項",
     "selectGroup": "全選目前分類",

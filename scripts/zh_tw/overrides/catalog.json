@@ -75,9 +75,21 @@
     "text": "在檔案管理員裡開啟來源檔案所在目錄",
     "source": "在文件管理器里打开源文件所在目录"
   },
+  "itemEdit.coverRestore": {
+    "text": "還原擷取封面",
+    "source": "恢复刮削封面"
+  },
+  "itemEdit.restore": {
+    "text": "還原",
+    "source": "恢复"
+  },
   "entityFacts.operator": {
     "text": "營運公司",
     "source": "运营公司"
+  },
+  "entityFilter.imageLayout": {
+    "text": "圖片版型",
+    "source": "图片布局"
   },
   "entityFilter.removeChip": {
     "text": "移除 {{label}}",
@@ -262,6 +274,10 @@
   "stagePlayer.seekForward": {
     "text": "快轉 {{count, number}} 秒",
     "source": "前进 {{count, number}} 秒"
+  },
+  "subtitleMemory.restoreFailed": {
+    "text": "字幕未還原：{{name}}",
+    "source": "字幕未恢复：{{name}}"
   },
   "subtitleStyle.fontSize": {
     "text": "字型大小",

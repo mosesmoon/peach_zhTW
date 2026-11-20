@@ -23,12 +23,16 @@
     "text": "一次套用一組配色和參數，適合先挑選整體外觀。",
     "source": "一次应用一组配色和参数，适合先挑选整体外观。"
   },
+  "guideAppearance.glowResetBody": {
+    "text": "將光暈配色和參數還原為預設值。",
+    "source": "将光晕配色和参数恢复为默认设置。"
+  },
   "guideAppearance.soundsBody": {
     "text": "控制介面操作的回饋音效，依使用環境選擇。",
     "source": "控制界面操作反馈音，按自己的使用环境选择。"
   },
   "guideDiagnostics.attentionBody": {
-    "text": "從需要留意的項目進入原因與復原入口；沒有異常時檢視館藏健康狀態。",
+    "text": "從需要留意的項目進入原因與恢復入口；沒有異常時檢視館藏健康狀態。",
     "source": "从需要关注的项目进入原因与恢复入口；没有异常时查看库健康。"
   },
   "guideDiagnostics.attentionTitle": {

@@ -24,7 +24,7 @@
     "highestBitrate": "位元率最高",
     "keepAll": "都保留",
     "keepAllBody": "{{count, number}} 組（{{files, number}} 個檔案）都保留，不刪除任何檔案，這些組不再出現在重複頁。",
-    "keepAllRecovery": "可在「已保留」裡取消，回執裡也能復原。",
+    "keepAllRecovery": "可在「已保留」裡取消，操作紀錄裡也能復原。",
     "keepLargest": "留最大",
     "keepLongest": "留最長",
     "keepRule115": "115（沒有則留最大）",

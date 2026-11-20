@@ -93,7 +93,7 @@
         "reason": "連不上 CloudDrive2"
       },
       "quota": {
-        "hint": "額度恢復後自動繼續",
+        "hint": "額度重設後自動繼續",
         "reason": "下載額度已用完"
       },
       "search": {
@@ -293,7 +293,7 @@
       "headline": "篩選館藏、編輯作品資料",
       "items": {
         "contribute-performer-names": {
-          "body": "可提交女優中文名供複核，也可在自願分享公開元資訊前預覽內容",
+          "body": "可提交女優中文名供複核，也可在自願分享公開中繼資料前預覽內容",
           "title": "貢獻女優中文名"
         },
         "edit-work-details": {
@@ -316,7 +316,7 @@
       "catalog": "資料與番號整理",
       "dangling-candidates": "失效的複核候選",
       "follow-evidence-reclaim": "清理追蹤抓取的舊快照",
-      "cover-artwork": "已裝封面的版式",
+      "cover-artwork": "已裝封面的版型",
       "javdb-actor-records": "人物頁的 JavDB 入口",
       "quality-resolution": "畫質分檔",
       "source-resolution-tags": "來源的 4K 標籤",
@@ -355,8 +355,8 @@
         "title": "資料與番號整理"
       },
       "cover-artwork": {
-        "summary": "升級後在背景按新規則重新切舊版本裝的封面，換用清晰度相近的 DVD 封套，原圖先備份",
-        "title": "已裝封面的版式"
+        "summary": "升級後在背景按新規則重新切舊版本裝的封面，換用畫質相近的 DVD 封套，原圖先備份",
+        "title": "已裝封面的版型"
       },
       "dangling-candidates": {
         "summary": "資產刪除後留下的候選改掛到同一檔案的新編號，對不上的撤下",
@@ -561,7 +561,7 @@
     "amane-bridge": "amane 橋接重建",
     "batch": "批次操作",
     "code-samples": "番號樣張抓取",
-    "cover-artwork-repair": "封面版式補修",
+    "cover-artwork-repair": "封面版型補修",
     "creator-identity": "創作者身分查詢",
     "diagnostic-export": "診斷匯出",
     "download-postprocess": "雲端下載後續處理",
@@ -1866,7 +1866,7 @@
     },
     "upgradeRepairs": {
       "invalidReceipt": "更新後的處理紀錄格式無效",
-      "noDanglingReceipt": "沒有懸空候選補修的回執",
+      "noDanglingReceipt": "沒有懸空候選補修的操作紀錄",
       "integrityFailed": "更新已有資料時帳本完整性驗證失敗",
       "foreignKeyFailed": "更新已有資料時關聯驗證失敗",
       "receiptNeedsPrepare": "更新後的處理紀錄需要重新準備，請重試",
@@ -2015,7 +2015,7 @@
       "empty": "沒有收到圖片",
       "unreadable": "讀不出這張圖片，請換一張 JPEG、PNG 或 WebP",
       "tooSmall": "圖片太小，至少要 200 × 200",
-      "nothingToRestore": "這部片用的不是換上的封面，沒有可恢復的"
+      "nothingToRestore": "這部片用的不是換上的封面，沒有可還原的"
     },
     "itemEdit": {
       "assetMissing": "這部影片已經不在館藏裡",
@@ -2145,7 +2145,7 @@
       "notReady": "更新尚未準備完成",
       "notStandalone": "更新包不是獨立 Windows 版本",
       "pathConflict": "更新包路徑重複或越界",
-      "recoveryPathOutside": "任務恢復路徑越界",
+      "recoveryPathOutside": "任務復原路徑越界",
       "secondaryCannotMigrate": "讀取端不能遷移帳本",
       "secondaryNeedsPrimary": "本機不能遷移帳本：{{reason}}；請先在寫入端遷移並同步",
       "signatureFailed": "發布簽章驗證未通過，已停止更新；請到發布頁手動下載新版本",
@@ -2856,8 +2856,8 @@
       "resolveStopped": "追蹤來源查詢已停止"
     },
     "webLibraryProcessing": {
-      "recoveryFailed": "任務未能自動恢復：{{reason}}",
-      "recoveryFailedRestart": "任務未能自動恢復：請重新發起任務"
+      "recoveryFailed": "任務未能自動繼續：{{reason}}",
+      "recoveryFailedRestart": "任務未能自動繼續：請重新發起任務"
     },
     "webLinks": {
       "checkStopped": "連結檢查已停止",
@@ -2917,7 +2917,7 @@
       "processingIncomplete": "資料處理未完成"
     },
     "jobRecovery": {
-      "unreadable": "任務恢復紀錄無法讀取，請重新發起任務。"
+      "unreadable": "任務復原紀錄無法讀取，請重新發起任務。"
     },
     "nasDirectories": {
       "invalidPurpose": "請選擇媒體目錄或資料目錄",
@@ -3097,7 +3097,7 @@
         "access": "存取設定",
         "mediaSources": "媒體目錄",
         "libraryCount": "媒體庫狀態",
-        "mountDependencies": "掛載依賴",
+        "mountDependencies": "掛載相依項目",
         "facts": "執行資訊",
         "network": "存取網址",
         "apiToken": "存取權杖",
@@ -3109,7 +3109,7 @@
       }
     },
     "coverRepair": {
-      "runLabel": "重判封面版式",
+      "runLabel": "重判封面版型",
       "stoppedByUser": "使用者停止任務",
       "serviceStopped": "服務關閉，下次啟動接著做"
     },
@@ -3199,7 +3199,7 @@
       "keptAfterDetails": "。已有圖片保留。",
       "keptLocalNoBetter": "本機封面 {{localWidth}} × {{localHeight}}，來源可用封面 {{width}} × {{height}}；保留本機封面。沒有找到更大或更合適的封面。",
       "keptLocalPartial": "本機封面 {{localWidth}} × {{localHeight}}，來源可用封面 {{width}} × {{height}}；保留本機封面。部分來源連線失敗，未能完成全部來源比較。",
-      "keptUserCover": "這部片用的是你換上的封面，沒有連網替換。要換回擷取封面，在編輯資料裡恢復。",
+      "keptUserCover": "這部片用的是你換上的封面，沒有連網替換。要換回擷取封面，在編輯資料裡還原。",
       "period": "。",
       "reusedCover": "重複使用 24 小時內經核心驗證過的本機封面（{{width}} × {{height}}），沒有再向來源請求。"
     },
@@ -4622,18 +4622,18 @@
     "prepare": {
       "noOutput": "結束代碼 {{code}}，沒有輸出",
       "timedOut": "{{command}} 超過 {{seconds}} 秒沒有結束，已終止",
-      "frozen": "打包處理程序不載入專案 venv，依賴由重新啟動腳本核對",
+      "frozen": "打包處理程序不載入專案 venv，相依套件由重新啟動腳本核對",
       "noLock": "沒有 uv.lock：{{path}}",
       "noVenv": "沒有專案 venv：{{path}}",
       "noUv": "未取得 uv：PATH 與 winget 安裝目錄裡都沒有",
       "uvFailed": "uv 沒能執行：{{error}}",
       "dependenciesCurrent": "專案 venv 與 uv.lock 一致",
-      "checkFailed": "核對依賴失敗：{{output}}",
+      "checkFailed": "核對相依套件失敗：{{output}}",
       "stale": "專案 venv 與 uv.lock 不一致，要安裝 {{count}} 個套件",
       "staleListed": "專案 venv 與 uv.lock 不一致，要安裝 {{count}} 個套件：{{packages}}",
       "staleMore": "專案 venv 與 uv.lock 不一致，要安裝 {{count}} 個套件：{{packages}}等",
       "syncFailed": "uv sync 失敗：{{output}}",
-      "synced": "已依 uv.lock 同步依賴（{{check}}，用時 {{seconds}} 秒）",
+      "synced": "已依 uv.lock 同步相依套件（{{check}}，用時 {{seconds}} 秒）",
       "databaseMissing": "資料庫不存在：{{path}}",
       "notMigrating": "不遷移：{{reason}}",
       "migrateStartFailed": "遷移沒能啟動：{{error}}",
@@ -4651,10 +4651,10 @@
       "ready": "服務已就緒",
       "stillStarting": "服務仍在啟動，請檢視系統匣狀態",
       "notStarted": "服務未能啟動，請檢視系統匣狀態和日誌",
-      "staleHint": "{{message}}；按一下系統匣「重新啟動服務」會整體重新啟動系統匣並同步依賴"
+      "staleHint": "{{message}}；按一下系統匣「重新啟動服務」會整體重新啟動系統匣並同步相依套件"
     },
     "restart": {
-      "syncing": "{{reason}}，正在整體重新啟動系統匣以同步依賴…",
+      "syncing": "{{reason}}，正在整體重新啟動系統匣以同步相依套件…",
       "spawnFailed": "整體重新啟動系統匣沒能啟動（{{error}}），只重新啟動子服務。",
       "pending": "整體重新啟動系統匣還沒有結果，詳情見 tray-restart.out.log。",
       "exitCode": "結束代碼 {{code}}",
@@ -4712,7 +4712,7 @@
       "menuBarRestartFailed": "程式碼已同步，但選單列項重新啟動失敗；服務已恢復。",
       "menuBarManual": "{{message}}服務已重新啟動；選單列項本身要手動退出重開才會生效。",
       "noPowerShell": "程式碼已快進，但找不到 PowerShell，未執行測試或重新啟動服務。",
-      "inputsKeptChanging": "測試期間程式碼或依賴持續變化，三次驗證均未取得有效紀錄；請稍後重試。",
+      "inputsKeptChanging": "測試期間程式碼或相依套件持續變化，三次驗證均未取得有效紀錄；請稍後重試。",
       "testsFailed": "程式碼已快進，但完整測試失敗；服務與系統匣均未重新啟動，請檢視日誌。",
       "testsTimedOut": "程式碼已快進，但完整測試逾時未結束，已終止；服務與系統匣均未重新啟動，請檢視日誌。",
       "testsPassed": "程式碼與完整測試已通過。",
