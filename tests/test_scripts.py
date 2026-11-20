@@ -5525,15 +5525,16 @@ class ReleaseDownloadNotesTests(unittest.TestCase):
             self.assertTrue(all(url.startswith('https://github.com/mosesmoon/peach_zhTW/releases/download/v1.0.0/')
                                 for url in links))
 
-    def test_each_language_has_one_table_covering_windows_macos_and_docker(self):
+    def test_each_language_has_one_table_covering_windows_and_macos_without_docker(self):
         from scripts.package_windows_release import download_sections
         english, chinese = download_sections('1.0.0', lite_installer=True)
         for section, header in ((english, '| Platform | Download'), (chinese, '| 平台 | 下载')):
             tables = [block for block in section.split('\n\n') if block.startswith(header)]
             self.assertEqual(len(tables), 1)
             rows = [line.split(' | ')[0].lstrip('| ') for line in tables[0].splitlines()[2:]]
-            self.assertEqual(rows, ['Windows x64'] * 3 + ['macOS Apple Silicon', 'macOS Intel', 'Docker / NAS'])
-            self.assertIn('`longmeidao/peach:1.0.0`', tables[0])
+            self.assertEqual(rows, ['Windows x64'] * 3 + ['macOS Apple Silicon', 'macOS Intel'])
+            self.assertNotRegex(section, r'(?i)docker|longmeidao|ghcr\.io')
+            self.assertIn('/docs/SYNOLOGY.md', section)
         self.assertIsNone(re.search(r'[\u4e00-\u9fff]', english.replace('macos-独立测试包', '')))
 
     def test_r2_release_notes_point_downloads_at_the_mirror_and_docs_at_the_tag(self):
