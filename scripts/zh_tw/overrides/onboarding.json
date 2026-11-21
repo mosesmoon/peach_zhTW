@@ -32,7 +32,7 @@
     "source": "控制界面操作反馈音，按自己的使用环境选择。"
   },
   "guideDiagnostics.attentionBody": {
-    "text": "從需要留意的項目進入原因與恢復入口；沒有異常時檢視館藏健康狀態。",
+    "text": "從需要留意的項目進入原因與復原入口；沒有異常時檢視館藏健康狀態。",
     "source": "从需要关注的项目进入原因与恢复入口；没有异常时查看库健康。"
   },
   "guideDiagnostics.attentionTitle": {

@@ -2,7 +2,7 @@
 (function() {
 	try {
 		var e = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, t = new e.Error().stack;
-		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "29c8ad11-4292-4938-87f5-92b33ee601ea", e._sentryDebugIdIdentifier = "sentry-dbid-29c8ad11-4292-4938-87f5-92b33ee601ea");
+		t && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[t] = "c47e24e6-3354-4d2c-9804-23c06a60a316", e._sentryDebugIdIdentifier = "sentry-dbid-c47e24e6-3354-4d2c-9804-23c06a60a316");
 	} catch {}
 })();
 var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescriptor, r = Object.getOwnPropertyNames, i = Object.getPrototypeOf, a = Object.prototype.hasOwnProperty, o = (e, t) => () => (t || (e((t = { exports: {} }).exports, t, t.exports), e = null), t.exports), s = (e, i, o, s) => {
@@ -20351,7 +20351,7 @@ var Ge = "peach.settings.v1", Ke = {
 		tunnelTitle: "需要時啟用外部網路入口"
 	},
 	guideDiagnostics: {
-		attentionBody: "從需要留意的項目進入原因與恢復入口；沒有異常時檢視館藏健康狀態。",
+		attentionBody: "從需要留意的項目進入原因與復原入口；沒有異常時檢視館藏健康狀態。",
 		attentionTitle: "需要留意的檢查項目",
 		reportBody: "處理原因後可以重新檢查。需要提供疑難排解資料時，請自行按一下下載診斷報告。",
 		reportTitle: "重新檢查與診斷報告",
@@ -47445,4 +47445,4 @@ Wt();
 var ux = document.getElementById("peach-page"), dx = ux ? lx[ux.dataset.page ?? ""] : void 0;
 ux && dx && (0, $t.createRoot)(ux).render(/* @__PURE__ */ (0, V.jsx)(cx, { children: /* @__PURE__ */ (0, V.jsx)(dx, { data: { ...ux.dataset } }) }));
 
-//# debugId=29c8ad11-4292-4938-87f5-92b33ee601ea
+//# debugId=c47e24e6-3354-4d2c-9804-23c06a60a316

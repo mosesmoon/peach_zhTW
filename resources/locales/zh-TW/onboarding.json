@@ -151,7 +151,7 @@
     "tunnelTitle": "需要時啟用外部網路入口"
   },
   "guideDiagnostics": {
-    "attentionBody": "從需要留意的項目進入原因與恢復入口；沒有異常時檢視館藏健康狀態。",
+    "attentionBody": "從需要留意的項目進入原因與復原入口；沒有異常時檢視館藏健康狀態。",
     "attentionTitle": "需要留意的檢查項目",
     "reportBody": "處理原因後可以重新檢查。需要提供疑難排解資料時，請自行按一下下載診斷報告。",
     "reportTitle": "重新檢查與診斷報告",
